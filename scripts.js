@@ -110,6 +110,12 @@ window.addEventListener('load', function() {
   return scaletype;
   };
 
+  function selectSpeed(difficultyLevel) {
+    const min = 44;
+    const max = 250;
+    const speed = Math.floor(difficultyLevel * 80);
+    return Math.min(250, Math.max(44, speed));
+  }
 
   function selectScale(level) {
 
@@ -122,9 +128,10 @@ window.addEventListener('load', function() {
     const firstLetter = getLetterName();
     const scaletype = getScaleTypeAccordingToCheckboxes(scalies);
 
-    difficultyLevel = level * letterNames[firstLetter] * scaleTypes[scaletype];
+    const difficultyLevel = level * letterNames[firstLetter] * scaleTypes[scaletype];
+    const speed = selectSpeed(difficultyLevel);
 
-    return `${firstLetter} ${scaletype}, difficulty is ${difficultyLevel}`;
+    return `${firstLetter} ${scaletype}, metronome at: ${speed}`;
   };
 
 
