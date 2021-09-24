@@ -1,9 +1,15 @@
 window.addEventListener('load', function() {
 
   const scaleOptions = ['A♭', 'A', 'B♭', 'B', 'C', 'C♯', 'D♭', 'D', 'E♭', 'E', 'F', 'F♯', 'G', 'G♯'];
+  let mostRecent = null;
 
   function getRandomScale() {
-    return scaleOptions[Math.floor(Math.random()*scaleOptions.length)];
+    let scale = scaleOptions[Math.floor(Math.random()*scaleOptions.length)];
+    while (scale === mostRecent) {
+      scale = scaleOptions[Math.floor(Math.random()*scaleOptions.length)];
+    }
+    mostRecent = scale;
+    return scale;
   }
   
   document.querySelector('#go-button').onclick = function() {
