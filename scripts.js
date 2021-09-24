@@ -10,11 +10,16 @@ window.addEventListener('load', function() {
   scalesByDifficulty[2] = scalesByDifficulty[1].concat(['F+']);
   scalesByDifficulty[3] = scalesByDifficulty[2].concat(['D+']);
   scalesByDifficulty[4] = scalesByDifficulty[3].concat(['B♭+']);
+  scalesByDifficulty[5] = scalesByDifficulty[4].concat(['A+']);
+  scalesByDifficulty[6] = scalesByDifficulty[5].concat(['E♭+']);
+  scalesByDifficulty[7] = scalesByDifficulty[6].concat(['E+']);
+  scalesByDifficulty[8] = scalesByDifficulty[7].concat(['A♭+']);
+  scalesByDifficulty[9] = scalesByDifficulty[8].concat(['B+']);
+  scalesByDifficulty[10] = scalesByDifficulty[9].concat(['D♭+']);
+  scalesByDifficulty[11] = scalesByDifficulty[10].concat(['F♯+']);
 
   function getRandomScale(difficulty) {
-    console.log(difficulty);
     const scales = scalesByDifficulty[difficulty];
-    console.log(scales);
     const numScales = scales.length;
     let scale = scales[Math.floor(Math.random()*numScales)];
     while (scale === mostRecent) {
