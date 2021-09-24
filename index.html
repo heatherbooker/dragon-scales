@@ -15,17 +15,24 @@
 
   <h1>u do scales</h1>
 
-  <h2 id="scale-flavour"></h2>
+  <h2 id="scale-flavour">press go!</h2>
 
   <input type="range" id="difficulty-input" min="1" />
 
-  <label>modes<input type="checkbox" name="modes" id="modes" /></label>
-  <label>chromatic<input type="checkbox" name="chromatic" id="chromatic" /></label>
-  <label>octatonic<input type="checkbox" name="octatonic" id="octatonic" /></label>
-  <label>whole tone<input type="checkbox" name="whole-tone" id="whole-tone" /></label>
-  <label>contrary motion<input type="checkbox" name="contrary-motion" id="contrary-motion" /></label>
-  <label>cross rhythms<input type="checkbox" name="cross-rhythms" id="cross-rhythms" /></label>
-  <label>full-on dan<input type="checkbox" name="dan" id="dan" /></label>
+
+  <label><input type="checkbox" id="majors" />major scales</label>
+  <label><input type="checkbox" id="both-minors" />both minor scales</label>
+  <label><input type="checkbox" id="ionian-modes" />ionian modes</label>
+  <label><input type="checkbox" id="melodic-minor-modes" />melodic minor modes (memimos)</label>
+  <label><input type="checkbox" id="chromatic" />chromatic</label>
+  <label><input type="checkbox" id="octatonic" />octatonic</label>
+  <label><input type="checkbox" id="pentatonic" />pentatonic</label>
+  <label><input type="checkbox" id="whole-tone" />whole tone</label>
+  <label><input type="checkbox" id="contrary-motion" />contrary motion</label>
+  <label><input type="checkbox" id="rhythmic-patterns" />rhythmic patterns</label>
+  <label><input type="checkbox" id="cross-rhythms" />cross rhythms</label>
+  <label><input type="checkbox" id="fingering-constraints" />fingering constraints</label>
+  <label><input type="checkbox" id="dan" />full-on dan</label>
 
   <button id="go-button">go!</button>
 
