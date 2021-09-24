@@ -1,7 +1,5 @@
 window.addEventListener('load', function() {
 
-  //const scaleOptions = ['A♭', 'A', 'B♭', 'B', 'C', 'C♯', 'D♭', 'D', 'E♭', 'E', 'F', 'F♯', 'G', 'G♯'];
-
   const letterNames = {
     'A♭': 0.6,
     'A': 0.2,
@@ -39,7 +37,6 @@ window.addEventListener('load', function() {
     melodic_minor_mode_5: 0.7,
     half_diminished: 0.4,
     altered_dominant: 0.4,
-
 
     // others
     pentatonic: 0.4,
@@ -148,26 +145,12 @@ window.addEventListener('load', function() {
 
   let mostRecent = null;
 
-  function getRandomScale(difficulty) {
-    // const scales = scalesByDifficulty[difficulty];
-    // const numScales = scales.length;
-    // let scale = scales[Math.floor(Math.random()*numScales)];
-    // while (scale === mostRecent) {
-      // scale = scales[Math.floor(Math.random()*numScales)];
-    // }
-    // mostRecent = scale;
-    // selectScale(5);
-    // return scale;
-
-    return selectScale(4);
-  }
-
   const difficultyInput = document.querySelector('#difficulty-input');
   difficultyInput.max = scalesByDifficulty.length - 1;
   
   document.querySelector('#go-button').onclick = function() {
     const difficulty = difficultyInput.value;
-    document.querySelector('#scale-flavour').textContent = getRandomScale(difficulty);
+    document.querySelector('#scale-flavour').textContent = selectScale(difficulty);
   };
 
 });
