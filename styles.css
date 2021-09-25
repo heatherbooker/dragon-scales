@@ -1,3 +1,7 @@
 label {
-  display: block
+  display: block;
+}
+
+.staff {
+  margin-top: 20px;
 }
