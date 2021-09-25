@@ -6,15 +6,15 @@ window.addEventListener('load', function() {
     'B♭': 0.5,
     'B': 0.6,
     'C': 0.2,
-    'C♯': 0.7,
-    'D♭': 0.7,
+    'C♯': 0.65,
+    'D♭': 0.65,
     'D': 0.3,
     'E♭': 0.3,
     'E': 0.4,
     'F': 0.4,
-    'F♯': 0.7,
+    'F♯': 0.65,
     'G': 0.3,
-    'G♯': 0.7
+    'G♯': 0.65
   };
 
   const scaleTypes = {
@@ -128,16 +128,17 @@ window.addEventListener('load', function() {
     return num;
   }
 
-  function selectSpeed(difficultyLevel) {
-    const min = 44;
-    const max = 250;
-    let speed = difficultyLevel * 80;
+  function selectSpeed(levelFactor, letterFactor, scaleFactor) {
+    const metronome_min = 44;
+    const metronome_max = 250;
+    const inflation_factor = 480; // to make it BIG
+    const difficultyLevel = levelFactor * (1 - letterFactor) * (1 - scaleFactor);
+    let speed = difficultyLevel * inflation_factor;
     speed = getRandom(speed - 10, speed + 10);
-    return Math.floor(Math.min(250, Math.max(44, speed)));
+    return Math.floor(Math.min(metronome_max, Math.max(metronome_min, speed)));
   }
 
   function selectScale(level) {
-
     const scalies = {};
     const checkboxen = document.querySelectorAll('input[type = "checkbox"]')
     checkboxen.forEach((checkbox, idx, original) => {
@@ -147,8 +148,7 @@ window.addEventListener('load', function() {
     const firstLetter = getLetterName();
     const scaletype = getScaleTypeAccordingToCheckboxes(scalies);
 
-    const difficultyLevel = level * letterNames[firstLetter] * scaleTypes[scaletype];
-    const speed = selectSpeed(difficultyLevel);
+    const speed = selectSpeed(level, letterNames[firstLetter], scaleTypes[scaletype]);
 
     return `${firstLetter} ${scaletype}, metronome at: ${speed}`;
   };
@@ -172,8 +172,6 @@ window.addEventListener('load', function() {
   let mostRecent = null;
 
   const difficultyInput = document.querySelector('#difficulty-input');
-  difficultyInput.max = scalesByDifficulty.length - 1;
-  
   document.querySelector('#go-button').onclick = function() {
     const difficulty = difficultyInput.value;
     document.querySelector('#scale-flavour').textContent = selectScale(difficulty);
