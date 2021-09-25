@@ -153,24 +153,6 @@ window.addEventListener('load', function() {
     return `${firstLetter} ${scaletype}, metronome at: ${speed}`;
   };
 
-
-  const scalesByDifficulty = [
-    ['C+']
-  ];
-  scalesByDifficulty[1] = scalesByDifficulty[0].concat(['G+']);
-  scalesByDifficulty[2] = scalesByDifficulty[1].concat(['F+']);
-  scalesByDifficulty[3] = scalesByDifficulty[2].concat(['D+']);
-  scalesByDifficulty[4] = scalesByDifficulty[3].concat(['B♭+']);
-  scalesByDifficulty[5] = scalesByDifficulty[4].concat(['A+']);
-  scalesByDifficulty[6] = scalesByDifficulty[5].concat(['E♭+']);
-  scalesByDifficulty[7] = scalesByDifficulty[6].concat(['E+']);
-  scalesByDifficulty[8] = scalesByDifficulty[7].concat(['A♭+']);
-  scalesByDifficulty[9] = scalesByDifficulty[8].concat(['B+']);
-  scalesByDifficulty[10] = scalesByDifficulty[9].concat(['D♭+']);
-  scalesByDifficulty[11] = scalesByDifficulty[10].concat(['F♯+']);
-
-  let mostRecent = null;
-
   const difficultyInput = document.querySelector('#difficulty-input');
   document.querySelector('#go-button').onclick = function() {
     const difficulty = difficultyInput.value;
