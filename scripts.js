@@ -163,37 +163,42 @@ window.addEventListener('load', function() {
   }
   main();
 
-  function drawScale(firstNote, scaleType) {}
+  function drawScale(firstNote, scaleType) {
+    const pureFirstNote = firstNote.toLowerCase()[0];
+    drawNotes(pureFirstNote);
+  }
 
   let staffNoteheadsCounter = 0;
-  function addNoteToStaff(letterName) {
-    const notes = ['d', 'e', 'f', 'g', 'a', 'b', 'c'];
+  function drawNotes(first) {
+    const notes = ['d', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'c'];
     const lowestNote = 7; // D
-    const position = lowestNote + notes.indexOf(letterName);
+    let position = lowestNote + notes.indexOf(first);
 
     const topLinePitchesKeyIndex = 20;
     const distanceBetweenStaffLines = 10;
 
     const staff = document.querySelector('.staff svg');
-    const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
-    const cx = 90 + staffNoteheadsCounter * 50;
-    notehead.setAttribute('cx', cx); // distance between notes
-    staffNoteheadsCounter++;
     const lowestCy = 170; // 140;
-    const cy = lowestCy - (10 * position);
-    notehead.setAttribute('cy', cy);
-    notehead.setAttribute('rx', 14);
-    notehead.setAttribute('ry', 10);
 
-    staff.appendChild(notehead);
+    for (highest = position+7 ; position < highest ; position++) {
+      const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+
+      const cx = 90 + staffNoteheadsCounter * 50;
+      notehead.setAttribute('cx', cx); // distance between notes
+
+      const cy = lowestCy - (10 * position);
+      notehead.setAttribute('cy', cy);
+      notehead.setAttribute('rx', 14);
+      notehead.setAttribute('ry', 10);
+
+      staff.appendChild(notehead);
+      staffNoteheadsCounter++;
+    }
   }
-  addNoteToStaff('d');
-  addNoteToStaff('e');
-  addNoteToStaff('f');
-  addNoteToStaff('g');
-  addNoteToStaff('a');
-  addNoteToStaff('b');
-  addNoteToStaff('c');
+
+
+  function how_to_draw_sharps(letterName) {
+  }
     /*if (remainder === 1) {
       const sharp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       sharp.setAttribute('d', SHARP_SVG_PATH);
