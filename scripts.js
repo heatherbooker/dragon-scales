@@ -159,4 +159,43 @@ window.addEventListener('load', function() {
     document.querySelector('#scale-flavour').textContent = selectScale(difficulty);
   };
 
+
+  let staffNoteheadsCounter = 0;
+  function addNoteToStaff(letterName) {
+    const notes = ['d', 'e', 'f', 'g', 'a', 'b', 'c'];
+    const lowestNote = 7; // D
+    const position = lowestNote + notes.indexOf(letterName);
+    console.log(position);
+
+    const topLinePitchesKeyIndex = 20;
+    const distanceBetweenStaffLines = 10;
+
+    const staff = document.querySelector('.staff svg');
+    const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    const cx = 90 + staffNoteheadsCounter * 50;
+    notehead.setAttribute('cx', cx); // distance between notes
+    staffNoteheadsCounter++;
+    const lowestCy = 170; // 140;
+    const cy = lowestCy - (10 * position);
+    notehead.setAttribute('cy', cy);
+    notehead.setAttribute('rx', 14);
+    notehead.setAttribute('ry', 10);
+
+    staff.appendChild(notehead);
+  }
+  addNoteToStaff('d');
+  addNoteToStaff('e');
+  addNoteToStaff('f');
+  addNoteToStaff('g');
+  addNoteToStaff('a');
+  addNoteToStaff('b');
+  addNoteToStaff('c');
+    /*if (remainder === 1) {
+      const sharp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      sharp.setAttribute('d', SHARP_SVG_PATH);
+      const sharp_x = (cx - 40);
+      const sharp_y = (cy - 11);
+      sharp.setAttribute('transform', `translate(${sharp_x} , ${sharp_y})`);
+      staff.appendChild(sharp);
+    }*/
 });
