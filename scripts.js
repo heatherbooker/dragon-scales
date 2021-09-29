@@ -58,7 +58,7 @@ window.addEventListener('load', function() {
   };
 
   function getScaleTypeAccordingToCheckboxes(scalies) {
-    if (scalies.size === 0) { alert('check a box pLEASE!'); return 'CHECK A BOX :)'; }
+    if (scalies.size === 0) { return null; }
 
     let scaletype = getRandomProperty(scaleTypes);
 
@@ -140,34 +140,36 @@ window.addEventListener('load', function() {
     return Math.floor(Math.min(metronome_max, Math.max(metronome_min, speed)));
   }
 
-  function selectScale(level) {
+  function selectScale() {
     const scalies = new Set();
     const checkboxen = document.querySelectorAll('input[type = "checkbox"]')
     checkboxen.forEach((checkbox, idx, original) => {
       checkbox.checked && scalies.add(checkbox.id);
     });
 
-    const firstLetter = getLetterName();
-    const scaletype = getScaleTypeAccordingToCheckboxes(scalies);
-
-    const speed = selectSpeed(level, letterNames[firstLetter], scaleTypes[scaletype]);
-
-    return `${firstLetter} ${scaletype}, metronome at: ${speed}`;
+    return getScaleTypeAccordingToCheckboxes(scalies);
   };
 
-  const difficultyInput = document.querySelector('#difficulty-input');
-  document.querySelector('#go-button').onclick = function() {
-    const difficulty = difficultyInput.value;
-    document.querySelector('#scale-flavour').textContent = selectScale(difficulty);
-  };
+  function main() {
+    document.querySelector('#go-button').onclick = function() {
+      const difficulty = document.querySelector('#difficulty-input').value;
+      const scaletype = selectScale(difficulty);
+      const firstNote = getLetterName();
+      const speed = selectSpeed(difficulty, letterNames[firstNote], scaleTypes[scaletype]);
+      const message = (scaletype === null) ? 'check a box' : `${firstNote} ${scaletype}, metronome at: ${speed}`;
+      document.querySelector('#scale-flavour').textContent = message;
+      drawScale(firstNote, scaletype);
+    };
+  }
+  main();
 
+  function drawScale(firstNote, scaleType) {}
 
   let staffNoteheadsCounter = 0;
   function addNoteToStaff(letterName) {
     const notes = ['d', 'e', 'f', 'g', 'a', 'b', 'c'];
     const lowestNote = 7; // D
     const position = lowestNote + notes.indexOf(letterName);
-    console.log(position);
 
     const topLinePitchesKeyIndex = 20;
     const distanceBetweenStaffLines = 10;
