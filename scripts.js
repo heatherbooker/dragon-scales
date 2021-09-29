@@ -178,7 +178,7 @@ window.addEventListener('load', function() {
     const distanceBetweenStaffLines = 10;
 
     const staff = document.querySelector('.staff svg');
-    const lowestCy = 170; // 140;
+    const lowestCy = 170;
 
     for (highest = position+7 ; position < highest ; position++) {
       const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
