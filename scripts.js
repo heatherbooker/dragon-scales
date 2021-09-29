@@ -168,8 +168,8 @@ window.addEventListener('load', function() {
     drawNotes(pureFirstNote);
   }
 
-  let staffNoteheadsCounter = 0;
   function drawNotes(first) {
+    let staffNoteheadsCounter = 0;
     const notes = ['d', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'c'];
     const lowestNote = 7; // D
     let position = lowestNote + notes.indexOf(first);
@@ -178,10 +178,14 @@ window.addEventListener('load', function() {
     const distanceBetweenStaffLines = 10;
 
     const staff = document.querySelector('.staff svg');
+
+    document.querySelectorAll('ellipse.notehead').forEach(note => note.remove());
+
     const lowestCy = 170;
 
     for (highest = position+7 ; position < highest ; position++) {
       const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+      notehead.setAttribute('class', "notehead");
 
       const cx = 90 + staffNoteheadsCounter * 50;
       notehead.setAttribute('cx', cx); // distance between notes
