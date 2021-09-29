@@ -58,31 +58,33 @@ window.addEventListener('load', function() {
   };
 
   function getScaleTypeAccordingToCheckboxes(scalies) {
+    if (scalies.size === 0) { alert('check a box pLEASE!'); return 'CHECK A BOX :)'; }
+
     let scaletype = getRandomProperty(scaleTypes);
 
-    if (scaletype === "ionian" && ! scalies["majors"]) {
+    if (scaletype === "ionian" && ! scalies.has("majors")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
     if ([ "melodic_minor", 
           "harmonic_minor"
-        ].includes(scaletype) && ! scalies["both-minors"]) {
+        ].includes(scaletype) && ! scalies.has("both-minors")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
-    if (scaletype.includes("octatonic") && ! scalies["octatonic"]) {
+    if (scaletype.includes("octatonic") && ! scalies.has("octatonic")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
-    if (scaletype === "pentatonic" && ! scalies["pentatonic"]) {
+    if (scaletype === "pentatonic" && ! scalies.has("pentatonic")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
-    if (scaletype === "chromatic" && ! scalies["chromatic"]) {
+    if (scaletype === "chromatic" && ! scalies.has("chromatic")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
-    if (scaletype === "whole_tone" && ! scalies["whole-tone"]) {
+    if (scaletype === "whole_tone" && ! scalies.has("whole-tone")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
@@ -93,7 +95,7 @@ window.addEventListener('load', function() {
           "mixolydian", 
           "aeolian", 
           "locrian"
-        ].includes(scaletype) && ! scalies["ionian-modes"]) {
+        ].includes(scaletype) && ! scalies.has("ionian-modes")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
@@ -103,7 +105,7 @@ window.addEventListener('load', function() {
           "melodic_minor_mode_5", 
           "half_diminished", 
           "altered_dominant"
-        ].includes(scaletype) && ! scalies["melodic-minor-modes"]) {
+        ].includes(scaletype) && ! scalies.has("melodic-minor-modes")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
@@ -139,10 +141,10 @@ window.addEventListener('load', function() {
   }
 
   function selectScale(level) {
-    const scalies = {};
+    const scalies = new Set();
     const checkboxen = document.querySelectorAll('input[type = "checkbox"]')
     checkboxen.forEach((checkbox, idx, original) => {
-      scalies[checkbox.id] = checkbox.checked;
+      checkbox.checked && scalies.add(checkbox.id);
     });
 
     const firstLetter = getLetterName();
