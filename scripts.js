@@ -209,6 +209,7 @@ window.addEventListener('load', function() {
 
       const sharp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       sharp.setAttribute('d', SHARP_SVG_PATH);
+      sharp.setAttribute('class', 'sharp');
       const sharp_x = 70 + 20*idx;
       const sharp_y = pos;
       sharp.setAttribute('transform', `translate(${sharp_x} , ${sharp_y})`);
@@ -220,7 +221,7 @@ window.addEventListener('load', function() {
     flat_signature_positions.forEach((pos, idx) => {
       const flat = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       flat.setAttribute('d', FLAT_SVG_PATH);
-      flat.setAttribute('class', 'flatty');
+      flat.setAttribute('class', 'flat');
       const flat_x = 70 + 20*idx;
       const flat_y = pos;
       flat.setAttribute('transform', `translate(${flat_x} , ${flat_y})`);
