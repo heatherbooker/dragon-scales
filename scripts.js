@@ -187,7 +187,7 @@ window.addEventListener('load', function() {
       const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
       notehead.setAttribute('class', "notehead");
 
-      const cx = 90 + staffNoteheadsCounter * 50;
+      const cx = 250 + staffNoteheadsCounter * 50;
       notehead.setAttribute('cx', cx); // distance between notes
 
       const cy = lowestCy - (10 * position);
@@ -209,7 +209,7 @@ window.addEventListener('load', function() {
 
       const sharp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       sharp.setAttribute('d', SHARP_SVG_PATH);
-      const sharp_x = (450 + 20*idx);
+      const sharp_x = 70 + 20*idx;
       const sharp_y = pos;
       sharp.setAttribute('transform', `translate(${sharp_x} , ${sharp_y})`);
       staff.appendChild(sharp);
@@ -221,7 +221,7 @@ window.addEventListener('load', function() {
       const flat = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       flat.setAttribute('d', FLAT_SVG_PATH);
       flat.setAttribute('class', 'flatty');
-      const flat_x = 340 + 20*idx;
+      const flat_x = 70 + 20*idx;
       const flat_y = pos;
       flat.setAttribute('transform', `translate(${flat_x} , ${flat_y})`);
       staff.appendChild(flat);
