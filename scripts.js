@@ -181,7 +181,7 @@ window.addEventListener('load', function() {
 
     document.querySelectorAll('ellipse.notehead').forEach(note => note.remove());
 
-    const lowestCy = 170;
+    const lowestCy = 190;
 
     for (highest = position+7 ; position < highest ; position++) {
       const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
@@ -229,9 +229,9 @@ window.addEventListener('load', function() {
   }
 });
 
-const flat_signature_positions = [ 63, 33, 73, 43, 83, 53, 93 ];
+const flat_signature_positions = [ 83, 53, 93, 63, 103, 73, 113 ];
 
-const sharp_sig_positions = [ 33, 63, 23, 53, 83, 43, 73 ];
+const sharp_sig_positions = [ 53, 83, 43, 73, 103, 63, 93 ];
 
 const SHARP_SVG_PATH = "M 5.0448 -16.5032 L 5.0448 -27.7928 L 9.8448 -29.1176 L 9.8448 -17.8856 L 5.0448 -16.5032 z M 14.496 -19.2344 L 11.196 -18.2888 L 11.196 -29.5208 L 14.496 -30.4424 L 14.496 -35.108 L 11.196 -34.1864 L 11.196 -45.6626 L 9.8448 -45.6626 L 9.8448 -33.8384 L 5.0448 -32.4584 L 5.0448 -43.6178 L 3.7704 -43.6178 L 3.7704 -32.0336 L 0.4704 -31.1096 L 0.4704 -26.4344 L 3.7704 -27.356 L 3.7704 -16.1456 L 0.4704 -15.2264 L 0.4704 -10.5704 L 3.7704 -11.492 L 3.7704 -0.0806 L 5.0448 -0.0806 L 5.0448 -11.9 L 9.8448 -13.22 L 9.8448 -2.1182 L 11.196 -2.1182 L 11.196 -13.6376 L 14.496 -14.5616 L 14.496 -19.2344 z";
 
