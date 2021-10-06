@@ -199,10 +199,17 @@ window.addEventListener('load', function() {
       staffNoteheadsCounter++;
     }
 
+    // does this belong here? :%(
+    drawKeySignature(staff);
+  }
+
+  function drawKeySignature(staff) {
+    document.querySelectorAll('path.flat').forEach(flat => flat.remove());
+    document.querySelectorAll('path.sharp').forEach(sharp => sharp.remove());
+
     how_to_draw_sharps(staff);
     and_flats(staff);
   }
-
 
   function how_to_draw_sharps(staff) {
     sharp_sig_positions.forEach((pos, idx) => {
