@@ -142,7 +142,7 @@ window.addEventListener('load', function() {
 
   function selectScale() {
     const scalies = new Set();
-    const checkboxen = document.querySelectorAll('input[type = "checkbox"]')
+    const checkboxen = document.querySelectorAll<HTMLInputElement>('input[type = "checkbox"]')
     checkboxen.forEach((checkbox, idx, original) => {
       checkbox.checked && scalies.add(checkbox.id);
     });
@@ -151,9 +151,9 @@ window.addEventListener('load', function() {
   };
 
   function main() {
-    document.querySelector('#go-button').onclick = function() {
-      const difficulty = document.querySelector('#difficulty-input').value;
-      const scaletype = selectScale(difficulty);
+    document.querySelector<HTMLElement>('#go-button').onclick = function () {
+      const difficulty = document.querySelector<HTMLInputElement>('#difficulty-input').value;
+      const scaletype = selectScale();
       const firstNote = getLetterName();
       const speed = selectSpeed(difficulty, letterNames[firstNote], scaleTypes[scaletype]);
       const message = (scaletype === null) ? 'check a box' : `${firstNote} ${scaletype}, metronome at: ${speed}`;
@@ -183,17 +183,17 @@ window.addEventListener('load', function() {
 
     const lowestCy = 190;
 
-    for (highest = position+7 ; position < highest ; position++) {
+    for (let highest = position+7 ; position < highest ; position++) {
       const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
       notehead.setAttribute('class', "notehead");
 
       const cx = 250 + staffNoteheadsCounter * 50;
-      notehead.setAttribute('cx', cx); // distance between notes
+      notehead.setAttribute('cx', cx.toString()); // distance between notes
 
       const cy = lowestCy - (10 * position);
-      notehead.setAttribute('cy', cy);
-      notehead.setAttribute('rx', 14);
-      notehead.setAttribute('ry', 10);
+      notehead.setAttribute('cy', cy.toString());
+      notehead.setAttribute('rx', '14');
+      notehead.setAttribute('ry', '10');
 
       staff.appendChild(notehead);
       staffNoteheadsCounter++;
