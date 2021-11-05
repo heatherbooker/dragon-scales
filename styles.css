@@ -5,3 +5,9 @@ label {
 .staff {
   margin-top: 20px;
 }
+
+#go-button {
+  font-size: 150%;
+  padding: 10px 20px;
+  margin: 20px;
+}
