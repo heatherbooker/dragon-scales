@@ -14,7 +14,7 @@ all: $(OUT)
 $(OUT): $(SRC)
 	tsc $(FLAGS) $(SRC)
 
-watch: .$(SRC)
+watch: $(SRC)
 	tsc --watch $(FLAGS) $(SRC)
 
 clean:
