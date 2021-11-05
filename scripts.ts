@@ -163,12 +163,23 @@ window.addEventListener('load', function() {
   }
   main();
 
-  function drawScale(firstNote, scaleType) {
-    const pureFirstNote = firstNote.toLowerCase()[0];
-    drawNotes(pureFirstNote);
+  function determineKeySignature(scaleType, firstNote): { sharps: number; flats: number } {
+    return { sharps: 2, flats: 0 };
   }
 
-  function drawNotes(first) {
+  function drawScale(firstNote, scaleType) {
+    clearStaff();
+
+    const staff = document.querySelector('.staff svg');
+
+    const keySignature = determineKeySignature(scaleType, firstNote);
+    drawKeySignature(staff, keySignature);
+
+    const pureFirstNote = firstNote.toLowerCase()[0]; // remove sharp or flat symbol
+    drawNotes(staff, pureFirstNote);
+  }
+
+  function drawNotes(staff, first) {
     let staffNoteheadsCounter = 0;
     const notes = ['d', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'c'];
     const lowestNote = 7; // D
@@ -176,10 +187,6 @@ window.addEventListener('load', function() {
 
     const topLinePitchesKeyIndex = 20;
     const distanceBetweenStaffLines = 10;
-
-    const staff = document.querySelector('.staff svg');
-
-    document.querySelectorAll('ellipse.notehead').forEach(note => note.remove());
 
     const lowestCy = 190;
 
@@ -198,21 +205,22 @@ window.addEventListener('load', function() {
       staff.appendChild(notehead);
       staffNoteheadsCounter++;
     }
-
-    // does this belong here? :%(
-    drawKeySignature(staff);
   }
 
-  function drawKeySignature(staff) {
+  function clearStaff() {
+    document.querySelectorAll('ellipse.notehead').forEach(note => note.remove());
+
     document.querySelectorAll('path.flat').forEach(flat => flat.remove());
     document.querySelectorAll('path.sharp').forEach(sharp => sharp.remove());
-
-    how_to_draw_sharps(staff);
-    and_flats(staff);
   }
 
-  function how_to_draw_sharps(staff) {
-    sharp_sig_positions.forEach((pos, idx) => {
+  function drawKeySignature(staff, sig) {
+    how_to_draw_sharps(staff, sig.sharps);
+    and_flats(staff, sig.flats);
+  }
+
+  function how_to_draw_sharps(staff, quantity) {
+    sharp_sig_positions.slice(0, quantity).forEach((pos, idx) => {
 
       const sharp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       sharp.setAttribute('d', SHARP_SVG_PATH);
@@ -224,8 +232,8 @@ window.addEventListener('load', function() {
     });
   }
 
-  function and_flats(staff){
-    flat_signature_positions.forEach((pos, idx) => {
+  function and_flats(staff, quantity){
+    flat_signature_positions.slice(0, quantity).forEach((pos, idx) => {
       const flat = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       flat.setAttribute('d', FLAT_SVG_PATH);
       flat.setAttribute('class', 'flat');
