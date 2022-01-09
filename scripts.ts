@@ -17,34 +17,64 @@ window.addEventListener('load', function() {
     'G♯': 0.65
   };
 
-  const scaleTypes = {
-    ionian: 0.1,
-    melodic_minor: 0.3,
-    harmonic_minor: 0.4,
+  type ScaleType = "ionian"
+                  | "melodic_minor"
+                  | "harmonic_minor"
+                    // modes of ionian
 
-    // modes of ionian
-    aeolian: 0.15,
-    dorian: 0.18,
-    phrygian: 0.4,
-    lydian: 0.25,
-    mixolydian: 0.2,
-    locrian: 0.5,
+                  | "aeolian"
+                  | "dorian"
+                  | "phrygian"
+                  | "lydian"
+                  | "mixolydian"
+                  | "locrian"
 
-    // modes of melodic minor
-    melodic_minor_mode_2: 0.7,
-    melodic_minor_mode_3: 0.7,
-    homeric: 0.5,
-    melodic_minor_mode_5: 0.7,
-    half_diminished: 0.4,
-    altered_dominant: 0.4,
+                    // modes of melodic minor
+                  | "melodic_minor_mode_2"
+                  | "melodic_minor_mode_3"
+                  | "homeric"
+                  | "melodic_minor_mode_5"
+                  | "half_diminished"
+                  | "altered_dominant"
 
-    // others
-    pentatonic: 0.4,
-    whole_tone: 0.4,
-    chromatic: 0.3,
-    octatonic_dominant: 0.5,
-    octatonic_diminished: 0.6,
+                    // others
+                  | "pentatonic"
+                  | "whole_tone"
+                  | "chromatic"
+                  | "octatonic_dominant"
+                  | "octatonic_diminished"
 
+
+  function scaleTypes(scale: ScaleType): number {
+    switch (scale) {
+
+      case "ionian": 0.1;
+      case "melodic_minor": 0.3;
+      case "harmonic_minor": 0.4;
+
+      // modes of ionian
+      case "aeolian": 0.15;
+      case "dorian": 0.18;
+      case "phrygian": 0.4;
+      case "lydian": 0.25;
+      case "mixolydian": 0.2;
+      case "locrian": 0.5;
+
+      // modes of melodic minor
+      case "melodic_minor_mode_2": 0.7;
+      case "melodic_minor_mode_3": 0.7;
+      case "homeric": 0.5;
+      case "melodic_minor_mode_5": 0.7;
+      case "half_diminished": 0.4;
+      case "altered_dominant": 0.4;
+
+      // others
+      case "pentatonic": 0.4;
+      case "whole_tone": 0.4;
+      case "chromatic": 0.3;
+      case "octatonic_dominant": 0.5;
+      case "octatonic_diminished": 0.6;
+    }; 
   };
 
   function getLetterName() {
