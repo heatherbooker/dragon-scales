@@ -4,8 +4,8 @@ HAVE FUM PLAY SCALES 🎵
 
 ## build dependencies
 
-tsc
-make
+- [tsc](https://www.typescriptlang.org/)
+- [make](https://www.gnu.org/software/make/)
 
 ## run dependencies
 
@@ -19,4 +19,6 @@ make
 
 ## how to use
 
-open `index.html` in your broswer
+- open `index.html` in your broswer
+- sit at piano
+- play scales! make beautiful musics!
