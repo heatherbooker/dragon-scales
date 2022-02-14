@@ -45,7 +45,7 @@ window.addEventListener('load', function() {
                   | "octatonic_diminished"
 
 
-  function scaleTypes(scale: ScaleType): number {
+  function scaletypeDifficulty(scale: ScaleType): number {
     switch (scale) {
 
       case "ionian": 0.1;
@@ -185,7 +185,7 @@ window.addEventListener('load', function() {
       const difficulty = document.querySelector<HTMLInputElement>('#difficulty-input').value;
       const scaletype = selectScale();
       const firstNote = getLetterName();
-      const speed = selectSpeed(difficulty, letterNames[firstNote], scaleTypes[scaletype]);
+      const speed = selectSpeed(difficulty, letterNames[firstNote], scaletypeDifficulty(scaletype));
       const message = (scaletype === null) ? 'check a box' : `${firstNote} ${scaletype}, metronome at: ${speed}`;
       document.querySelector('#scale-flavour').textContent = message;
       drawScale(firstNote, scaletype);
