@@ -152,13 +152,18 @@ window.addEventListener('load', function() {
 
   function main() {
     document.querySelector<HTMLElement>('#go-button').onclick = function () {
-      const difficulty = document.querySelector<HTMLInputElement>('#difficulty-input').value;
       const scaletype = selectScale();
-      const firstNote = getLetterName();
-      const speed = selectSpeed(difficulty, letterNames[firstNote], scaleTypes[scaletype]);
-      const message = (scaletype === null) ? 'check a box' : `${firstNote} ${scaletype}, metronome at: ${speed}`;
+      let message = 'check a box';
+      clearStaff();
+
+      if (scaletype !== null) {
+        const difficulty = document.querySelector<HTMLInputElement>('#difficulty-input').value;
+        const firstNote = getLetterName();
+        const speed = selectSpeed(difficulty, letterNames[firstNote], scaleTypes[scaletype]);
+        message = `${firstNote} ${scaletype}, metronome at: ${speed}`;
+        drawScale(firstNote, scaletype);
+      }
       document.querySelector('#scale-flavour').textContent = message;
-      drawScale(firstNote, scaletype);
     };
   }
   main();
@@ -168,8 +173,6 @@ window.addEventListener('load', function() {
   }
 
   function drawScale(firstNote, scaleType) {
-    clearStaff();
-
     const staff = document.querySelector('.staff svg');
 
     const keySignature = determineKeySignature(scaleType, firstNote);
