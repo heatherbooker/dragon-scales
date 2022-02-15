@@ -184,14 +184,14 @@ window.addEventListener('load', function() {
 
   function drawNotes(staff, first) {
     let staffNoteheadsCounter = 0;
-    const notes = ['d', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'c'];
-    const lowestNote = 7; // D
+    const notes = ['c', 'd', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b'];
+    const lowestNote = 7; // C
     let position = lowestNote + notes.indexOf(first);
 
-    const topLinePitchesKeyIndex = 20;
+    const topLinePitchesKeyIndex = 20; //what does that even mean
     const distanceBetweenStaffLines = 10;
 
-    const lowestCy = 190;
+    const lowestCy = 200; // since size of our svg is 200
 
     for (let highest = position+7 ; position < highest ; position++) {
       const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
@@ -208,12 +208,12 @@ window.addEventListener('load', function() {
       staff.appendChild(notehead);
       staffNoteheadsCounter++;
 
-      const ledgerLineY = 10;
-      if (cy === ledgerLineY) {
+      const ledgerLines = [10, 130]; // highest and lowest notes
+      if (ledgerLines.includes(cy)) {
         const ledgerLine = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         ledgerLine.setAttribute('height', '2');
         ledgerLine.setAttribute('width', '44');
-        ledgerLine.setAttribute('y', '10');
+        ledgerLine.setAttribute('y', cy.toString());
         ledgerLine.setAttribute('x', (cx - 22).toString());
         ledgerLine.setAttribute('class', "ledger");
         staff.appendChild(ledgerLine);

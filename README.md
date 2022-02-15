@@ -31,6 +31,4 @@ make
 - implement contrary motions scale types
 - add fingerings
 - full on dan mode
-- ledger lines low notes
 - separate minor scales
-- make C start at middle C
