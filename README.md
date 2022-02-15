@@ -32,3 +32,5 @@ make
 - add fingerings
 - full on dan mode
 - separate minor scales
+- add choice of clefs
+- add bass clef: for both hands
