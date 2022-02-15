@@ -66,9 +66,11 @@ window.addEventListener('load', function() {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
-    if ([ "melodic_minor", 
-          "harmonic_minor"
-        ].includes(scaletype) && ! scalies.has("both-minors")) {
+    if (scaletype === "melodic_minor" && ! scalies.has("melodic-minor")) {
+      return getScaleTypeAccordingToCheckboxes(scalies);
+    }
+
+    if (scaletype === "harmonic_minor" && ! scalies.has("harmonic-minor")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 

@@ -31,6 +31,6 @@ make
 - implement contrary motions scale types
 - add fingerings
 - full on dan mode
-- separate minor scales
+- remove underscore from scale display names
 - add choice of clefs
 - add bass clef: for both hands
