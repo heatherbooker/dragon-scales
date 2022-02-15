@@ -74,7 +74,7 @@ window.addEventListener('load', function() {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
-    if (scaletype.includes("octatonic") && ! scalies.has("octatonic")) {
+    if (scaletype.includes("octatonic_") && ! scalies.has("octatonic")) {
       return getScaleTypeAccordingToCheckboxes(scalies);
     }
 
