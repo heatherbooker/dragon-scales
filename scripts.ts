@@ -1,6 +1,23 @@
 window.addEventListener('load', function() {
 
-  const letterNames = {
+  enum LetterName {
+    'A♭' = 'A♭',
+    'A' = 'A',
+    'B♭' = 'B♭',
+    'B' = 'B',
+    'C' = 'C',
+    'C♯' = 'C♯',
+    'D♭' = 'D♭',
+    'D' = 'D',
+    'E♭' = 'E♭',
+    'E' = 'E',
+    'F' = 'F',
+    'F♯' = 'F♯',
+    'G' = 'G',
+    'G♯' = 'G♯'
+  };
+
+  const letter_name_weight: {[key in LetterName]: number} = {
     'A♭': 0.6,
     'A': 0.2,
     'B♭': 0.5,
@@ -105,15 +122,13 @@ window.addEventListener('load', function() {
     "octatonic diminished": "octatonic",
   };
 
-
-  function getLetterName() {
-    var keys = Object.keys(letterNames);
-    return keys[Math.floor(keys.length * Math.random())];
-  };
-
   function getRandomProperty(dict) {
     var keys = Object.keys(dict);
     return keys[Math.floor(keys.length * Math.random())];
+  };
+
+  function getRandomArrayValue(array: Array<any>) {
+    return array[Math.floor(Math.random() * array.length)];
   };
 
   function getScaleTypeAccordingToCheckboxes(scalies: Set<string>) {
@@ -172,8 +187,8 @@ window.addEventListener('load', function() {
 
       if (scaletype !== null) {
         const difficulty = document.querySelector<HTMLInputElement>('#difficulty-input').value;
-        const firstNote = getLetterName();
-        const speed = selectSpeed(difficulty, letterNames[firstNote], scaleTypes[scaletype]);
+        const firstNote = getRandomArrayValue(Object.keys(LetterName));
+        const speed = selectSpeed(difficulty, letter_name_weight[firstNote], scaleTypes[scaletype]);
         message = `${firstNote} ${scaletype}, metronome at: ${speed}`;
         drawScale(firstNote, scaletype);
       }
