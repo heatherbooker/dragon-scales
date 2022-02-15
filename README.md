@@ -17,6 +17,11 @@ a browser ;D
 make
 ```
 
+## how to deploy
+
+- merge main into `gh-pages` branch
+- push `gh-pages`
+
 ## how to use
 
 - open `index.html` in your broswer
@@ -39,3 +44,4 @@ make
     check whether the checkbox for it is true
     try again until we get lucky.
     there are easier ways!
+- github action doesn't work (should trigger on push main branch)
