@@ -22,3 +22,13 @@ make
 - open `index.html` in your broswer
 - sit at piano
 - play scales! make beautiful musics!
+
+## TO DO
+
+- key signatures
+- label difficulty dial prettier
+- implement rhythms scale types
+- implement contrary motions scale types
+- add fingerings
+- full on dan mode
+- ledger lines
