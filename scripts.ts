@@ -207,11 +207,23 @@ window.addEventListener('load', function() {
 
       staff.appendChild(notehead);
       staffNoteheadsCounter++;
+
+      const ledgerLineY = 10;
+      if (cy === ledgerLineY) {
+        const ledgerLine = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        ledgerLine.setAttribute('height', '2');
+        ledgerLine.setAttribute('width', '44');
+        ledgerLine.setAttribute('y', '10');
+        ledgerLine.setAttribute('x', (cx - 22).toString());
+        ledgerLine.setAttribute('class', "ledger");
+        staff.appendChild(ledgerLine);
+      }
     }
   }
 
   function clearStaff() {
     document.querySelectorAll('ellipse.notehead').forEach(note => note.remove());
+    document.querySelectorAll('rect.ledger').forEach(note => note.remove());
 
     document.querySelectorAll('path.flat').forEach(flat => flat.remove());
     document.querySelectorAll('path.sharp').forEach(sharp => sharp.remove());
