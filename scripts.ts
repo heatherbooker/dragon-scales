@@ -47,6 +47,35 @@ window.addEventListener('load', function() {
 
   };
 
+  const scales_to_checkbox_ids: {[index: string]: string} = {
+    ionian: "majors",
+    melodic_minor: "melodic-minor",
+    harmonic_minor: "harmonic-minor",
+
+    // modes of ionian
+    aeolian: "ionian-modes",
+    dorian: "ionian-modes",
+    phrygian: "ionian-modes",
+    lydian: "ionian-modes",
+    mixolydian: "ionian-modes",
+    locrian: "ionian-modes",
+
+    // modes of melodic minor
+    melodic_minor_mode_2: "memimos",
+    melodic_minor_mode_3: "memimos",
+    homeric: "memimos",
+    melodic_minor_mode_5: "memimos",
+    half_diminished: "memimos",
+    altered_dominant: "memimos",
+
+    // others
+    pentatonic: "pentatonic",
+    whole_tone: "whole-tone",
+    chromatic: "chromatic",
+    octatonic_dominant: "octatonic",
+    octatonic_diminished: "octatonic",
+  };
+
   function getLetterName() {
     var keys = Object.keys(letterNames);
     return keys[Math.floor(keys.length * Math.random())];
@@ -57,61 +86,14 @@ window.addEventListener('load', function() {
     return keys[Math.floor(keys.length * Math.random())];
   };
 
-  function getScaleTypeAccordingToCheckboxes(scalies) {
+  function getScaleTypeAccordingToCheckboxes(scalies: Set<string>) {
     if (scalies.size === 0) { return null; }
 
-    let scaletype = getRandomProperty(scaleTypes);
+    do {
+      var scaletype = getRandomProperty(scaleTypes);
+    } while (! (scalies.has(scales_to_checkbox_ids[scaletype])));
 
-    if (scaletype === "ionian" && ! scalies.has("majors")) {
-      return getScaleTypeAccordingToCheckboxes(scalies);
-    }
-
-    if (scaletype === "melodic_minor" && ! scalies.has("melodic-minor")) {
-      return getScaleTypeAccordingToCheckboxes(scalies);
-    }
-
-    if (scaletype === "harmonic_minor" && ! scalies.has("harmonic-minor")) {
-      return getScaleTypeAccordingToCheckboxes(scalies);
-    }
-
-    if (scaletype.includes("octatonic_") && ! scalies.has("octatonic")) {
-      return getScaleTypeAccordingToCheckboxes(scalies);
-    }
-
-    if (scaletype === "pentatonic" && ! scalies.has("pentatonic")) {
-      return getScaleTypeAccordingToCheckboxes(scalies);
-    }
-
-    if (scaletype === "chromatic" && ! scalies.has("chromatic")) {
-      return getScaleTypeAccordingToCheckboxes(scalies);
-    }
-
-    if (scaletype === "whole_tone" && ! scalies.has("whole-tone")) {
-      return getScaleTypeAccordingToCheckboxes(scalies);
-    }
-
-
-    if ([ "dorian", 
-          "phrygian", 
-          "lydian", 
-          "mixolydian", 
-          "aeolian", 
-          "locrian"
-        ].includes(scaletype) && ! scalies.has("ionian-modes")) {
-      return getScaleTypeAccordingToCheckboxes(scalies);
-    }
-
-    if ([ "melodic_minor_mode_2", 
-          "melodic_minor_mode_3", 
-          "homeric", 
-          "melodic_minor_mode_5", 
-          "half_diminished", 
-          "altered_dominant"
-        ].includes(scaletype) && ! scalies.has("melodic-minor-modes")) {
-      return getScaleTypeAccordingToCheckboxes(scalies);
-    }
-
-  return scaletype;
+    return scaletype;
   };
 
   function getRandom(min, max) {
@@ -143,7 +125,7 @@ window.addEventListener('load', function() {
   }
 
   function selectScale() {
-    const scalies = new Set();
+    const scalies = new Set<string>();
     const checkboxen = document.querySelectorAll<HTMLInputElement>('input[type = "checkbox"]')
     checkboxen.forEach((checkbox, idx, original) => {
       checkbox.checked && scalies.add(checkbox.id);
