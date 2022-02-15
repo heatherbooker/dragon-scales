@@ -17,64 +17,94 @@ window.addEventListener('load', function() {
     'G♯': 0.65
   };
 
-  const scaleTypes = {
-    ionian: 0.1,
-    melodic_minor: 0.3,
-    harmonic_minor: 0.4,
+
+  type ScaleType = "Ionian"
+                | "melodic minor"
+                | "harmonic minor"
+
+                  // modes of ionian
+                | "Aeolian"
+                | "Dorian"
+                | "Phrygian"
+                | "Lydian"
+                | "Mixolydian"
+                | "Locrian"
+
+                  // modes of melodic minor
+                | "melodic minor mode 2"
+                | "melodic minor mode 3"
+                | "Homeric"
+                | "melodic minor mode 5"
+                | "half diminished"
+                | "altered dominant"
+
+                  // others
+                | "pentatonic"
+                | "whole tone"
+                | "chromatic"
+                | "octatonic dominant"
+                | "octatonic diminished"
+
+
+  const scaleTypes: {[index in ScaleType]: number} = {
+    "Ionian": 0.1,
+    "melodic minor": 0.3,
+    "harmonic minor": 0.4,
 
     // modes of ionian
-    aeolian: 0.15,
-    dorian: 0.18,
-    phrygian: 0.4,
-    lydian: 0.25,
-    mixolydian: 0.2,
-    locrian: 0.5,
+    "Aeolian": 0.15,
+    "Dorian": 0.18,
+    "Phrygian": 0.4,
+    "Lydian": 0.25,
+    "Mixolydian": 0.2,
+    "Locrian": 0.5,
 
     // modes of melodic minor
-    melodic_minor_mode_2: 0.7,
-    melodic_minor_mode_3: 0.7,
-    homeric: 0.5,
-    melodic_minor_mode_5: 0.7,
-    half_diminished: 0.4,
-    altered_dominant: 0.4,
+    "melodic minor mode 2": 0.7,
+    "melodic minor mode 3": 0.7,
+    "Homeric": 0.5,
+    "melodic minor mode 5": 0.7,
+    "half diminished": 0.4,
+    "altered dominant": 0.4,
 
     // others
-    pentatonic: 0.4,
-    whole_tone: 0.4,
-    chromatic: 0.3,
-    octatonic_dominant: 0.5,
-    octatonic_diminished: 0.6,
+    "pentatonic": 0.4,
+    "whole tone": 0.4,
+    "chromatic": 0.3,
+    "octatonic dominant": 0.5,
+    "octatonic diminished": 0.6,
 
   };
 
-  const scales_to_checkbox_ids: {[index: string]: string} = {
-    ionian: "majors",
-    melodic_minor: "melodic-minor",
-    harmonic_minor: "harmonic-minor",
+  const scales_to_checkbox_ids: {[index in ScaleType]: string} = {
+    "Ionian": "majors",
+    "melodic minor": "melodic-minor",
+    "harmonic minor": "harmonic-minor",
 
     // modes of ionian
-    aeolian: "ionian-modes",
-    dorian: "ionian-modes",
-    phrygian: "ionian-modes",
-    lydian: "ionian-modes",
-    mixolydian: "ionian-modes",
-    locrian: "ionian-modes",
+    "Aeolian": "ionian-modes",
+    "Dorian": "ionian-modes",
+    "Phrygian": "ionian-modes",
+    "Lydian": "ionian-modes",
+    "Mixolydian": "ionian-modes",
+    "Locrian": "ionian-modes",
 
     // modes of melodic minor
-    melodic_minor_mode_2: "memimos",
-    melodic_minor_mode_3: "memimos",
-    homeric: "memimos",
-    melodic_minor_mode_5: "memimos",
-    half_diminished: "memimos",
-    altered_dominant: "memimos",
+    "melodic minor mode 2": "memimos",
+    "melodic minor mode 3": "memimos",
+    "Homeric": "memimos",
+    "melodic minor mode 5": "memimos",
+    "half diminished": "memimos",
+    "altered dominant": "memimos",
 
     // others
-    pentatonic: "pentatonic",
-    whole_tone: "whole-tone",
-    chromatic: "chromatic",
-    octatonic_dominant: "octatonic",
-    octatonic_diminished: "octatonic",
+    "pentatonic": "pentatonic",
+    "whole tone": "whole-tone",
+    "chromatic": "chromatic",
+    "octatonic dominant": "octatonic",
+    "octatonic diminished": "octatonic",
   };
+
 
   function getLetterName() {
     var keys = Object.keys(letterNames);

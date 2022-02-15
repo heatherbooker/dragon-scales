@@ -34,3 +34,8 @@ make
 - remove underscore from scale display names
 - add choice of clefs
 - add bass clef: for both hands
+- the way a scale is chosen is naive:
+    get one at random, 
+    check whether the checkbox for it is true
+    try again until we get lucky.
+    there are easier ways!
