@@ -32,3 +32,5 @@ make
 - add fingerings
 - full on dan mode
 - ledger lines
+- separate minor scales
+- make C start at middle C
