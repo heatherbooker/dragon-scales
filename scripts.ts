@@ -6,7 +6,6 @@ window.addEventListener('load', function() {
     'B♭' = 'B♭',
     'B' = 'B',
     'C' = 'C',
-    'C♯' = 'C♯',
     'D♭' = 'D♭',
     'D' = 'D',
     'E♭' = 'E♭',
@@ -14,7 +13,6 @@ window.addEventListener('load', function() {
     'F' = 'F',
     'F♯' = 'F♯',
     'G' = 'G',
-    'G♯' = 'G♯'
   };
 
   const letter_name_weight: {[key in LetterName]: number} = {
@@ -23,7 +21,6 @@ window.addEventListener('load', function() {
     'B♭': 0.5,
     'B': 0.6,
     'C': 0.2,
-    'C♯': 0.65,
     'D♭': 0.65,
     'D': 0.3,
     'E♭': 0.3,
@@ -31,7 +28,6 @@ window.addEventListener('load', function() {
     'F': 0.4,
     'F♯': 0.65,
     'G': 0.3,
-    'G♯': 0.65
   };
 
 
