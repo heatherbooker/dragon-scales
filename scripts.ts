@@ -30,6 +30,23 @@ window.addEventListener('load', function() {
     'G': 0.3,
   };
 
+  type KeySig = { sharps: number, flats: number }
+
+  const ionian_signatures: {[key in LetterName]: KeySig} = {
+    'A♭': { sharps: 0, flats: 4 },
+    'A':  { sharps: 3, flats: 0 },
+    'B♭': { sharps: 0, flats: 2 },
+    'B':  { sharps: 5, flats: 0 },
+    'C':  { sharps: 0, flats: 0 },
+    'D♭': { sharps: 0, flats: 5 },
+    'D':  { sharps: 2, flats: 0 },
+    'E♭': { sharps: 0, flats: 3 },
+    'E':  { sharps: 4, flats: 0 },
+    'F':  { sharps: 0, flats: 1 },
+    'F♯': { sharps: 6, flats: 0 },
+    'G':  { sharps: 1, flats: 0 },
+  };
+
 
   type ScaleType = "Ionian"
                 | "melodic minor"
@@ -190,10 +207,51 @@ window.addEventListener('load', function() {
       document.querySelector('#scale-flavour').textContent = message;
     };
   }
+
   main();
 
-  function determineKeySignature(scaleType, firstNote): { sharps: number; flats: number } {
-    return { sharps: 2, flats: 0 };
+  function up_perfect_fifth(note: LetterName): LetterName {
+    // this function is unused,
+    // but likely useful later.
+    const letter_name_array: Array<LetterName> = Object.values(LetterName);
+    let i = letter_name_array.indexOf(note);
+    return letter_name_array[(i+7) % 12]; // 7 semitones
+  }
+
+  function determineKeySignature(scaleType: ScaleType, firstNote): KeySig {
+
+    let key_sig = { sharps: 2, flats: 0 };
+
+    switch (scaleType) {
+      case "Ionian":
+        key_sig = ionian_signatures[firstNote];
+        break;
+
+      case "Dorian": break;
+      case "Phrygian": break;
+      case "Lydian": break;
+      case "Mixolydian": break;
+      case "Aeolian": break;
+      case "Locrian": break;
+
+      case "melodic minor": break;
+      case "harmonic minor": break;
+
+      case "melodic minor mode 2": break;
+      case "melodic minor mode 3": break;
+      case "Homeric": break;
+      case "melodic minor mode 5": break;
+      case "half diminished": break;
+      case "altered dominant": break;
+
+      case "pentatonic": break;
+      case "whole tone": break;
+      case "chromatic": break;
+      case "octatonic dominant": break;
+      case "octatonic diminished": break;
+
+    }
+    return key_sig;
   }
 
   function drawScale(firstNote, scaleType) {
