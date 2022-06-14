@@ -1,21 +1,17 @@
 SHELL := /bin/sh
-FLAGS = --outDir dist/ --outFile $(OUT) --lib es2020,dom
+FLAGS := --lib es2020,dom
 
-SRC = scripts.ts
+SRC = src/scripts.ts
 OUT = dist/scripts.js
-
-# --strict
-#  
-#
 
 .PHONY: all watch clean
 all: $(OUT)
 
 $(OUT): $(SRC)
-	tsc $(FLAGS) $(SRC)
+	tsc $(FLAGS) --project .
 
 watch: $(SRC)
-	tsc --watch $(FLAGS) $(SRC)
+	tsc $(FLAGS) --watch --project .
 
 clean:
-	rm dist/scripts.js
+	rm -r dist/

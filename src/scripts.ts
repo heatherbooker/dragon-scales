@@ -44,7 +44,7 @@ enum LetterName {
 
 function note_difficulty_weight(note: CanonicalNote): number {
   // FIXME this is not terribly sophisticated.
-  let difficulty = undefined;
+  let difficulty: number;
   switch (note.letter) {
     case LetterName.A:
     case LetterName.C:
@@ -243,7 +243,7 @@ function selectSpeed(levelFactor, letterFactor, scaleFactor): number {
   return Math.floor(Math.min(metronome_max, Math.max(metronome_min, speed)));
 }
 
-function selectScaleType(): ScaleType {
+function selectScaleType(): ScaleType | null {
   const enabled_types = new Set<any>();
   const checkboxen =
     document.querySelectorAll<HTMLInputElement>('input[type = "checkbox"]')
