@@ -101,6 +101,7 @@ function ionian_signatures(note: Note): KeySig {
 type ScaleType = "Ionian"
               | "melodic minor"
               | "harmonic minor"
+              | "double harmonic minor" // flat 2 and flat 6
 
                 // modes of ionian
               | "Aeolian"
@@ -130,6 +131,7 @@ const scaleTypes: {[index in ScaleType]: number} = {
   "Ionian": 0.1,
   "melodic minor": 0.3,
   "harmonic minor": 0.4,
+  "double harmonic minor": 0.6,
 
   // modes of ionian
   "Aeolian": 0.15,
@@ -426,6 +428,7 @@ function key_signature(scale: Scale): KeySig {
 
     case "melodic minor": break;
     case "harmonic minor": break;
+    case "double harmonic minor": break;
 
     case "melodic minor mode 2": break;
     case "melodic minor mode 3": break;
@@ -439,6 +442,10 @@ function key_signature(scale: Scale): KeySig {
     case "chromatic": break;
     case "octatonic dominant": break;
     case "octatonic diminished": break;
+    default:
+      // to prevent forgetting any cases
+      const exhaustiveCheck: never = scale.mode;
+      throw new Error(`Unhandled case: ${exhaustiveCheck}`);
 
   }
   return key_sig;
