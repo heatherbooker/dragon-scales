@@ -245,7 +245,8 @@ function selectSpeed(levelFactor, letterFactor, scaleFactor): number {
 
 function selectScaleType(): ScaleType {
   const enabled_types = new Set<any>();
-  const checkboxen = document.querySelectorAll<HTMLInputElement>('input[type = "checkbox"]')
+  const checkboxen =
+    document.querySelectorAll<HTMLInputElement>('input[type = "checkbox"]')
   checkboxen.forEach((checkbox, idx, original) => {
     checkbox.checked && enabled_types.add(checkbox.id);
   });
@@ -269,9 +270,12 @@ function main() {
     clearStaff();
 
     if (scaletype !== null) {
-      const difficulty = document.querySelector<HTMLInputElement>('#difficulty-input').value;
+      const difficulty =
+        document.querySelector<HTMLInputElement>('#difficulty-input').value;
       const firstNote: CanonicalNote = get_random_note();
-      const speed: number = selectSpeed(difficulty, note_difficulty_weight(firstNote), scaleTypes[scaletype]);
+      const speed: number = selectSpeed(difficulty,
+                                        note_difficulty_weight(firstNote),
+                                        scaleTypes[scaletype]);
       message = `${render_best_note(firstNote)} ${scaletype}, metronome at: ${speed}`;
       drawScale(firstNote, scaletype);
     }
@@ -409,13 +413,13 @@ function drawScale(firstNote: CanonicalNote, scaleType) {
   console.log("key sig is : " + JSON.stringify(keySignature));
   drawKeySignature(staff, keySignature);
 
-  const pureFirstNote: NewLetterName = firstNote.letter; // remove sharp or flat symbol
-  drawNotes(staff, pureFirstNote);
+  drawNotes(staff, firstNote.letter);
 }
 
 function drawNotes(staff, first: NewLetterName): void {
   let staffNoteheadsCounter = 0;
-  const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'A', 'B'];
+  const notes =
+    ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'A', 'B'];
   const lowestNote = 7; // C
   let position = lowestNote + notes.indexOf(first);
 
@@ -425,7 +429,8 @@ function drawNotes(staff, first: NewLetterName): void {
   const lowestCy = 200; // since size of our svg is 200
 
   for (let highest = position+7 ; position < highest ; position++) {
-    const notehead = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    const notehead =
+      document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
     notehead.setAttribute('class', "notehead");
 
     const cx = 250 + staffNoteheadsCounter * 50;
@@ -441,7 +446,8 @@ function drawNotes(staff, first: NewLetterName): void {
 
     const ledgerLines = [10, 130]; // highest and lowest notes
     if (ledgerLines.includes(cy)) {
-      const ledgerLine = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      const ledgerLine =
+        document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       ledgerLine.setAttribute('height', '2');
       ledgerLine.setAttribute('width', '44');
       ledgerLine.setAttribute('y', cy.toString());
@@ -468,7 +474,8 @@ function drawKeySignature(staff, sig: KeySig) {
 function how_to_draw_sharps(staff, quantity: number) {
   sharp_sig_positions.slice(0, quantity).forEach((pos, idx) => {
 
-    const sharp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const sharp =
+      document.createElementNS('http://www.w3.org/2000/svg', 'path');
     sharp.setAttribute('d', SHARP_SVG_PATH);
     sharp.setAttribute('class', 'sharp');
     const sharp_x = 70 + 20*idx;
