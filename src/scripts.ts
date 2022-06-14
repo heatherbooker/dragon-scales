@@ -457,8 +457,7 @@ function drawNotes(staff: HTMLElement, first: LetterName): void {
   const lowestCy = 200; // since size of our svg is 200
 
   for (let highest = position+7 ; position < highest ; position++) {
-    const notehead =
-      document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    const notehead = createElementSVG('ellipse');
     notehead.setAttribute('class', "notehead");
 
     const cx = 250 + staffNoteheadsCounter * 50;
@@ -474,8 +473,7 @@ function drawNotes(staff: HTMLElement, first: LetterName): void {
 
     const ledgerLines = [10, 130]; // highest and lowest notes
     if (ledgerLines.includes(cy)) {
-      const ledgerLine =
-        document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      const ledgerLine = createElementSVG('rect');
       ledgerLine.setAttribute('height', '2');
       ledgerLine.setAttribute('width', '44');
       ledgerLine.setAttribute('y', cy.toString());
@@ -484,6 +482,10 @@ function drawNotes(staff: HTMLElement, first: LetterName): void {
       staff.appendChild(ledgerLine);
     }
   }
+}
+
+function createElementSVG(shape: string) {
+  return document.createElementNS('http://www.w3.org/2000/svg', shape);
 }
 
 function clearStaff() {
@@ -501,9 +503,7 @@ function drawKeySignature(staff: HTMLElement, sig: KeySig) {
 
 function how_to_draw_sharps(staff: HTMLElement, quantity: number) {
   sharp_sig_positions.slice(0, quantity).forEach((pos, idx) => {
-
-    const sharp =
-      document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const sharp = createElementSVG('path');
     sharp.setAttribute('d', SHARP_SVG_PATH);
     sharp.setAttribute('class', 'sharp');
     const sharp_x = 70 + 20*idx;
@@ -515,7 +515,7 @@ function how_to_draw_sharps(staff: HTMLElement, quantity: number) {
 
 function and_flats(staff: HTMLElement, quantity: number) {
   flat_signature_positions.slice(0, quantity).forEach((pos, idx) => {
-    const flat = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const flat = createElementSVG('path');
     flat.setAttribute('d', FLAT_SVG_PATH);
     flat.setAttribute('class', 'flat');
     const flat_x = 70 + 20*idx;
