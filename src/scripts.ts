@@ -105,7 +105,7 @@ enum ScaleType {
   Ionian,
   MelodicMinor,
   HarmonicMinor,
-  DoubleHarmonicMinor, // flat 2 and flat 6
+  DoubleHarmonic, // flat 2 and flat 6
 
     // modes of ionian
   Aeolian,
@@ -130,6 +130,13 @@ enum ScaleType {
   HarmonicMinorMode6,
   HarmonicMinorMode7,
 
+  DoubleHarmonicMode2,
+  DoubleHarmonicMode3,
+  DoubleHarmonicMode4,
+  DoubleHarmonicMode5,
+  DoubleHarmonicMode6,
+  DoubleHarmonicMode7,
+
     // others
   Pentatonic,
   WholeTone,
@@ -143,7 +150,7 @@ const scaleTypes: {[index in ScaleType]: number} = {
   [ScaleType.Ionian]: 0.1,
   [ScaleType.MelodicMinor]: 0.3,
   [ScaleType.HarmonicMinor]: 0.4,
-  [ScaleType.DoubleHarmonicMinor]: 0.6,
+  [ScaleType.DoubleHarmonic]: 0.6,
 
   // modes of ionian
   [ScaleType.Aeolian]: 0.15,
@@ -168,6 +175,13 @@ const scaleTypes: {[index in ScaleType]: number} = {
   [ScaleType.HarmonicMinorMode5]: 0.9,
   [ScaleType.HarmonicMinorMode6]: 0.9,
   [ScaleType.HarmonicMinorMode7]: 0.9,
+
+  [ScaleType.DoubleHarmonicMode2]: 0.9,
+  [ScaleType.DoubleHarmonicMode3]: 0.9,
+  [ScaleType.DoubleHarmonicMode4]: 0.9,
+  [ScaleType.DoubleHarmonicMode5]: 0.9,
+  [ScaleType.DoubleHarmonicMode6]: 0.9,
+  [ScaleType.DoubleHarmonicMode7]: 0.9,
 
   // others
   [ScaleType.Pentatonic]: 0.4,
@@ -454,6 +468,13 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.HarmonicMinorMode5: break;
     case ScaleType.HarmonicMinorMode6: break;
     case ScaleType.HarmonicMinorMode7: break;
+
+    case ScaleType.DoubleHarmonicMinorMode2: break;
+    case ScaleType.DoubleHarmonicMinorMode3: break;
+    case ScaleType.DoubleHarmonicMinorMode4: break;
+    case ScaleType.DoubleHarmonicMinorMode5: break;
+    case ScaleType.DoubleHarmonicMinorMode6: break;
+    case ScaleType.DoubleHarmonicMinorMode7: break;
 
     case ScaleType.Pentatonic: break;
     case ScaleType.WholeTone: break;
