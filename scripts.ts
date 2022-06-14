@@ -151,34 +151,51 @@ const scaleTypes: {[index in ScaleType]: number} = {
 
 };
 
-const scales_to_checkbox_ids: {[index in ScaleType]: string} = {
-  "Ionian": "majors",
-  "melodic minor": "melodic-minor",
-  "harmonic minor": "harmonic-minor",
+enum CheckBoxen {
+  "majors" = "majors",
+  "melodic-minor" = "melodic-minor",
+  "harmonic-minor" = "harmonic-minor",
+  "ionian-modes" = "ionian-modes",
+  "memimos" = "memimos", // modes of melodic minor
+  "pentatonic" = "pentatonic",
+  "whole-tone" = "whole-tone",
+  "chromatic" = "chromatic",
+  "octatonic" = "octatonic",
+};
+
+const scaletype_subsets: {[index in CheckBoxen]: Array<ScaleType>} = {
+  "majors": ["Ionian"],
+  "melodic-minor": ["melodic minor"],
+  "harmonic-minor": ["harmonic minor"],
 
   // modes of ionian
-  "Aeolian": "ionian-modes",
-  "Dorian": "ionian-modes",
-  "Phrygian": "ionian-modes",
-  "Lydian": "ionian-modes",
-  "Mixolydian": "ionian-modes",
-  "Locrian": "ionian-modes",
+  "ionian-modes": [
+    "Ionian",
+    "Aeolian",
+    "Dorian",
+    "Phrygian",
+    "Lydian",
+    "Mixolydian",
+    "Locrian"
+  ],
 
   // modes of melodic minor
-  "melodic minor mode 2": "memimos",
-  "melodic minor mode 3": "memimos",
-  "Homeric": "memimos",
-  "melodic minor mode 5": "memimos",
-  "half diminished": "memimos",
-  "altered dominant": "memimos",
+  "memimos": [
+    "melodic minor",
+    "melodic minor mode 2",
+    "melodic minor mode 3",
+    "Homeric",
+    "melodic minor mode 5",
+    "half diminished",
+    "altered dominant",
+  ],
 
   // others
-  "pentatonic": "pentatonic",
-  "whole tone": "whole-tone",
-  "chromatic": "chromatic",
-  "octatonic dominant": "octatonic",
-  "octatonic diminished": "octatonic",
-};
+  "pentatonic": ["pentatonic"],
+  "whole-tone": ["whole tone"],
+  "chromatic": ["chromatic"],
+  "octatonic": ["octatonic dominant", "octatonic diminished"],
+}
 
 function getRandomProperty(dict) {
   var keys = Object.keys(dict);
@@ -197,16 +214,6 @@ function get_random_note(): CanonicalNote {
     letter: note_letter,
     sharps: note_accidental,
   }
-};
-
-function getScaleTypeAccordingToCheckboxes(scalies: Set<string>) {
-  if (scalies.size === 0) { return null; }
-
-  do {
-    var scaletype = getRandomProperty(scaleTypes);
-  } while (! (scalies.has(scales_to_checkbox_ids[scaletype])));
-
-  return scaletype;
 };
 
 function getRandom(min, max) {
@@ -236,19 +243,28 @@ function selectSpeed(levelFactor, letterFactor, scaleFactor): number {
   return Math.floor(Math.min(metronome_max, Math.max(metronome_min, speed)));
 }
 
-function selectScale() {
-  const scalies = new Set<string>();
+function selectScaleType(): ScaleType {
+  const enabled_types = new Set<any>();
   const checkboxen = document.querySelectorAll<HTMLInputElement>('input[type = "checkbox"]')
   checkboxen.forEach((checkbox, idx, original) => {
-    checkbox.checked && scalies.add(checkbox.id);
+    checkbox.checked && enabled_types.add(checkbox.id);
   });
 
-  return getScaleTypeAccordingToCheckboxes(scalies);
+  if (enabled_types.size === 0) { return null; }
+
+  const options = new Set<ScaleType>();
+  enabled_types.forEach((scalestypes_subset) => {
+    scaletype_subsets[scalestypes_subset].forEach((scale_type) => {
+      options.add(scale_type);
+    });
+  });
+
+  return getRandomArrayValue(Array.from(options));
 };
 
 function main() {
   document.querySelector<HTMLElement>('#go-button').onclick = function () {
-    const scaletype = selectScale();
+    const scaletype = selectScaleType();
     let message = 'check a box';
     clearStaff();
 
