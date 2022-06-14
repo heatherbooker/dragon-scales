@@ -270,21 +270,13 @@ function get_enabled_scales(): Array<ScaleType> {
   return Array.from(options);
 }
 
-function selectScaleType(options): ScaleType | null {
-  if (options.length === 0) {
-    return null;
-  } else {
-    return getRandomArrayValue(options);
-  }
+function selectScaleType(options): ScaleType {
+  return getRandomArrayValue(options);
 };
 
-function choose_random_scale(enabled_scale_types): Scale | null {
+function choose_random_scale(enabled_scale_types): Scale {
     const first_note: Note = get_random_note();
     const scale_type: ScaleType = selectScaleType(enabled_scale_types);
-
-    if (scale_type === null) {
-      return null;
-    }
 
     let scale = {
       tonic: first_note,
@@ -300,7 +292,9 @@ function choose_random_scale(enabled_scale_types): Scale | null {
 }
 
 function main() {
-  document.querySelector<HTMLElement>('#go-button').onclick = function () {
+  const go_button: HTMLElement =
+    document.querySelector('#go-button') as HTMLElement;
+  go_button.onclick = function () {
     clearStaff();
     let message: string
     const enabled_scales = get_enabled_scales();
@@ -309,8 +303,9 @@ function main() {
       message = 'check a box';
     } else {
       const scale = choose_random_scale(enabled_scales);
-      const difficulty =
-        document.querySelector<HTMLInputElement>('#difficulty-input').value;
+      const difficulty_input: HTMLInputElement =
+        document.querySelector('#difficulty-input') as HTMLInputElement;
+      const difficulty = difficulty_input.value;
       const speed: number = selectSpeed(difficulty,
                                         note_difficulty_weight(scale.tonic),
                                         scaleTypes[scale.mode]);
@@ -318,11 +313,13 @@ function main() {
       const keySignature: KeySig = key_signature(scale);
       console.log("key sig is : " + JSON.stringify(keySignature));
 
-      const staff = document.querySelector('.staff svg');
+      const staff = document.querySelector<HTMLElement>('.staff svg');
       drawKeySignature(staff, keySignature);
       drawScale(staff, scale.tonic, scale.mode);
     }
-    document.querySelector('#scale-flavour').textContent = message;
+    const scale_flavour: HTMLElement =
+      document.querySelector('#scale-flavour') as HTMLElement;
+    scale_flavour.textContent = message;
   };
 }
 
