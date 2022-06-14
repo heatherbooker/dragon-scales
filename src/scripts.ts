@@ -1,14 +1,14 @@
-type CanonicalNote = {
+type Note = {
   letter: LetterName,
   sharps: number, // sharps positive, natural zero, flats negative
 }
 
-type CanonicalScale = {
-  tonic: CanonicalNote,
+type Scale = {
+  tonic: Note,
   mode: ScaleType,
 }
 
-function render_best_note(note: CanonicalNote): string {
+function render_best_note(note: Note): string {
   return note.letter + render_sharps(note.sharps);
 }
 
@@ -47,7 +47,7 @@ enum LetterName {
   'G' = 'G',
 };
 
-function note_difficulty_weight(note: CanonicalNote): number {
+function note_difficulty_weight(note: Note): number {
   // FIXME this is not terribly sophisticated.
   let difficulty: number;
   switch (note.letter) {
@@ -82,7 +82,7 @@ function ionian_signatures_for_letter(letter: LetterName): number {
   }
 }
 
-function ionian_signatures(note: CanonicalNote): KeySig {
+function ionian_signatures(note: Note): KeySig {
   const extra_sharps = 7 * note.sharps;
   const sharps = ionian_signatures_for_letter(note.letter) + extra_sharps;
   if (sharps < 0) {
@@ -211,7 +211,7 @@ function getRandomArrayValue(array: Array<any>) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-function get_random_note(): CanonicalNote {
+function get_random_note(): Note {
   const note_letter = getRandomArrayValue(Object.keys(LetterName));
   const note_accidental = Math.floor(3*Math.random()) - 1
                           // integer in [-1, 0, 1]
@@ -268,8 +268,8 @@ function selectScaleType(): ScaleType | null {
   return getRandomArrayValue(Array.from(options));
 };
 
-function choose_random_scale(): CanonicalScale | null {
-    const first_note: CanonicalNote = get_random_note();
+function choose_random_scale(): Scale | null {
+    const first_note: Note = get_random_note();
     const scale_type: ScaleType = selectScaleType();
 
     if (scale_type === null) {
@@ -313,7 +313,7 @@ function main() {
   };
 }
 
-function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
+function interval_up(note: Note, interval: Interval): Note {
   function next_letter_fn(letter: LetterName): LetterName {
     const letter_name_array = Object.values(LetterName);
     const idx: number = letter_name_array.indexOf(letter);
@@ -386,15 +386,15 @@ function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
   }
 }
 
-function key_signature_scale(scale: CanonicalScale): KeySig {
+function key_signature_scale(scale: Scale): KeySig {
   return key_signature(scale.mode, scale.tonic);
 }
 
-function key_signature_ionian(tonic: CanonicalNote, interval: Interval): KeySig {
+function key_signature_ionian(tonic: Note, interval: Interval): KeySig {
   return key_signature("Ionian", interval_up(tonic, interval));
 }
 
-function key_signature(scaleType: ScaleType, tonic: CanonicalNote): KeySig {
+function key_signature(scaleType: ScaleType, tonic: Note): KeySig {
   let key_sig = { sharps: 2, flats: 2 };
 
   switch (scaleType) {
@@ -435,7 +435,7 @@ function key_signature(scaleType: ScaleType, tonic: CanonicalNote): KeySig {
   return key_sig;
 }
 
-function drawScale(staff, tonic: CanonicalNote, scaleType) {
+function drawScale(staff, tonic: Note, scaleType) {
   console.log("first note is : " + JSON.stringify(tonic));
 
   drawNotes(staff, tonic.letter);
