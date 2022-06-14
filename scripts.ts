@@ -326,41 +326,41 @@ function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
       }
     case Interval.MinorThird:
       return interval_up(interval_up(note,
-                             Interval.MajorSecond),
-                             Interval.MinorSecond);
+               Interval.MajorSecond),
+               Interval.MinorSecond);
     case Interval.MajorThird:
       return interval_up(interval_up(note,
-                             Interval.MajorSecond),
-                             Interval.MajorSecond);
+               Interval.MajorSecond),
+               Interval.MajorSecond);
     case Interval.PerfectFourth:
       return interval_up(interval_up(note,
-                             Interval.MajorThird),
-                             Interval.MinorSecond);
+               Interval.MajorThird),
+               Interval.MinorSecond);
     case Interval.PerfectFifth:
       return interval_up(interval_up(note,
-                             Interval.PerfectFourth),
-                             Interval.MajorSecond);
+               Interval.PerfectFourth),
+               Interval.MajorSecond);
     case Interval.MinorSixth:
       return interval_up(interval_up(note,
-                             Interval.PerfectFifth),
-                             Interval.MinorSecond);
+               Interval.PerfectFifth),
+               Interval.MinorSecond);
     case Interval.MajorSixth:
       return interval_up(interval_up(note,
-                             Interval.PerfectFifth),
-                             Interval.MajorSecond);
+               Interval.PerfectFifth),
+               Interval.MajorSecond);
     case Interval.MinorSeventh:
       return interval_up(interval_up(note,
-                             Interval.MajorSixth),
-                             Interval.MinorSecond);
+               Interval.MajorSixth),
+               Interval.MinorSecond);
     case Interval.MajorSeventh:
       return interval_up(interval_up(note,
-                             Interval.MajorSixth),
-                             Interval.MajorSecond);
+               Interval.MajorSixth),
+               Interval.MajorSecond);
   }
 
 }
 
-function determineKeySignature(scaleType: ScaleType, firstNote: CanonicalNote): KeySig {
+function key_signature(scaleType: ScaleType, firstNote: CanonicalNote): KeySig {
 
   let key_sig = { sharps: 2, flats: 2 };
 
@@ -370,17 +370,23 @@ function determineKeySignature(scaleType: ScaleType, firstNote: CanonicalNote): 
       break;
 
     case "Dorian":
-      return determineKeySignature("Ionian", interval_up(firstNote, Interval.MinorSeventh));
+      return key_signature("Ionian", interval_up(firstNote,
+        Interval.MinorSeventh));
     case "Phrygian":
-      return determineKeySignature("Ionian", interval_up(firstNote, Interval.MinorSixth));
+      return key_signature("Ionian", interval_up(firstNote,
+        Interval.MinorSixth));
     case "Lydian":
-      return determineKeySignature("Ionian", interval_up(firstNote, Interval.PerfectFifth));
+      return key_signature("Ionian", interval_up(firstNote,
+        Interval.PerfectFifth));
     case "Mixolydian":
-      return determineKeySignature("Ionian", interval_up(firstNote, Interval.PerfectFourth));
+      return key_signature("Ionian", interval_up(firstNote,
+        Interval.PerfectFourth));
     case "Aeolian":
-      return determineKeySignature("Ionian", interval_up(firstNote, Interval.MinorThird));
+      return key_signature("Ionian", interval_up(firstNote,
+        Interval.MinorThird));
     case "Locrian":
-      return determineKeySignature("Ionian", interval_up(firstNote, Interval.MinorSecond));
+      return key_signature("Ionian", interval_up(firstNote,
+        Interval.MinorSecond));
 
     case "melodic minor": break;
     case "harmonic minor": break;
@@ -406,7 +412,7 @@ function drawScale(firstNote: CanonicalNote, scaleType) {
   console.log("first note is : " + JSON.stringify(firstNote));
   const staff = document.querySelector('.staff svg');
 
-  const keySignature: KeySig = determineKeySignature(scaleType, firstNote);
+  const keySignature: KeySig = key_signature(scaleType, firstNote);
   console.log("key sig is : " + JSON.stringify(keySignature));
   drawKeySignature(staff, keySignature);
 
