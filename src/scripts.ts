@@ -118,21 +118,23 @@ enum ScaleType {
     // modes of melodic minor
   MelodicMinorMode2,
   MelodicMinorMode3,
-  Homeric,
+  Simpsons,
   MelodicMinorMode5,
   HalfDiminished,
   AlteredDominant,
 
+    // modes of harmonic minor
   HarmonicMinorMode2,
   HarmonicMinorMode3,
-  HarmonicMinorMode4,
-  HarmonicMinorMode5,
+  UkrainianDorian,
+  PhrygianDominant,
   HarmonicMinorMode6,
   HarmonicMinorMode7,
 
+    // modes of double harmonic scale
   DoubleHarmonicMode2,
   DoubleHarmonicMode3,
-  DoubleHarmonicMode4,
+  HungarianMinor,
   DoubleHarmonicMode5,
   DoubleHarmonicMode6,
   DoubleHarmonicMode7,
@@ -163,7 +165,7 @@ const scaleTypes: {[index in ScaleType]: number} = {
   // modes of melodic minor
   [ScaleType.MelodicMinorMode2]: 0.7,
   [ScaleType.MelodicMinorMode3]: 0.7,
-  [ScaleType.Homeric]: 0.5,
+  [ScaleType.Simpsons]: 0.5,
   [ScaleType.MelodicMinorMode5]: 0.7,
   [ScaleType.HalfDiminished]: 0.4,
   [ScaleType.AlteredDominant]: 0.4,
@@ -171,14 +173,14 @@ const scaleTypes: {[index in ScaleType]: number} = {
   // modes of melodic minor
   [ScaleType.HarmonicMinorMode2]: 0.9,
   [ScaleType.HarmonicMinorMode3]: 0.9,
-  [ScaleType.HarmonicMinorMode4]: 0.9,
-  [ScaleType.HarmonicMinorMode5]: 0.9,
+  [ScaleType.UkrainianDorian]: 0.9,
+  [ScaleType.PhrygianDominant]: 0.9,
   [ScaleType.HarmonicMinorMode6]: 0.9,
   [ScaleType.HarmonicMinorMode7]: 0.9,
 
   [ScaleType.DoubleHarmonicMode2]: 0.9,
   [ScaleType.DoubleHarmonicMode3]: 0.9,
-  [ScaleType.DoubleHarmonicMode4]: 0.9,
+  [ScaleType.HungarianMinor]: 0.9,
   [ScaleType.DoubleHarmonicMode5]: 0.9,
   [ScaleType.DoubleHarmonicMode6]: 0.9,
   [ScaleType.DoubleHarmonicMode7]: 0.9,
@@ -225,7 +227,7 @@ const scaletype_subsets: {[index in CheckBoxen]: Array<ScaleType>} = {
     ScaleType.MelodicMinor,
     ScaleType.MelodicMinorMode2,
     ScaleType.MelodicMinorMode3,
-    ScaleType.Homeric,
+    ScaleType.Simpsons,
     ScaleType.MelodicMinorMode5,
     ScaleType.HalfDiminished,
     ScaleType.AlteredDominant,
@@ -456,7 +458,7 @@ function key_signature(scale: Scale): KeySig {
 
     case ScaleType.MelodicMinorMode2:
     case ScaleType.MelodicMinorMode3:
-    case ScaleType.Homeric:
+    case ScaleType.Simpsons:
     case ScaleType.MelodicMinorMode5:
     case ScaleType.HalfDiminished:
     case ScaleType.AlteredDominant:
@@ -464,15 +466,15 @@ function key_signature(scale: Scale): KeySig {
 
     case ScaleType.HarmonicMinorMode2:
     case ScaleType.HarmonicMinorMode3:
-    case ScaleType.HarmonicMinorMode4:
-    case ScaleType.HarmonicMinorMode5:
+    case ScaleType.UkrainianDorian:
+    case ScaleType.PhrygianDominant:
     case ScaleType.HarmonicMinorMode6:
     case ScaleType.HarmonicMinorMode7:
       return not_yet_implemented_key_sig;
 
     case ScaleType.DoubleHarmonicMode2:
     case ScaleType.DoubleHarmonicMode3:
-    case ScaleType.DoubleHarmonicMode4:
+    case ScaleType.HungarianMinor:
     case ScaleType.DoubleHarmonicMode5:
     case ScaleType.DoubleHarmonicMode6:
     case ScaleType.DoubleHarmonicMode7:
