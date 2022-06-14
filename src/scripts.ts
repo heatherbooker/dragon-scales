@@ -204,7 +204,6 @@ const scaletype_subsets: {[index in CheckBoxen]: Array<ScaleType>} = {
   "octatonic": ["octatonic dominant", "octatonic diminished"],
 }
 
-
 function getRandomArrayValue(array: Array<any>) {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -219,7 +218,7 @@ function get_random_note(): Note {
   }
 };
 
-function getRandom(min, max) {
+function getRandom(min: number, max: number) {
   let u = 0, v = 0;
   while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
   while(v === 0) v = Math.random();
@@ -236,7 +235,9 @@ function getRandom(min, max) {
   return num;
 }
 
-function selectSpeed(levelFactor, letterFactor, scaleFactor): number {
+function selectSpeed(levelFactor: number,
+                     letterFactor: number,
+                     scaleFactor: number): number {
   const metronome_min = 44;
   const metronome_max = 250;
   const inflation_factor = 480; // to make it BIG
@@ -247,12 +248,12 @@ function selectSpeed(levelFactor, letterFactor, scaleFactor): number {
 }
 
 function get_enabled_scales(): Array<ScaleType> {
-  const checked_boxen = new Set<string>();
+  const checked_boxen = new Set<CheckBoxen>();
 
   const checkboxen: NodeListOf<HTMLInputElement> =
     document.querySelectorAll('input[type = "checkbox"]');
   checkboxen.forEach((checkbox, idx, original) => {
-    checkbox.checked && checked_boxen.add(checkbox.id);
+    checkbox.checked && checked_boxen.add(checkbox.id as CheckBoxen);
   });
 
   const options = new Set<ScaleType>();
@@ -266,13 +267,9 @@ function get_enabled_scales(): Array<ScaleType> {
   return Array.from(options);
 }
 
-function selectScaleType(options): ScaleType {
-  return getRandomArrayValue(options);
-};
-
-function choose_random_scale(enabled_scale_types): Scale {
+function choose_random_scale(enabled_scale_types: Array<ScaleType>): Scale {
     const first_note: Note = get_random_note();
-    const scale_type: ScaleType = selectScaleType(enabled_scale_types);
+    const scale_type: ScaleType = getRandomArrayValue(enabled_scale_types);
 
     let scale = {
       tonic: first_note,
@@ -301,7 +298,7 @@ function main() {
       const scale = choose_random_scale(enabled_scales);
       const difficulty_input: HTMLInputElement =
         document.querySelector('#difficulty-input') as HTMLInputElement;
-      const difficulty = difficulty_input.value;
+      const difficulty = Number(difficulty_input.value);
       const speed: number = selectSpeed(difficulty,
                                         note_difficulty_weight(scale.tonic),
                                         scaleTypes[scale.mode]);
@@ -309,7 +306,8 @@ function main() {
       const keySignature: KeySig = key_signature(scale);
       console.log("key sig is : " + JSON.stringify(keySignature));
 
-      const staff = document.querySelector<HTMLElement>('.staff svg');
+      const staff: HTMLElement =
+        document.querySelector('.staff svg') as HTMLElement;
       drawKeySignature(staff, keySignature);
       drawScale(staff, scale.tonic, scale.mode);
     }
@@ -444,13 +442,14 @@ function key_signature(scale: Scale): KeySig {
   return key_sig;
 }
 
-function drawScale(staff, tonic: Note, scaleType) {
+// FIXME type
+function drawScale(staff: HTMLElement, tonic: Note, scaleType: ScaleType): void {
   console.log("first note is : " + JSON.stringify(tonic));
 
   drawNotes(staff, tonic.letter);
 }
 
-function drawNotes(staff, first: LetterName): void {
+function drawNotes(staff: HTMLElement, first: LetterName): void {
   let staffNoteheadsCounter = 0;
   const notes =
     ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -500,12 +499,12 @@ function clearStaff() {
   document.querySelectorAll('path.sharp').forEach(sharp => sharp.remove());
 }
 
-function drawKeySignature(staff, sig: KeySig) {
+function drawKeySignature(staff: HTMLElement, sig: KeySig) {
   how_to_draw_sharps(staff, sig.sharps);
   and_flats(staff, sig.flats);
 }
 
-function how_to_draw_sharps(staff, quantity: number) {
+function how_to_draw_sharps(staff: HTMLElement, quantity: number) {
   sharp_sig_positions.slice(0, quantity).forEach((pos, idx) => {
 
     const sharp =
@@ -519,7 +518,7 @@ function how_to_draw_sharps(staff, quantity: number) {
   });
 }
 
-function and_flats(staff, quantity: number) {
+function and_flats(staff: HTMLElement, quantity: number) {
   flat_signature_positions.slice(0, quantity).forEach((pos, idx) => {
     const flat = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     flat.setAttribute('d', FLAT_SVG_PATH);
