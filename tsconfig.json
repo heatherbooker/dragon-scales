@@ -26,6 +26,7 @@
     "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
     "noUncheckedIndexedAccess": false,      /* Include 'undefined' in index signature results */
     "noUnusedParameters": true,
+    "noUnusedLocals": true,
 
     /* Module Resolution Options */
     "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */

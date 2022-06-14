@@ -452,7 +452,6 @@ function drawNotes(staff: HTMLElement, first: LetterName): void {
   const lowestNote = 7; // C
   let position = lowestNote + notes.indexOf(first);
 
-  const topLinePitchesKeyIndex = 20; //what does that even mean
   const distanceBetweenStaffLines = 10;
 
   const lowestCy = 200; // since size of our svg is 200
@@ -465,7 +464,7 @@ function drawNotes(staff: HTMLElement, first: LetterName): void {
     const cx = 250 + staffNoteheadsCounter * 50;
     notehead.setAttribute('cx', cx.toString()); // distance between notes
 
-    const cy = lowestCy - (10 * position);
+    const cy = lowestCy - (distanceBetweenStaffLines * position);
     notehead.setAttribute('cy', cy.toString());
     notehead.setAttribute('rx', '14');
     notehead.setAttribute('ry', '10');
