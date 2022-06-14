@@ -17,21 +17,6 @@ function render_sharps(sharps: number): string {
   }
 }
 
-// FIXME delete this?
-enum BadCanonicalNote {
-  Canonical_A,
-  Canonical_B_flat,
-  Canonical_B,
-  Canonical_C,
-  Canonical_C_sharp,
-  Canonical_D,
-  Canonical_E_flat,
-  Canonical_E,
-  Canonical_F,
-  Canonical_F_sharp,
-  Canonical_G,
-  Canonical_G_sharp,
-};
 
 enum Interval {
   PerfectUnison,
@@ -61,21 +46,6 @@ enum NewLetterName {
   'G' = 'G',
 };
 
-enum LetterName {
-  'A♭' = 'A♭',
-  'A' = 'A',
-  'B♭' = 'B♭',
-  'B' = 'B',
-  'C' = 'C',
-  'D♭' = 'D♭',
-  'D' = 'D',
-  'E♭' = 'E♭',
-  'E' = 'E',
-  'F' = 'F',
-  'F♯' = 'F♯',
-  'G' = 'G',
-};
-
 function note_difficulty_weight(note: CanonicalNote): number {
   // FIXME this is not terribly sophisticated.
   let difficulty = undefined;
@@ -96,21 +66,6 @@ function note_difficulty_weight(note: CanonicalNote): number {
   }
   return difficulty;
 }
-
-const letter_name_weight: {[key in LetterName]: number} = {
-  'A♭': 0.6,
-  'A': 0.2,
-  'B♭': 0.5,
-  'B': 0.6,
-  'C': 0.2,
-  'D♭': 0.65,
-  'D': 0.3,
-  'E♭': 0.3,
-  'E': 0.4,
-  'F': 0.4,
-  'F♯': 0.65,
-  'G': 0.3,
-};
 
 type KeySig = { sharps: number, flats: number }
 
@@ -339,14 +294,15 @@ function letter_interval_up(interval: Interval): number {
   };
 }
 
-function next_letter_fn(letter: NewLetterName): NewLetterName {
-  const letter_name_array = Object.values(NewLetterName);
-  const idx: number = letter_name_array.indexOf(letter);
-  return letter_name_array[(idx+1) % 7];
-}
+function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
+  function next_letter_fn(letter: NewLetterName): NewLetterName {
+    const letter_name_array = Object.values(NewLetterName);
+    const idx: number = letter_name_array.indexOf(letter);
+    return letter_name_array[(idx+1) % 7];
+  }
 
-function interval_up_new(note: CanonicalNote, interval: Interval): CanonicalNote {
   const next_letter = next_letter_fn(note.letter);
+
   let new_sharps = undefined;
   switch (interval) {
     case Interval.PerfectUnison:
@@ -378,60 +334,48 @@ function interval_up_new(note: CanonicalNote, interval: Interval): CanonicalNote
         };
       }
     case Interval.MinorThird:
-      return interval_up_new(interval_up_new(note,
+      return interval_up(interval_up(note,
                              Interval.MajorSecond),
                              Interval.MinorSecond);
     case Interval.MajorThird:
-      return interval_up_new(interval_up_new(note,
+      return interval_up(interval_up(note,
                              Interval.MajorSecond),
                              Interval.MajorSecond);
 //       case Interval.DiminishedFourth:
     case Interval.PerfectFourth:
-      return interval_up_new(interval_up_new(note,
+      return interval_up(interval_up(note,
                              Interval.MajorThird),
                              Interval.MinorSecond);
 //       case Interval.AugmentedFourth:
 //       case Interval.DiminishedFifth:
     case Interval.PerfectFifth:
-      return interval_up_new(interval_up_new(note,
+      return interval_up(interval_up(note,
                              Interval.PerfectFourth),
                              Interval.MajorSecond);
 //       case Interval.AugmentedFifth:
     case Interval.MinorSixth:
-      return interval_up_new(interval_up_new(note,
+      return interval_up(interval_up(note,
                              Interval.PerfectFifth),
                              Interval.MinorSecond);
     case Interval.MajorSixth:
-      return interval_up_new(interval_up_new(note,
+      return interval_up(interval_up(note,
                              Interval.PerfectFifth),
                              Interval.MajorSecond);
     case Interval.MinorSeventh:
-      return interval_up_new(interval_up_new(note,
+      return interval_up(interval_up(note,
                              Interval.MajorSixth),
                              Interval.MinorSecond);
     case Interval.MajorSeventh:
-      return interval_up_new(interval_up_new(note,
+      return interval_up(interval_up(note,
                              Interval.MajorSixth),
                              Interval.MajorSecond);
   }
 
 }
 
-function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
-  const letter_name_array = Object.values(NewLetterName);
-  const simple_interval_up = letter_interval_up(interval);
-  const idx: number = letter_name_array.indexOf(note.letter);
-  const letter_name = letter_name_array[(idx+simple_interval_up) % 7];
-  const sharps = (((note.letter === 'B') || (note.letter === 'E'))
-    ? note.sharps
-    : note.sharps - 1);
-  return { letter: letter_name, sharps: sharps }
-}
-
 function determineKeySignature(scaleType: ScaleType, firstNote: CanonicalNote): KeySig {
 
   let key_sig = { sharps: 2, flats: 2 };
-  const interval_up = interval_up_new;
 
   switch (scaleType) {
     case "Ionian":
@@ -530,12 +474,12 @@ function clearStaff() {
   document.querySelectorAll('path.sharp').forEach(sharp => sharp.remove());
 }
 
-function drawKeySignature(staff, sig) {
+function drawKeySignature(staff, sig: KeySig) {
   how_to_draw_sharps(staff, sig.sharps);
   and_flats(staff, sig.flats);
 }
 
-function how_to_draw_sharps(staff, quantity) {
+function how_to_draw_sharps(staff, quantity: number) {
   sharp_sig_positions.slice(0, quantity).forEach((pos, idx) => {
 
     const sharp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -548,7 +492,7 @@ function how_to_draw_sharps(staff, quantity) {
   });
 }
 
-function and_flats(staff, quantity){
+function and_flats(staff, quantity: number) {
   flat_signature_positions.slice(0, quantity).forEach((pos, idx) => {
     const flat = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     flat.setAttribute('d', FLAT_SVG_PATH);
@@ -570,9 +514,7 @@ const FLAT_SVG_PATH = "M 10.6178 -15.1513 C 10.6178 -13.2883 9.9194 -11.504 8.00
 
 
 try {
-  if (window) {
-    window.addEventListener('load', main);
-  }
+  window.addEventListener('load', main);
 } catch (err) {
 //   console.log(err.name + ": " + err.message)
 //   console.log('not running in the browser? OK :^)')
