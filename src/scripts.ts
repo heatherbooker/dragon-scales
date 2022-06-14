@@ -56,11 +56,14 @@ function note_difficulty_weight(note: Note): number {
     case LetterName.D:
     case LetterName.G:
       difficulty = 0.2;
+      break;
     case LetterName.E:
     case LetterName.F:
       difficulty = 0.3;
+      break;
     case LetterName.B:
       difficulty = 0.4;
+      break;
   }
   if (note.sharps !== 0) {
     difficulty = 2*difficulty;
