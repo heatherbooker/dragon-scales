@@ -394,26 +394,26 @@ function key_signature_ionian(tonic: CanonicalNote, interval: Interval): KeySig 
   return key_signature("Ionian", interval_up(tonic, interval));
 }
 
-function key_signature(scaleType: ScaleType, firstNote: CanonicalNote): KeySig {
+function key_signature(scaleType: ScaleType, tonic: CanonicalNote): KeySig {
   let key_sig = { sharps: 2, flats: 2 };
 
   switch (scaleType) {
     case "Ionian":
-      key_sig = ionian_signatures(firstNote);
+      key_sig = ionian_signatures(tonic);
       break;
 
     case "Dorian":
-      return key_signature_ionian(firstNote, Interval.MinorSeventh);
+      return key_signature_ionian(tonic, Interval.MinorSeventh);
     case "Phrygian":
-      return key_signature_ionian(firstNote, Interval.MinorSixth);
+      return key_signature_ionian(tonic, Interval.MinorSixth);
     case "Lydian":
-      return key_signature_ionian(firstNote, Interval.PerfectFifth);
+      return key_signature_ionian(tonic, Interval.PerfectFifth);
     case "Mixolydian":
-      return key_signature_ionian(firstNote, Interval.PerfectFourth);
+      return key_signature_ionian(tonic, Interval.PerfectFourth);
     case "Aeolian":
-      return key_signature_ionian(firstNote, Interval.MinorThird);
+      return key_signature_ionian(tonic, Interval.MinorThird);
     case "Locrian":
-      return key_signature_ionian(firstNote, Interval.MinorSecond);
+      return key_signature_ionian(tonic, Interval.MinorSecond);
 
     case "melodic minor": break;
     case "harmonic minor": break;
@@ -435,10 +435,10 @@ function key_signature(scaleType: ScaleType, firstNote: CanonicalNote): KeySig {
   return key_sig;
 }
 
-function drawScale(staff, firstNote: CanonicalNote, scaleType) {
-  console.log("first note is : " + JSON.stringify(firstNote));
+function drawScale(staff, tonic: CanonicalNote, scaleType) {
+  console.log("first note is : " + JSON.stringify(tonic));
 
-  drawNotes(staff, firstNote.letter);
+  drawNotes(staff, tonic.letter);
 }
 
 function drawNotes(staff, first: LetterName): void {
