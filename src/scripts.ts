@@ -255,7 +255,7 @@ function get_enabled_scales(): Array<ScaleType> {
 
   const checkboxen: NodeListOf<HTMLInputElement> =
     document.querySelectorAll('input[type = "checkbox"]');
-  checkboxen.forEach((checkbox, idx, original) => {
+  checkboxen.forEach((checkbox) => {
     checkbox.checked && checked_boxen.add(checkbox.id as CheckBoxen);
   });
 
