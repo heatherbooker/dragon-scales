@@ -123,6 +123,13 @@ enum ScaleType {
   HalfDiminished,
   AlteredDominant,
 
+  HarmonicMinorMode2,
+  HarmonicMinorMode3,
+  HarmonicMinorMode4,
+  HarmonicMinorMode5,
+  HarmonicMinorMode6,
+  HarmonicMinorMode7,
+
     // others
   Pentatonic,
   WholeTone,
@@ -153,6 +160,14 @@ const scaleTypes: {[index in ScaleType]: number} = {
   [ScaleType.MelodicMinorMode5]: 0.7,
   [ScaleType.HalfDiminished]: 0.4,
   [ScaleType.AlteredDominant]: 0.4,
+
+  // modes of melodic minor
+  [ScaleType.HarmonicMinorMode2]: 0.9,
+  [ScaleType.HarmonicMinorMode3]: 0.9,
+  [ScaleType.HarmonicMinorMode4]: 0.9,
+  [ScaleType.HarmonicMinorMode5]: 0.9,
+  [ScaleType.HarmonicMinorMode6]: 0.9,
+  [ScaleType.HarmonicMinorMode7]: 0.9,
 
   // others
   [ScaleType.Pentatonic]: 0.4,
@@ -432,6 +447,13 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.MelodicMinorMode5: break;
     case ScaleType.HalfDiminished: break;
     case ScaleType.AlteredDominant: break;
+
+    case ScaleType.HarmonicMinorMode2: break;
+    case ScaleType.HarmonicMinorMode3: break;
+    case ScaleType.HarmonicMinorMode4: break;
+    case ScaleType.HarmonicMinorMode5: break;
+    case ScaleType.HarmonicMinorMode6: break;
+    case ScaleType.HarmonicMinorMode7: break;
 
     case ScaleType.Pentatonic: break;
     case ScaleType.WholeTone: break;
