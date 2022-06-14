@@ -24,12 +24,8 @@ enum Interval {
   MajorSecond,
   MinorThird,
   MajorThird,
-//     DiminishedFourth,
   PerfectFourth,
-//     AugmentedFourth,
-//     DiminishedFifth,
   PerfectFifth,
-//     AugmentedFifth,
   MinorSixth,
   MajorSixth,
   MinorSeventh,
@@ -277,13 +273,9 @@ function letter_interval_up(interval: Interval): number {
     case Interval.MinorThird:
     case Interval.MajorThird:
       return 2;
-//       case Interval.DiminishedFourth:
     case Interval.PerfectFourth:
-//       case Interval.AugmentedFourth:
       return 3;
-//       case Interval.DiminishedFifth:
     case Interval.PerfectFifth:
-//       case Interval.AugmentedFifth:
       return 4;
     case Interval.MinorSixth:
     case Interval.MajorSixth:
@@ -341,18 +333,14 @@ function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
       return interval_up(interval_up(note,
                              Interval.MajorSecond),
                              Interval.MajorSecond);
-//       case Interval.DiminishedFourth:
     case Interval.PerfectFourth:
       return interval_up(interval_up(note,
                              Interval.MajorThird),
                              Interval.MinorSecond);
-//       case Interval.AugmentedFourth:
-//       case Interval.DiminishedFifth:
     case Interval.PerfectFifth:
       return interval_up(interval_up(note,
                              Interval.PerfectFourth),
                              Interval.MajorSecond);
-//       case Interval.AugmentedFifth:
     case Interval.MinorSixth:
       return interval_up(interval_up(note,
                              Interval.PerfectFifth),
