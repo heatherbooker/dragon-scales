@@ -18,7 +18,7 @@ function render_sharps(sharps: number): string {
 }
 
 
-enum Interval {
+const enum Interval {
   PerfectUnison,
   MinorSecond,
   MajorSecond,
@@ -151,7 +151,7 @@ const scaleTypes: {[index in ScaleType]: number} = {
 
 };
 
-enum CheckBoxen {
+const enum CheckBoxen {
   "majors" = "majors",
   "melodic-minor" = "melodic-minor",
   "harmonic-minor" = "harmonic-minor",
