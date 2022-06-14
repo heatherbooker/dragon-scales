@@ -263,29 +263,6 @@ function main() {
   };
 }
 
-function letter_interval_up(interval: Interval): number {
-  switch (interval) {
-    case Interval.PerfectUnison:
-      return 0;
-    case Interval.MinorSecond:
-    case Interval.MajorSecond:
-      return 1;
-    case Interval.MinorThird:
-    case Interval.MajorThird:
-      return 2;
-    case Interval.PerfectFourth:
-      return 3;
-    case Interval.PerfectFifth:
-      return 4;
-    case Interval.MinorSixth:
-    case Interval.MajorSixth:
-      return 5;
-    case Interval.MinorSeventh:
-    case Interval.MajorSeventh:
-      return 6;
-  };
-}
-
 function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
   function next_letter_fn(letter: NewLetterName): NewLetterName {
     const letter_name_array = Object.values(NewLetterName);
