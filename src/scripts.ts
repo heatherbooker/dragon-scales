@@ -248,29 +248,37 @@ function selectSpeed(levelFactor, letterFactor, scaleFactor): number {
   return Math.floor(Math.min(metronome_max, Math.max(metronome_min, speed)));
 }
 
-function selectScaleType(): ScaleType | null {
-  const enabled_types = new Set<any>();
-  const checkboxen =
-    document.querySelectorAll<HTMLInputElement>('input[type = "checkbox"]')
+function get_enabled_scales(): Array<ScaleType> {
+  const checked_boxen = new Set<string>();
+
+  const checkboxen: NodeListOf<HTMLInputElement> =
+    document.querySelectorAll('input[type = "checkbox"]');
   checkboxen.forEach((checkbox, idx, original) => {
-    checkbox.checked && enabled_types.add(checkbox.id);
+    checkbox.checked && checked_boxen.add(checkbox.id);
   });
 
-  if (enabled_types.size === 0) { return null; }
-
   const options = new Set<ScaleType>();
-  enabled_types.forEach((scalestypes_subset) => {
+
+  checked_boxen.forEach((scalestypes_subset) => {
     scaletype_subsets[scalestypes_subset].forEach((scale_type) => {
       options.add(scale_type);
     });
   });
 
-  return getRandomArrayValue(Array.from(options));
+  return Array.from(options);
+}
+
+function selectScaleType(options): ScaleType | null {
+  if (options.length === 0) {
+    return null;
+  } else {
+    return getRandomArrayValue(options);
+  }
 };
 
-function choose_random_scale(): Scale | null {
+function choose_random_scale(enabled_scale_types): Scale | null {
     const first_note: Note = get_random_note();
-    const scale_type: ScaleType = selectScaleType();
+    const scale_type: ScaleType = selectScaleType(enabled_scale_types);
 
     if (scale_type === null) {
       return null;
@@ -281,9 +289,9 @@ function choose_random_scale(): Scale | null {
       mode: scale_type,
     }
 
-    const key_sig = key_signature_scale(scale);
+    const key_sig = key_signature(scale);
     if (key_sig.sharps > 7 || key_sig.flats > 7) {
-      return choose_random_scale(); // re-roll
+      return choose_random_scale(enabled_scale_types); // re-roll
     }
 
     return scale;
@@ -291,18 +299,21 @@ function choose_random_scale(): Scale | null {
 
 function main() {
   document.querySelector<HTMLElement>('#go-button').onclick = function () {
-    const scale = choose_random_scale();
-    let message = 'check a box';
     clearStaff();
+    let message: string
+    const enabled_scales = get_enabled_scales();
 
-    if (scale !== null) {
+    if (enabled_scales.length === 0) {
+      message = 'check a box';
+    } else {
+      const scale = choose_random_scale(enabled_scales);
       const difficulty =
         document.querySelector<HTMLInputElement>('#difficulty-input').value;
       const speed: number = selectSpeed(difficulty,
                                         note_difficulty_weight(scale.tonic),
                                         scaleTypes[scale.mode]);
       message = `${render_best_note(scale.tonic)} ${scale.mode}, metronome at: ${speed}`;
-      const keySignature: KeySig = key_signature_scale(scale);
+      const keySignature: KeySig = key_signature(scale);
       console.log("key sig is : " + JSON.stringify(keySignature));
 
       const staff = document.querySelector('.staff svg');
@@ -386,34 +397,32 @@ function interval_up(note: Note, interval: Interval): Note {
   }
 }
 
-function key_signature_scale(scale: Scale): KeySig {
-  return key_signature(scale.mode, scale.tonic);
-}
 
-function key_signature_ionian(tonic: Note, interval: Interval): KeySig {
-  return key_signature("Ionian", interval_up(tonic, interval));
-}
+function key_signature(scale: Scale): KeySig {
+  function key_signature_ionian(tonic: Note, interval: Interval): KeySig {
+    return key_signature({ mode: "Ionian",
+                           tonic: interval_up(tonic, interval)});
+  }
 
-function key_signature(scaleType: ScaleType, tonic: Note): KeySig {
   let key_sig = { sharps: 2, flats: 2 };
 
-  switch (scaleType) {
+  switch (scale.mode) {
     case "Ionian":
-      key_sig = ionian_signatures(tonic);
+      key_sig = ionian_signatures(scale.tonic);
       break;
 
     case "Dorian":
-      return key_signature_ionian(tonic, Interval.MinorSeventh);
+      return key_signature_ionian(scale.tonic, Interval.MinorSeventh);
     case "Phrygian":
-      return key_signature_ionian(tonic, Interval.MinorSixth);
+      return key_signature_ionian(scale.tonic, Interval.MinorSixth);
     case "Lydian":
-      return key_signature_ionian(tonic, Interval.PerfectFifth);
+      return key_signature_ionian(scale.tonic, Interval.PerfectFifth);
     case "Mixolydian":
-      return key_signature_ionian(tonic, Interval.PerfectFourth);
+      return key_signature_ionian(scale.tonic, Interval.PerfectFourth);
     case "Aeolian":
-      return key_signature_ionian(tonic, Interval.MinorThird);
+      return key_signature_ionian(scale.tonic, Interval.MinorThird);
     case "Locrian":
-      return key_signature_ionian(tonic, Interval.MinorSecond);
+      return key_signature_ionian(scale.tonic, Interval.MinorSecond);
 
     case "melodic minor": break;
     case "harmonic minor": break;
