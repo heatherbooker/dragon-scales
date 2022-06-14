@@ -3,6 +3,11 @@ type CanonicalNote = {
   sharps: number, // sharps positive, natural zero, flats negative
 }
 
+type CanonicalScale = {
+  tonic: CanonicalNote,
+  mode: ScaleType,
+}
+
 function render_best_note(note: CanonicalNote): string {
   return note.letter + render_sharps(note.sharps);
 }
@@ -263,21 +268,46 @@ function selectScaleType(): ScaleType | null {
   return getRandomArrayValue(Array.from(options));
 };
 
+function choose_random_scale(): CanonicalScale | null {
+    const first_note: CanonicalNote = get_random_note();
+    const scale_type: ScaleType = selectScaleType();
+
+    if (scale_type === null) {
+      return null;
+    }
+
+    let scale = {
+      tonic: first_note,
+      mode: scale_type,
+    }
+
+    const key_sig = key_signature_scale(scale);
+    if (key_sig.sharps > 7 || key_sig.flats > 7) {
+      return choose_random_scale(); // re-roll
+    }
+
+    return scale;
+}
+
 function main() {
   document.querySelector<HTMLElement>('#go-button').onclick = function () {
-    const scaletype = selectScaleType();
+    const scale = choose_random_scale();
     let message = 'check a box';
     clearStaff();
 
-    if (scaletype !== null) {
+    if (scale !== null) {
       const difficulty =
         document.querySelector<HTMLInputElement>('#difficulty-input').value;
-      const firstNote: CanonicalNote = get_random_note();
       const speed: number = selectSpeed(difficulty,
-                                        note_difficulty_weight(firstNote),
-                                        scaleTypes[scaletype]);
-      message = `${render_best_note(firstNote)} ${scaletype}, metronome at: ${speed}`;
-      drawScale(firstNote, scaletype);
+                                        note_difficulty_weight(scale.tonic),
+                                        scaleTypes[scale.mode]);
+      message = `${render_best_note(scale.tonic)} ${scale.mode}, metronome at: ${speed}`;
+      const keySignature: KeySig = key_signature_scale(scale);
+      console.log("key sig is : " + JSON.stringify(keySignature));
+
+      const staff = document.querySelector('.staff svg');
+      drawKeySignature(staff, keySignature);
+      drawScale(staff, scale.tonic, scale.mode);
     }
     document.querySelector('#scale-flavour').textContent = message;
   };
@@ -354,11 +384,17 @@ function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
                Interval.MajorSixth),
                Interval.MajorSecond);
   }
+}
 
+function key_signature_scale(scale: CanonicalScale): KeySig {
+  return key_signature(scale.mode, scale.tonic);
+}
+
+function key_signature_ionian(tonic: CanonicalNote, interval: Interval): KeySig {
+  return key_signature("Ionian", interval_up(tonic, interval));
 }
 
 function key_signature(scaleType: ScaleType, firstNote: CanonicalNote): KeySig {
-
   let key_sig = { sharps: 2, flats: 2 };
 
   switch (scaleType) {
@@ -367,23 +403,17 @@ function key_signature(scaleType: ScaleType, firstNote: CanonicalNote): KeySig {
       break;
 
     case "Dorian":
-      return key_signature("Ionian", interval_up(firstNote,
-        Interval.MinorSeventh));
+      return key_signature_ionian(firstNote, Interval.MinorSeventh);
     case "Phrygian":
-      return key_signature("Ionian", interval_up(firstNote,
-        Interval.MinorSixth));
+      return key_signature_ionian(firstNote, Interval.MinorSixth);
     case "Lydian":
-      return key_signature("Ionian", interval_up(firstNote,
-        Interval.PerfectFifth));
+      return key_signature_ionian(firstNote, Interval.PerfectFifth);
     case "Mixolydian":
-      return key_signature("Ionian", interval_up(firstNote,
-        Interval.PerfectFourth));
+      return key_signature_ionian(firstNote, Interval.PerfectFourth);
     case "Aeolian":
-      return key_signature("Ionian", interval_up(firstNote,
-        Interval.MinorThird));
+      return key_signature_ionian(firstNote, Interval.MinorThird);
     case "Locrian":
-      return key_signature("Ionian", interval_up(firstNote,
-        Interval.MinorSecond));
+      return key_signature_ionian(firstNote, Interval.MinorSecond);
 
     case "melodic minor": break;
     case "harmonic minor": break;
@@ -405,13 +435,8 @@ function key_signature(scaleType: ScaleType, firstNote: CanonicalNote): KeySig {
   return key_sig;
 }
 
-function drawScale(firstNote: CanonicalNote, scaleType) {
+function drawScale(staff, firstNote: CanonicalNote, scaleType) {
   console.log("first note is : " + JSON.stringify(firstNote));
-  const staff = document.querySelector('.staff svg');
-
-  const keySignature: KeySig = key_signature(scaleType, firstNote);
-  console.log("key sig is : " + JSON.stringify(keySignature));
-  drawKeySignature(staff, keySignature);
 
   drawNotes(staff, firstNote.letter);
 }
