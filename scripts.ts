@@ -1,5 +1,5 @@
 type CanonicalNote = {
-  letter: NewLetterName,
+  letter: LetterName,
   sharps: number, // sharps positive, natural zero, flats negative
 }
 
@@ -32,7 +32,7 @@ enum Interval {
   MajorSeventh,
 };
 
-enum NewLetterName {
+enum LetterName {
   'A' = 'A',
   'B' = 'B',
   'C' = 'C',
@@ -46,15 +46,15 @@ function note_difficulty_weight(note: CanonicalNote): number {
   // FIXME this is not terribly sophisticated.
   let difficulty = undefined;
   switch (note.letter) {
-    case NewLetterName.A:
-    case NewLetterName.C:
-    case NewLetterName.D:
-    case NewLetterName.G:
+    case LetterName.A:
+    case LetterName.C:
+    case LetterName.D:
+    case LetterName.G:
       difficulty = 0.2;
-    case NewLetterName.E:
-    case NewLetterName.F:
+    case LetterName.E:
+    case LetterName.F:
       difficulty = 0.3;
-    case NewLetterName.B:
+    case LetterName.B:
       difficulty = 0.4;
   }
   if (note.sharps !== 0) {
@@ -65,15 +65,15 @@ function note_difficulty_weight(note: CanonicalNote): number {
 
 type KeySig = { sharps: number, flats: number }
 
-function ionian_signatures_for_letter(letter: NewLetterName): number {
+function ionian_signatures_for_letter(letter: LetterName): number {
   switch (letter) {
-    case NewLetterName.A: return 3;
-    case NewLetterName.B: return 5;
-    case NewLetterName.C: return 0;
-    case NewLetterName.D: return 2;
-    case NewLetterName.E: return 4;
-    case NewLetterName.F: return -1;
-    case NewLetterName.G: return 1;
+    case LetterName.A: return 3;
+    case LetterName.B: return 5;
+    case LetterName.C: return 0;
+    case LetterName.D: return 2;
+    case LetterName.E: return 4;
+    case LetterName.F: return -1;
+    case LetterName.G: return 1;
   }
 }
 
@@ -207,7 +207,7 @@ function getRandomArrayValue(array: Array<any>) {
 };
 
 function get_random_note(): CanonicalNote {
-  const note_letter = getRandomArrayValue(Object.keys(NewLetterName));
+  const note_letter = getRandomArrayValue(Object.keys(LetterName));
   const note_accidental = Math.floor(3*Math.random()) - 1
                           // integer in [-1, 0, 1]
   return {
@@ -284,8 +284,8 @@ function main() {
 }
 
 function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
-  function next_letter_fn(letter: NewLetterName): NewLetterName {
-    const letter_name_array = Object.values(NewLetterName);
+  function next_letter_fn(letter: LetterName): LetterName {
+    const letter_name_array = Object.values(LetterName);
     const idx: number = letter_name_array.indexOf(letter);
     return letter_name_array[(idx+1) % 7];
   }
@@ -296,8 +296,8 @@ function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
     case Interval.PerfectUnison:
       return note;
     case Interval.MinorSecond:
-      if (note.letter === NewLetterName.E
-         || note.letter === NewLetterName.B) {
+      if (note.letter === LetterName.E
+         || note.letter === LetterName.B) {
         return {
           letter: next_letter,
           sharps: note.sharps
@@ -309,8 +309,8 @@ function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
         };
       }
     case Interval.MajorSecond:
-      if (note.letter === NewLetterName.E
-         || note.letter === NewLetterName.B) {
+      if (note.letter === LetterName.E
+         || note.letter === LetterName.B) {
         return {
           letter: next_letter,
           sharps: note.sharps + 1,
@@ -416,7 +416,7 @@ function drawScale(firstNote: CanonicalNote, scaleType) {
   drawNotes(staff, firstNote.letter);
 }
 
-function drawNotes(staff, first: NewLetterName): void {
+function drawNotes(staff, first: LetterName): void {
   let staffNoteheadsCounter = 0;
   const notes =
     ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'A', 'B'];
