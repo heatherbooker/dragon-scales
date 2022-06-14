@@ -8,7 +8,7 @@ type Scale = {
   mode: ScaleType,
 }
 
-function render_best_note(note: Note): string {
+function render_note(note: Note): string {
   return note.letter + render_sharps(note.sharps);
 }
 
@@ -309,7 +309,7 @@ function main() {
       const speed: number = selectSpeed(difficulty,
                                         note_difficulty_weight(scale.tonic),
                                         scaleTypes[scale.mode]);
-      message = `${render_best_note(scale.tonic)} ${scale.mode}, metronome at: ${speed}`;
+      message = `${render_note(scale.tonic)} ${scale.mode}, metronome at: ${speed}`;
       const keySignature: KeySig = key_signature(scale);
       console.log("key sig is : " + JSON.stringify(keySignature));
 
