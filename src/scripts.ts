@@ -101,63 +101,65 @@ function ionian_signatures(note: Note): KeySig {
   }
 }
 
-type ScaleType = "Ionian"
-              | "melodic minor"
-              | "harmonic minor"
-              | "double harmonic minor" // flat 2 and flat 6
+enum ScaleType {
+  Ionian,
+  MelodicMinor,
+  HarmonicMinor,
+  DoubleHarmonicMinor, // flat 2 and flat 6
 
-                // modes of ionian
-              | "Aeolian"
-              | "Dorian"
-              | "Phrygian"
-              | "Lydian"
-              | "Mixolydian"
-              | "Locrian"
+    // modes of ionian
+  Aeolian,
+  Dorian,
+  Phrygian,
+  Lydian,
+  Mixolydian,
+  Locrian,
 
-                // modes of melodic minor
-              | "melodic minor mode 2"
-              | "melodic minor mode 3"
-              | "Homeric"
-              | "melodic minor mode 5"
-              | "half diminished"
-              | "altered dominant"
+    // modes of melodic minor
+  MelodicMinorMode2,
+  MelodicMinorMode3,
+  Homeric,
+  MelodicMinorMode5,
+  HalfDiminished,
+  AlteredDominant,
 
-                // others
-              | "pentatonic"
-              | "whole tone"
-              | "chromatic"
-              | "octatonic dominant"
-              | "octatonic diminished"
+    // others
+  Pentatonic,
+  WholeTone,
+  Chromatic,
+  OctatonicDominant,
+  OctatonicDiminished,
+}
 
 
 const scaleTypes: {[index in ScaleType]: number} = {
-  "Ionian": 0.1,
-  "melodic minor": 0.3,
-  "harmonic minor": 0.4,
-  "double harmonic minor": 0.6,
+  [ScaleType.Ionian]: 0.1,
+  [ScaleType.MelodicMinor]: 0.3,
+  [ScaleType.HarmonicMinor]: 0.4,
+  [ScaleType.DoubleHarmonicMinor]: 0.6,
 
   // modes of ionian
-  "Aeolian": 0.15,
-  "Dorian": 0.18,
-  "Phrygian": 0.4,
-  "Lydian": 0.25,
-  "Mixolydian": 0.2,
-  "Locrian": 0.5,
+  [ScaleType.Aeolian]: 0.15,
+  [ScaleType.Dorian]: 0.18,
+  [ScaleType.Phrygian]: 0.4,
+  [ScaleType.Lydian]: 0.25,
+  [ScaleType.Mixolydian]: 0.2,
+  [ScaleType.Locrian]: 0.5,
 
   // modes of melodic minor
-  "melodic minor mode 2": 0.7,
-  "melodic minor mode 3": 0.7,
-  "Homeric": 0.5,
-  "melodic minor mode 5": 0.7,
-  "half diminished": 0.4,
-  "altered dominant": 0.4,
+  [ScaleType.MelodicMinorMode2]: 0.7,
+  [ScaleType.MelodicMinorMode3]: 0.7,
+  [ScaleType.Homeric]: 0.5,
+  [ScaleType.MelodicMinorMode5]: 0.7,
+  [ScaleType.HalfDiminished]: 0.4,
+  [ScaleType.AlteredDominant]: 0.4,
 
   // others
-  "pentatonic": 0.4,
-  "whole tone": 0.4,
-  "chromatic": 0.3,
-  "octatonic dominant": 0.5,
-  "octatonic diminished": 0.6,
+  [ScaleType.Pentatonic]: 0.4,
+  [ScaleType.WholeTone]: 0.4,
+  [ScaleType.Chromatic]: 0.3,
+  [ScaleType.OctatonicDominant]: 0.5,
+  [ScaleType.OctatonicDiminished]: 0.6,
 
 };
 
@@ -174,37 +176,37 @@ const enum CheckBoxen {
 };
 
 const scaletype_subsets: {[index in CheckBoxen]: Array<ScaleType>} = {
-  "majors": ["Ionian"],
-  "melodic-minor": ["melodic minor"],
-  "harmonic-minor": ["harmonic minor"],
+  "majors": [ScaleType.Ionian],
+  "melodic-minor": [ScaleType.MelodicMinor],
+  "harmonic-minor": [ScaleType.HarmonicMinor],
 
   // modes of ionian
   "ionian-modes": [
-    "Ionian",
-    "Aeolian",
-    "Dorian",
-    "Phrygian",
-    "Lydian",
-    "Mixolydian",
-    "Locrian"
+    ScaleType.Ionian,
+    ScaleType.Aeolian,
+    ScaleType.Dorian,
+    ScaleType.Phrygian,
+    ScaleType.Lydian,
+    ScaleType.Mixolydian,
+    ScaleType.Locrian
   ],
 
   // modes of melodic minor
   "memimos": [
-    "melodic minor",
-    "melodic minor mode 2",
-    "melodic minor mode 3",
-    "Homeric",
-    "melodic minor mode 5",
-    "half diminished",
-    "altered dominant",
+    ScaleType.MelodicMinor,
+    ScaleType.MelodicMinorMode2,
+    ScaleType.MelodicMinorMode3,
+    ScaleType.Homeric,
+    ScaleType.MelodicMinorMode5,
+    ScaleType.HalfDiminished,
+    ScaleType.AlteredDominant,
   ],
 
   // others
-  "pentatonic": ["pentatonic"],
-  "whole-tone": ["whole tone"],
-  "chromatic": ["chromatic"],
-  "octatonic": ["octatonic dominant", "octatonic diminished"],
+  "pentatonic": [ScaleType.Pentatonic],
+  "whole-tone": [ScaleType.WholeTone],
+  "chromatic": [ScaleType.Chromatic],
+  "octatonic": [ScaleType.OctatonicDominant, ScaleType.OctatonicDiminished],
 }
 
 function getRandomArrayValue(array: Array<any>) {
@@ -305,7 +307,7 @@ function main() {
       const speed: number = selectSpeed(difficulty,
                                         note_difficulty_weight(scale.tonic),
                                         scaleTypes[scale.mode]);
-      message = `${render_note(scale.tonic)} ${scale.mode}, metronome at: ${speed}`;
+      message = `${render_note(scale.tonic)} ${ScaleType[scale.mode]}, metronome at: ${speed}`;
       const keySignature: KeySig = key_signature(scale);
       console.log("key sig is : " + JSON.stringify(keySignature));
 
@@ -396,46 +398,46 @@ function interval_up(note: Note, interval: Interval): Note {
 
 function key_signature(scale: Scale): KeySig {
   function key_signature_ionian(tonic: Note, interval: Interval): KeySig {
-    return key_signature({ mode: "Ionian",
+    return key_signature({ mode: ScaleType.Ionian,
                            tonic: interval_up(tonic, interval)});
   }
 
   let key_sig = { sharps: 2, flats: 2 };
 
   switch (scale.mode) {
-    case "Ionian":
+    case ScaleType.Ionian:
       key_sig = ionian_signatures(scale.tonic);
       break;
 
-    case "Dorian":
+    case ScaleType.Dorian:
       return key_signature_ionian(scale.tonic, Interval.MinorSeventh);
-    case "Phrygian":
+    case ScaleType.Phrygian:
       return key_signature_ionian(scale.tonic, Interval.MinorSixth);
-    case "Lydian":
+    case ScaleType.Lydian:
       return key_signature_ionian(scale.tonic, Interval.PerfectFifth);
-    case "Mixolydian":
+    case ScaleType.Mixolydian:
       return key_signature_ionian(scale.tonic, Interval.PerfectFourth);
-    case "Aeolian":
+    case ScaleType.Aeolian:
       return key_signature_ionian(scale.tonic, Interval.MinorThird);
-    case "Locrian":
+    case ScaleType.Locrian:
       return key_signature_ionian(scale.tonic, Interval.MinorSecond);
 
-    case "melodic minor": break;
-    case "harmonic minor": break;
-    case "double harmonic minor": break;
+    case ScaleType.MelodicMinor: break;
+    case ScaleType.HarmonicMinor: break;
+    case ScaleType.DoubleHarmonicMinor: break;
 
-    case "melodic minor mode 2": break;
-    case "melodic minor mode 3": break;
-    case "Homeric": break;
-    case "melodic minor mode 5": break;
-    case "half diminished": break;
-    case "altered dominant": break;
+    case ScaleType.MelodicMinorMode2: break;
+    case ScaleType.MelodicMinorMode3: break;
+    case ScaleType.Homeric: break;
+    case ScaleType.MelodicMinorMode5: break;
+    case ScaleType.HalfDiminished: break;
+    case ScaleType.AlteredDominant: break;
 
-    case "pentatonic": break;
-    case "whole tone": break;
-    case "chromatic": break;
-    case "octatonic dominant": break;
-    case "octatonic diminished": break;
+    case ScaleType.Pentatonic: break;
+    case ScaleType.WholeTone: break;
+    case ScaleType.Chromatic: break;
+    case ScaleType.OctatonicDominant: break;
+    case ScaleType.OctatonicDiminished: break;
     default:
       // to prevent forgetting any cases
       const exhaustiveCheck: never = scale.mode;
