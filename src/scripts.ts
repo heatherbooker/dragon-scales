@@ -431,13 +431,11 @@ function key_signature(scale: Scale): KeySig {
                            tonic: interval_up(tonic, interval)});
   }
 
-  let key_sig = { sharps: 2, flats: 2 };
+  let not_yet_implemented_key_sig = { sharps: 2, flats: 2 };
 
   switch (scale.mode) {
     case ScaleType.Ionian:
-      key_sig = ionian_signatures(scale.tonic);
-      break;
-
+      return ionian_signatures(scale.tonic);
     case ScaleType.Dorian:
       return key_signature_ionian(scale.tonic, Interval.MinorSeventh);
     case ScaleType.Phrygian:
@@ -451,43 +449,42 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.Locrian:
       return key_signature_ionian(scale.tonic, Interval.MinorSecond);
 
-    case ScaleType.MelodicMinor: break;
-    case ScaleType.HarmonicMinor: break;
-    case ScaleType.DoubleHarmonicMinor: break;
+    case ScaleType.MelodicMinor:
+    case ScaleType.HarmonicMinor:
+    case ScaleType.DoubleHarmonic:
+      return not_yet_implemented_key_sig;
 
-    case ScaleType.MelodicMinorMode2: break;
-    case ScaleType.MelodicMinorMode3: break;
-    case ScaleType.Homeric: break;
-    case ScaleType.MelodicMinorMode5: break;
-    case ScaleType.HalfDiminished: break;
-    case ScaleType.AlteredDominant: break;
+    case ScaleType.MelodicMinorMode2:
+    case ScaleType.MelodicMinorMode3:
+    case ScaleType.Homeric:
+    case ScaleType.MelodicMinorMode5:
+    case ScaleType.HalfDiminished:
+    case ScaleType.AlteredDominant:
+      return not_yet_implemented_key_sig;
 
-    case ScaleType.HarmonicMinorMode2: break;
-    case ScaleType.HarmonicMinorMode3: break;
-    case ScaleType.HarmonicMinorMode4: break;
-    case ScaleType.HarmonicMinorMode5: break;
-    case ScaleType.HarmonicMinorMode6: break;
-    case ScaleType.HarmonicMinorMode7: break;
+    case ScaleType.HarmonicMinorMode2:
+    case ScaleType.HarmonicMinorMode3:
+    case ScaleType.HarmonicMinorMode4:
+    case ScaleType.HarmonicMinorMode5:
+    case ScaleType.HarmonicMinorMode6:
+    case ScaleType.HarmonicMinorMode7:
+      return not_yet_implemented_key_sig;
 
-    case ScaleType.DoubleHarmonicMinorMode2: break;
-    case ScaleType.DoubleHarmonicMinorMode3: break;
-    case ScaleType.DoubleHarmonicMinorMode4: break;
-    case ScaleType.DoubleHarmonicMinorMode5: break;
-    case ScaleType.DoubleHarmonicMinorMode6: break;
-    case ScaleType.DoubleHarmonicMinorMode7: break;
+    case ScaleType.DoubleHarmonicMode2:
+    case ScaleType.DoubleHarmonicMode3:
+    case ScaleType.DoubleHarmonicMode4:
+    case ScaleType.DoubleHarmonicMode5:
+    case ScaleType.DoubleHarmonicMode6:
+    case ScaleType.DoubleHarmonicMode7:
+      return not_yet_implemented_key_sig;
 
-    case ScaleType.Pentatonic: break;
-    case ScaleType.WholeTone: break;
-    case ScaleType.Chromatic: break;
-    case ScaleType.OctatonicDominant: break;
-    case ScaleType.OctatonicDiminished: break;
-    default:
-      // to prevent forgetting any cases
-      const exhaustiveCheck: never = scale.mode;
-      throw new Error(`Unhandled case: ${exhaustiveCheck}`);
-
+    case ScaleType.Pentatonic:
+    case ScaleType.WholeTone:
+    case ScaleType.Chromatic:
+    case ScaleType.OctatonicDominant:
+    case ScaleType.OctatonicDiminished:
+      return not_yet_implemented_key_sig;
   }
-  return key_sig;
 }
 
 function drawNotes(staff: HTMLElement, first: LetterName): void {
