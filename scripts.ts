@@ -295,7 +295,6 @@ function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
 
   const next_letter = next_letter_fn(note.letter);
 
-  let new_sharps = undefined;
   switch (interval) {
     case Interval.PerfectUnison:
       return note;
