@@ -204,10 +204,6 @@ const scaletype_subsets: {[index in CheckBoxen]: Array<ScaleType>} = {
   "octatonic": ["octatonic dominant", "octatonic diminished"],
 }
 
-function getRandomProperty(dict) {
-  var keys = Object.keys(dict);
-  return keys[Math.floor(keys.length * Math.random())];
-};
 
 function getRandomArrayValue(array: Array<any>) {
   return array[Math.floor(Math.random() * array.length)];
