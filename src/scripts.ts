@@ -312,7 +312,7 @@ function main() {
       const staff: HTMLElement =
         document.querySelector('.staff svg') as HTMLElement;
       drawKeySignature(staff, keySignature);
-      drawScale(staff, scale.tonic, scale.mode);
+      drawNotes(staff, scale.tonic.letter);
     }
     const scale_flavour: HTMLElement =
       document.querySelector('#scale-flavour') as HTMLElement;
@@ -443,13 +443,6 @@ function key_signature(scale: Scale): KeySig {
 
   }
   return key_sig;
-}
-
-// FIXME type
-function drawScale(staff: HTMLElement, tonic: Note, scaleType: ScaleType): void {
-  console.log("first note is : " + JSON.stringify(tonic));
-
-  drawNotes(staff, tonic.letter);
 }
 
 function drawNotes(staff: HTMLElement, first: LetterName): void {
