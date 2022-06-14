@@ -1,5 +1,68 @@
 window.addEventListener('load', function() {
 
+  type CanonicalNote = {
+    letter: NewLetterName,
+    sharps: number, // sharps positive, natural zero, flats negative
+  }
+
+  function render_best_note(note: CanonicalNote): string {
+    return note.letter + render_sharps(note.sharps);
+  }
+
+  function render_sharps(sharps: number): string {
+    if (sharps === 0) {
+      return '';
+    } else if (sharps > 0) {
+      return '♯'.repeat(sharps);
+    } else {
+      return '♭'.repeat(- sharps);
+    }
+  }
+
+  // FIXME delete this?
+  enum BadCanonicalNote {
+    Canonical_A,
+    Canonical_B_flat,
+    Canonical_B,
+    Canonical_C,
+    Canonical_C_sharp,
+    Canonical_D,
+    Canonical_E_flat,
+    Canonical_E,
+    Canonical_F,
+    Canonical_F_sharp,
+    Canonical_G,
+    Canonical_G_sharp,
+  };
+
+  enum Interval {
+    PerfectUnison,
+    MinorSecond,
+    MajorSecond,
+    MinorThird,
+    MajorThird,
+//     DiminishedFourth,
+    PerfectFourth,
+//     AugmentedFourth,
+//     DiminishedFifth,
+    PerfectFifth,
+//     AugmentedFifth,
+    MinorSixth,
+    MajorSixth,
+    MinorSeventh,
+    MajorSeventh,
+  };
+
+  enum NewLetterName {
+    'A' = 'A',
+    'B' = 'B',
+    'C' = 'C',
+    'D' = 'D',
+    'E' = 'E',
+    'F' = 'F',
+    'G' = 'G',
+  };
+
   enum LetterName {
     'A♭' = 'A♭',
     'A' = 'A',
@@ -14,6 +77,27 @@ window.addEventListener('load', function() {
     'F♯' = 'F♯',
     'G' = 'G',
   };
+
+  function note_difficulty_weight(note: CanonicalNote): number {
+    // FIXME this is not terribly sophisticated.
+    let difficulty = undefined;
+    switch (note.letter) {
+      case NewLetterName.A:
+      case NewLetterName.C:
+      case NewLetterName.D:
+      case NewLetterName.G:
+        difficulty = 0.2;
+      case NewLetterName.E:
+      case NewLetterName.F:
+        difficulty = 0.3;
+      case NewLetterName.B:
+        difficulty = 0.4;
+    }
+    if (note.sharps !== 0) {
+      difficulty = 2*difficulty;
+    }
+    return difficulty;
+  }
 
   const letter_name_weight: {[key in LetterName]: number} = {
     'A♭': 0.6,
@@ -32,21 +116,33 @@ window.addEventListener('load', function() {
 
   type KeySig = { sharps: number, flats: number }
 
-  const ionian_signatures: {[key in LetterName]: KeySig} = {
-    'A♭': { sharps: 0, flats: 4 },
-    'A':  { sharps: 3, flats: 0 },
-    'B♭': { sharps: 0, flats: 2 },
-    'B':  { sharps: 5, flats: 0 },
-    'C':  { sharps: 0, flats: 0 },
-    'D♭': { sharps: 0, flats: 5 },
-    'D':  { sharps: 2, flats: 0 },
-    'E♭': { sharps: 0, flats: 3 },
-    'E':  { sharps: 4, flats: 0 },
-    'F':  { sharps: 0, flats: 1 },
-    'F♯': { sharps: 6, flats: 0 },
-    'G':  { sharps: 1, flats: 0 },
-  };
+  function ionian_signatures_for_letter(letter: NewLetterName): number {
+    switch (letter) {
+      case NewLetterName.A: return 3;
+      case NewLetterName.B: return 5;
+      case NewLetterName.C: return 0;
+      case NewLetterName.D: return 2;
+      case NewLetterName.E: return 4;
+      case NewLetterName.F: return -1;
+      case NewLetterName.G: return 1;
+    }
+  }
 
+  function ionian_signatures(note: CanonicalNote): KeySig {
+    const extra_sharps = 7 * note.sharps;
+    const sharps = ionian_signatures_for_letter(note.letter) + extra_sharps;
+    if (sharps < 0) {
+      return {
+        sharps: 0,
+        flats: (-sharps),
+      }
+    } else {
+      return {
+        sharps: sharps,
+        flats: 0,
+      }
+    }
+  }
 
   type ScaleType = "Ionian"
                 | "melodic minor"
@@ -144,6 +240,16 @@ window.addEventListener('load', function() {
     return array[Math.floor(Math.random() * array.length)];
   };
 
+  function get_random_note(): CanonicalNote {
+    const note_letter = getRandomArrayValue(Object.keys(NewLetterName));
+    const note_accidental = Math.floor(3*Math.random()) - 1
+                            // integer in [-1, 0, 1]
+    return {
+      letter: note_letter,
+      sharps: note_accidental,
+    }
+  };
+
   function getScaleTypeAccordingToCheckboxes(scalies: Set<string>) {
     if (scalies.size === 0) { return null; }
 
@@ -171,7 +277,7 @@ window.addEventListener('load', function() {
     return num;
   }
 
-  function selectSpeed(levelFactor, letterFactor, scaleFactor) {
+  function selectSpeed(levelFactor, letterFactor, scaleFactor): number {
     const metronome_min = 44;
     const metronome_max = 250;
     const inflation_factor = 480; // to make it BIG
@@ -199,9 +305,9 @@ window.addEventListener('load', function() {
 
       if (scaletype !== null) {
         const difficulty = document.querySelector<HTMLInputElement>('#difficulty-input').value;
-        const firstNote = getRandomArrayValue(Object.keys(LetterName));
-        const speed = selectSpeed(difficulty, letter_name_weight[firstNote], scaleTypes[scaletype]);
-        message = `${firstNote} ${scaletype}, metronome at: ${speed}`;
+        const firstNote: CanonicalNote = get_random_note();
+        const speed: number = selectSpeed(difficulty, note_difficulty_weight(firstNote), scaleTypes[scaletype]);
+        message = `${render_best_note(firstNote)} ${scaletype}, metronome at: ${speed}`;
         drawScale(firstNote, scaletype);
       }
       document.querySelector('#scale-flavour').textContent = message;
@@ -210,29 +316,144 @@ window.addEventListener('load', function() {
 
   main();
 
-  function up_perfect_fifth(note: LetterName): LetterName {
-    // this function is unused,
-    // but likely useful later.
-    const letter_name_array: Array<LetterName> = Object.values(LetterName);
-    let i = letter_name_array.indexOf(note);
-    return letter_name_array[(i+7) % 12]; // 7 semitones
+  function letter_interval_up(interval: Interval): number {
+    switch (interval) {
+      case Interval.PerfectUnison:
+        return 0;
+      case Interval.MinorSecond:
+      case Interval.MajorSecond:
+        return 1;
+      case Interval.MinorThird:
+      case Interval.MajorThird:
+        return 2;
+//       case Interval.DiminishedFourth:
+      case Interval.PerfectFourth:
+//       case Interval.AugmentedFourth:
+        return 3;
+//       case Interval.DiminishedFifth:
+      case Interval.PerfectFifth:
+//       case Interval.AugmentedFifth:
+        return 4;
+      case Interval.MinorSixth:
+      case Interval.MajorSixth:
+        return 5;
+      case Interval.MinorSeventh:
+      case Interval.MajorSeventh:
+        return 6;
+    };
   }
 
-  function determineKeySignature(scaleType: ScaleType, firstNote): KeySig {
+  function next_letter_fn(letter: NewLetterName): NewLetterName {
+    const letter_name_array = Object.values(NewLetterName);
+    const idx: number = letter_name_array.indexOf(letter);
+    return letter_name_array[(idx+1) % 7];
+  }
 
-    let key_sig = { sharps: 2, flats: 0 };
+  function interval_up_new(note: CanonicalNote, interval: Interval): CanonicalNote {
+    const next_letter = next_letter_fn(note.letter);
+    let new_sharps = undefined;
+    switch (interval) {
+      case Interval.PerfectUnison:
+        return note;
+      case Interval.MinorSecond:
+        if (note.letter === NewLetterName.E
+           || note.letter === NewLetterName.B) {
+          return {
+            letter: next_letter,
+            sharps: note.sharps
+          };
+        } else {
+          return {
+            letter: next_letter,
+            sharps: note.sharps - 1,
+          };
+        }
+      case Interval.MajorSecond:
+        if (note.letter === NewLetterName.E
+           || note.letter === NewLetterName.B) {
+          return {
+            letter: next_letter,
+            sharps: note.sharps + 1,
+          };
+        } else {
+          return {
+            letter: next_letter,
+            sharps: note.sharps,
+          };
+        }
+      case Interval.MinorThird:
+        return interval_up_new(interval_up_new(note,
+                               Interval.MajorSecond),
+                               Interval.MinorSecond);
+      case Interval.MajorThird:
+        return interval_up_new(interval_up_new(note,
+                               Interval.MajorSecond),
+                               Interval.MajorSecond);
+//       case Interval.DiminishedFourth:
+      case Interval.PerfectFourth:
+        return interval_up_new(interval_up_new(note,
+                               Interval.MajorThird),
+                               Interval.MinorSecond);
+//       case Interval.AugmentedFourth:
+//       case Interval.DiminishedFifth:
+      case Interval.PerfectFifth:
+        return interval_up_new(interval_up_new(note,
+                               Interval.PerfectFourth),
+                               Interval.MajorSecond);
+//       case Interval.AugmentedFifth:
+      case Interval.MinorSixth:
+        return interval_up_new(interval_up_new(note,
+                               Interval.PerfectFifth),
+                               Interval.MinorSecond);
+      case Interval.MajorSixth:
+        return interval_up_new(interval_up_new(note,
+                               Interval.PerfectFifth),
+                               Interval.MajorSecond);
+      case Interval.MinorSeventh:
+        return interval_up_new(interval_up_new(note,
+                               Interval.MajorSixth),
+                               Interval.MinorSecond);
+      case Interval.MajorSeventh:
+        return interval_up_new(interval_up_new(note,
+                               Interval.MajorSixth),
+                               Interval.MajorSecond);
+    }
+
+  }
+
+  function interval_up(note: CanonicalNote, interval: Interval): CanonicalNote {
+    const letter_name_array = Object.values(NewLetterName);
+    const simple_interval_up = letter_interval_up(interval);
+    const idx: number = letter_name_array.indexOf(note.letter);
+    const letter_name = letter_name_array[(idx+simple_interval_up) % 7];
+    const sharps = (((note.letter === 'B') || (note.letter === 'E'))
+      ? note.sharps
+      : note.sharps - 1);
+    return { letter: letter_name, sharps: sharps }
+  }
+
+  function determineKeySignature(scaleType: ScaleType, firstNote: CanonicalNote): KeySig {
+
+    let key_sig = { sharps: 2, flats: 2 };
+    const interval_up = interval_up_new;
 
     switch (scaleType) {
       case "Ionian":
-        key_sig = ionian_signatures[firstNote];
+        key_sig = ionian_signatures(firstNote);
         break;
 
-      case "Dorian": break;
-      case "Phrygian": break;
-      case "Lydian": break;
-      case "Mixolydian": break;
-      case "Aeolian": break;
-      case "Locrian": break;
+      case "Dorian":
+        return determineKeySignature("Ionian", interval_up(firstNote, Interval.MinorSeventh));
+      case "Phrygian":
+        return determineKeySignature("Ionian", interval_up(firstNote, Interval.MinorSixth));
+      case "Lydian":
+        return determineKeySignature("Ionian", interval_up(firstNote, Interval.PerfectFifth));
+      case "Mixolydian":
+        return determineKeySignature("Ionian", interval_up(firstNote, Interval.PerfectFourth));
+      case "Aeolian":
+        return determineKeySignature("Ionian", interval_up(firstNote, Interval.MinorThird));
+      case "Locrian":
+        return determineKeySignature("Ionian", interval_up(firstNote, Interval.MinorSecond));
 
       case "melodic minor": break;
       case "harmonic minor": break;
@@ -254,19 +475,21 @@ window.addEventListener('load', function() {
     return key_sig;
   }
 
-  function drawScale(firstNote, scaleType) {
+  function drawScale(firstNote: CanonicalNote, scaleType) {
+    console.log("first note is : " + JSON.stringify(firstNote));
     const staff = document.querySelector('.staff svg');
 
-    const keySignature = determineKeySignature(scaleType, firstNote);
+    const keySignature: KeySig = determineKeySignature(scaleType, firstNote);
+    console.log("key sig is : " + JSON.stringify(keySignature));
     drawKeySignature(staff, keySignature);
 
-    const pureFirstNote = firstNote.toLowerCase()[0]; // remove sharp or flat symbol
+    const pureFirstNote: NewLetterName = firstNote.letter; // remove sharp or flat symbol
     drawNotes(staff, pureFirstNote);
   }
 
-  function drawNotes(staff, first) {
+  function drawNotes(staff, first: NewLetterName): void {
     let staffNoteheadsCounter = 0;
-    const notes = ['c', 'd', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b'];
+    const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'A', 'B'];
     const lowestNote = 7; // C
     let position = lowestNote + notes.indexOf(first);
 
