@@ -148,7 +148,7 @@ enum ScaleType {
 }
 
 
-const scaleTypes: {[index in ScaleType]: number} = {
+const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.Ionian]: 0.1,
   [ScaleType.MelodicMinor]: 0.3,
   [ScaleType.HarmonicMinor]: 0.4,
@@ -240,12 +240,12 @@ const scaletype_subsets: {[index in CheckBoxen]: Array<ScaleType>} = {
   "octatonic": [ScaleType.OctatonicDominant, ScaleType.OctatonicDiminished],
 }
 
-function getRandomArrayValue(array: Array<any>) {
+function get_random_array_value(array: Array<any>) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
 function get_random_note(): Note {
-  const note_letter = getRandomArrayValue(Object.keys(LetterName));
+  const note_letter = get_random_array_value(Object.keys(LetterName));
   const note_accidental = Math.floor(3*Math.random()) - 1
                           // integer in [-1, 0, 1]
   return {
@@ -254,7 +254,7 @@ function get_random_note(): Note {
   }
 };
 
-function getRandom(min: number, max: number) {
+function get_random(min: number, max: number) {
   let u = 0, v = 0;
   while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
   while(v === 0) v = Math.random();
@@ -262,7 +262,7 @@ function getRandom(min: number, max: number) {
 
   num = num / 10.0 + 0.5; // Translate to 0 -> 1
   if (num > 1 || num < 0) {
-    num = getRandom(min, max); // resample between 0 and 1 if out of range
+    num = get_random(min, max); // resample between 0 and 1 if out of range
   }
   else {
     num *= max - min; // Stretch to fill range
@@ -271,15 +271,15 @@ function getRandom(min: number, max: number) {
   return num;
 }
 
-function selectSpeed(levelFactor: number,
-                     letterFactor: number,
-                     scaleFactor: number): number {
+function select_speed(levelFactor: number,
+                      letterFactor: number,
+                      scaleFactor: number): number {
   const metronome_min = 44;
   const metronome_max = 250;
   const inflation_factor = 480; // to make it BIG
   const difficultyLevel = levelFactor * (1 - letterFactor) * (1 - scaleFactor);
   let speed = difficultyLevel * inflation_factor;
-  speed = getRandom(speed - 10, speed + 10);
+  speed = get_random(speed - 10, speed + 10);
   return Math.floor(Math.min(metronome_max, Math.max(metronome_min, speed)));
 }
 
@@ -304,8 +304,8 @@ function get_enabled_scales(): Array<ScaleType> {
 }
 
 function choose_random_scale(enabled_scale_types: Array<ScaleType>): Scale {
-    const first_note: Note = get_random_note();
-    const scale_type: ScaleType = getRandomArrayValue(enabled_scale_types);
+    const first_note = get_random_note();
+    const scale_type = get_random_array_value(enabled_scale_types);
 
     let scale = {
       tonic: first_note,
@@ -324,7 +324,7 @@ function main() {
   const go_button: HTMLElement =
     document.querySelector('#go-button') as HTMLElement;
   go_button.onclick = function () {
-    clearStaff();
+    clear_staff();
     let message: string
     const enabled_scales = get_enabled_scales();
 
@@ -335,17 +335,17 @@ function main() {
       const difficulty_input: HTMLInputElement =
         document.querySelector('#difficulty-input') as HTMLInputElement;
       const difficulty = Number(difficulty_input.value);
-      const speed: number = selectSpeed(difficulty,
-                                        note_difficulty_weight(scale.tonic),
-                                        scaleTypes[scale.mode]);
+      const speed: number = select_speed(difficulty,
+                                         note_difficulty_weight(scale.tonic),
+                                         scale_types_difficulty[scale.mode]);
       message = `${render_note(scale.tonic)} ${ScaleType[scale.mode]}, metronome at: ${speed}`;
-      const keySignature: KeySig = key_signature(scale);
-      console.log("key sig is : " + JSON.stringify(keySignature));
+      const key_sig: KeySig = key_signature(scale);
+      console.log("key sig is : " + JSON.stringify(key_sig));
 
       const staff: HTMLElement =
         document.querySelector('.staff svg') as HTMLElement;
-      drawKeySignature(staff, keySignature);
-      drawNotes(staff, scale.tonic.letter);
+      draw_key_sig(staff, key_sig);
+      draw_note_heads(staff, scale.tonic.letter);
     }
     const scale_flavour: HTMLElement =
       document.querySelector('#scale-flavour') as HTMLElement;
@@ -489,7 +489,7 @@ function key_signature(scale: Scale): KeySig {
   }
 }
 
-function drawNotes(staff: HTMLElement, first: LetterName): void {
+function draw_note_heads(staff: HTMLElement, first: LetterName): void {
   let staffNoteheadsCounter = 0;
   const notes =
     ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -532,7 +532,7 @@ function createElementSVG(shape: string) {
   return document.createElementNS('http://www.w3.org/2000/svg', shape);
 }
 
-function clearStaff() {
+function clear_staff() {
   document.querySelectorAll('ellipse.notehead').forEach(note => note.remove());
   document.querySelectorAll('rect.ledger').forEach(note => note.remove());
 
@@ -540,7 +540,7 @@ function clearStaff() {
   document.querySelectorAll('path.sharp').forEach(sharp => sharp.remove());
 }
 
-function drawKeySignature(staff: HTMLElement, sig: KeySig) {
+function draw_key_sig(staff: HTMLElement, sig: KeySig) {
   how_to_draw_sharps(staff, sig.sharps);
   and_flats(staff, sig.flats);
 }
