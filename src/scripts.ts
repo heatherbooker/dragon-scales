@@ -206,7 +206,7 @@ const enum CheckBoxen {
   "octatonic" = "octatonic",
 };
 
-const scaletype_subsets: {[index in CheckBoxen]: Array<ScaleType>} = {
+const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "majors": [ScaleType.Ionian],
   "melodic-minor": [ScaleType.MelodicMinor],
   "harmonic-minor": [ScaleType.HarmonicMinor],
@@ -240,7 +240,7 @@ const scaletype_subsets: {[index in CheckBoxen]: Array<ScaleType>} = {
   "octatonic": [ScaleType.OctatonicDominant, ScaleType.OctatonicDiminished],
 }
 
-function get_random_array_value(array: Array<any>) {
+function get_random_array_value(array: any[]) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
@@ -283,7 +283,7 @@ function select_speed(levelFactor: number,
   return Math.floor(Math.min(metronome_max, Math.max(metronome_min, speed)));
 }
 
-function get_enabled_scales(): Array<ScaleType> {
+function get_enabled_scales(): ScaleType[] {
   const checked_boxen = new Set<CheckBoxen>();
 
   const checkboxen: NodeListOf<HTMLInputElement> =
@@ -303,7 +303,7 @@ function get_enabled_scales(): Array<ScaleType> {
   return Array.from(options);
 }
 
-function choose_random_scale(enabled_scale_types: Array<ScaleType>): Scale {
+function choose_random_scale(enabled_scale_types: ScaleType[]): Scale {
     const first_note = get_random_note();
     const scale_type = get_random_array_value(enabled_scale_types);
 
