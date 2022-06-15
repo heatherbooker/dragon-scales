@@ -248,10 +248,12 @@ function main() {
       const key_sig: KeySig = key_signature(scale);
       console.log("key sig is : " + JSON.stringify(key_sig));
 
+      const accids: Accidentals = accidentals(scale.mode);
+
       const staff: HTMLElement =
         document.querySelector('.staff svg') as HTMLElement;
       draw_key_sig(staff, key_sig);
-      draw_note_heads(staff, scale.tonic.letter);
+      draw_note_heads(staff, scale.tonic.letter, accids);
     }
     const scale_flavour: HTMLElement =
       document.querySelector('#scale-flavour') as HTMLElement;
@@ -358,7 +360,12 @@ function key_signature(scale: Scale): KeySig {
       return key_signature_ionian(scale.tonic, Interval.MinorSecond);
 
     case ScaleType.MelodicMinor:
+      return not_yet_implemented_key_sig;
+
     case ScaleType.HarmonicMinor:
+      return key_signature({ tonic: scale.tonic,
+                             mode: ScaleType.Aeolian });
+
     case ScaleType.DoubleHarmonic:
       return not_yet_implemented_key_sig;
 
@@ -392,6 +399,59 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
       return not_yet_implemented_key_sig;
+  }
+}
+
+function accidentals(scale: ScaleType): Accidentals {
+  let not_yet_implemented_accidentals: Accidentals = [0,0,0,0,0,0,0];
+
+  switch (scale) {
+    case ScaleType.Ionian:
+    case ScaleType.Dorian:
+    case ScaleType.Phrygian:
+    case ScaleType.Lydian:
+    case ScaleType.Mixolydian:
+    case ScaleType.Aeolian:
+    case ScaleType.Locrian:
+      return [0,0,0,0,0,0,0];
+
+    case ScaleType.MelodicMinor:
+      return not_yet_implemented_accidentals;
+    case ScaleType.HarmonicMinor:
+      return [0,0,0,0,0,0,1];
+    case ScaleType.DoubleHarmonic:
+      return not_yet_implemented_accidentals;
+
+    case ScaleType.MelodicMinorMode2:
+    case ScaleType.MelodicMinorMode3:
+    case ScaleType.Simpsons:
+    case ScaleType.MelodicMinorMode5:
+    case ScaleType.HalfDiminished:
+    case ScaleType.AlteredDominant:
+      return not_yet_implemented_accidentals;
+
+    case ScaleType.HarmonicMinorMode2:
+    case ScaleType.HarmonicMinorMode3:
+    case ScaleType.UkrainianDorian:
+    case ScaleType.PhrygianDominant:
+    case ScaleType.HarmonicMinorMode6:
+    case ScaleType.HarmonicMinorMode7:
+      return not_yet_implemented_accidentals;
+
+    case ScaleType.DoubleHarmonicMode2:
+    case ScaleType.DoubleHarmonicMode3:
+    case ScaleType.HungarianMinor:
+    case ScaleType.DoubleHarmonicMode5:
+    case ScaleType.DoubleHarmonicMode6:
+    case ScaleType.DoubleHarmonicMode7:
+      return not_yet_implemented_accidentals;
+
+    case ScaleType.Pentatonic:
+    case ScaleType.WholeTone:
+    case ScaleType.Chromatic:
+    case ScaleType.OctatonicDominant:
+    case ScaleType.OctatonicDiminished:
+      return not_yet_implemented_accidentals;
   }
 }
 

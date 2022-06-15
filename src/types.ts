@@ -13,6 +13,9 @@ type Scale = {
 type KeySig = { sharps: number, flats: number }
 
 
+type Accidentals = [ number, number, number, number, number, number, number ]
+
+
 const enum Interval {
   PerfectUnison,
   MinorSecond,
