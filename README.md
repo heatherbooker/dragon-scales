@@ -19,8 +19,7 @@ make
 
 ## how to deploy
 
-- merge main into `gh-pages` branch
-- push `gh-pages`
+TODO: write this section
 
 ## how to use
 
@@ -43,4 +42,3 @@ make
     check whether the checkbox for it is true
     try again until we get lucky.
     there are easier ways!
-- github action doesn't work (should trigger on push main branch)
