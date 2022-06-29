@@ -1,0 +1,17 @@
+name: publish github pages branch
+on:
+  push:
+    branches:
+      - main
+jobs:
+  make-script-file-on-gh-pages-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make
+      - uses: EndBug/add-and-commit@v9
+        with:
+          new_branch: gh-pages
+          add: dist --force
+          message: "AUTO-COMMIT: Build script.js for github pages publishing"
+
