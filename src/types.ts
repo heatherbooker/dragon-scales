@@ -101,3 +101,6 @@ const enum CheckBoxen {
   "octatonic" = "octatonic",
 };
 
+interface Settings {
+  checkboxen: string[];
+}

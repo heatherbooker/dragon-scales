@@ -227,11 +227,14 @@ function choose_random_scale(enabled_scale_types: ScaleType[]): Scale {
 }
 
 function main() {
+  add_checkbox_savers();
+  applySettings();
   const go_button: HTMLElement =
     document.querySelector('#go-button') as HTMLElement;
   go_button.onclick = function () {
     clear_staff();
-    let message: string
+    let message: string;
+
     const enabled_scales = get_enabled_scales();
 
     if (enabled_scales.length === 0) {
