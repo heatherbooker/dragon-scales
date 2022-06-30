@@ -240,14 +240,14 @@ function main() {
     if (enabled_scales.length === 0) {
       message = 'check a box';
     } else {
-      const scale = choose_random_scale(enabled_scales);
+      const scale: Scale = choose_random_scale(enabled_scales);
       const difficulty_input: HTMLInputElement =
         document.querySelector('#difficulty-input') as HTMLInputElement;
       const difficulty = Number(difficulty_input.value);
       const speed: number = select_speed(difficulty,
                                          note_difficulty_weight(scale.tonic),
                                          scale_types_difficulty[scale.mode]);
-      message = `${render_note(scale.tonic)} ${ScaleType[scale.mode]}, metronome at: ${speed}`;
+      message = `${render_note(scale.tonic)} ${render_scale_type(scale.mode)}, metronome at: ${speed}`;
       const key_sig: KeySig = key_signature(scale);
       console.log("key sig is : " + JSON.stringify(key_sig));
 
