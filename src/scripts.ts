@@ -412,6 +412,13 @@ function key_signature(scale: Scale): KeySig {
       return not_yet_implemented_key_sig;
 
     case ScaleType.MelodicMinorMode2:
+      // Phrygian with a raised 6
+      const parallel_phrygian = key_signature({ tonic: scale.tonic,
+                                                mode: ScaleType.Phrygian });
+      const sixth = interval_up_letter(scale.tonic.letter, 6);
+      return {... parallel_phrygian,
+              [sixth]: parallel_phrygian[sixth] + 1,
+      };
     case ScaleType.MelodicMinorMode3:
       return not_yet_implemented_key_sig;
     case ScaleType.Simpsons: {
