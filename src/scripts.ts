@@ -446,7 +446,15 @@ function key_signature(scale: Scale): KeySig {
               [sixth]: parallel_mixolydian[sixth] - 1,
       };
     }
-    case ScaleType.HalfDiminished:
+    case ScaleType.HalfDiminished: {
+      // Locrian with a raised 2
+      const parallel_locrian = key_signature({ tonic: scale.tonic,
+                                               mode: ScaleType.Locrian });
+      const second = interval_up_letter(scale.tonic.letter, 2);
+      return {... parallel_locrian,
+              [second]: parallel_locrian[second] + 1,
+      };
+    }
     case ScaleType.AlteredDominant:
       return not_yet_implemented_key_sig;
 
