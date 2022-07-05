@@ -401,7 +401,8 @@ function key_signature(scale: Scale): KeySig {
       return key_signature_ionian(scale.tonic, Interval.MinorSecond);
 
     case ScaleType.MelodicMinor:
-      return not_yet_implemented_key_sig;
+      return key_signature({ tonic: scale.tonic,
+                             mode: ScaleType.Aeolian });
 
     case ScaleType.HarmonicMinor:
       return key_signature({ tonic: scale.tonic,
@@ -467,12 +468,17 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.Locrian:
       return all_naturals;
 
-    case ScaleType.MelodicMinor:
-      return not_yet_implemented_accidentals;
-    case ScaleType.HarmonicMinor:
+    case ScaleType.MelodicMinor: {
+      // has a raised sixth and seventh
+        const sixth = interval_up_letter(scale.tonic.letter, 6);
+        const seventh = interval_up_letter(scale.tonic.letter, 7);
+        return {... all_naturals, [sixth]: 1, [seventh]: 1};
+    }
+    case ScaleType.HarmonicMinor: {
       // has a raised seventh
       const seventh = interval_up_letter(scale.tonic.letter, 7);
       return {... all_naturals, [seventh]: 1};
+    }
     case ScaleType.DoubleHarmonic:
       return not_yet_implemented_accidentals;
 
