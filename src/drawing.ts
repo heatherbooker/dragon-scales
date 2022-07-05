@@ -53,17 +53,47 @@ function draw_note_heads(staff: HTMLElement,
 }
 
 function draw_key_sig(staff: HTMLElement, sig: KeySig) {
-  const flat_sig_heights = [ 83, 53, 93, 63, 103, 73, 113 ];
-  const sharp_sig_heights = [ 53, 83, 43, 73, 103, 63, 93 ];
+  const sharp_sig_heights = [
+    {letter: LetterName.F, height: 53},
+    {letter: LetterName.C, height: 83},
+    {letter: LetterName.G, height: 43},
+    {letter: LetterName.D, height: 73},
+    {letter: LetterName.A, height: 103},
+    {letter: LetterName.E, height: 63},
+    {letter: LetterName.B, height: 93},
+  ];
 
-  function draw_symbols(svg: string, positions: number[], quantity: number) {
-    positions.slice(0, quantity).forEach((pos, idx) => {
-      draw_accidental(staff, svg, (20*idx)+70, pos);
-    });
+  const flat_sig_heights: { letter: LetterName, height: number }[] = [
+    {letter: LetterName.B, height: 83},
+    {letter: LetterName.E, height: 53},
+    {letter: LetterName.A, height: 93},
+    {letter: LetterName.D, height: 63},
+    {letter: LetterName.G, height: 103},
+    {letter: LetterName.C, height: 73},
+    {letter: LetterName.F, height: 113},
+  ];
+
+  // keep track of how far we have moved from the left
+  let sig_x_position = 0;
+
+  // -1 is flat, 1 is sharp
+  function draw_symbols(svg: string, symbol_numeric_repr: number,
+                        heights: { letter: LetterName, height: number}[]) {
+    for (let k of heights) {
+      if (sig[k.letter] === symbol_numeric_repr) {
+        draw_accidental(staff,
+                        svg,
+                        (20*sig_x_position+70),
+                        heights[sig_x_position].height);
+        sig_x_position++;
+      }
+    }
   }
 
-  draw_symbols(SHARP_SVG_PATH, sharp_sig_heights, sig.sharps);
-  draw_symbols(FLAT_SVG_PATH, flat_sig_heights, sig.flats);
+  // in the key signature, flats come first, then sharps.
+  // there isn't really a reason why; that's just the order we chose.
+  draw_symbols(FLAT_SVG_PATH, -1, flat_sig_heights);
+  draw_symbols(SHARP_SVG_PATH, 1, sharp_sig_heights);
 }
 
 function draw_accidental(staff: HTMLElement,

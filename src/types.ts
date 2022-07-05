@@ -10,9 +10,20 @@ type Scale = {
 }
 
 
-type KeySig = { sharps: number, flats: number }
+type KeySig = {
+  // positive means sharps, negative means flats, zero means none/natural
+  [LetterName.A]: number,
+  [LetterName.B]: number,
+  [LetterName.C]: number,
+  [LetterName.D]: number,
+  [LetterName.E]: number,
+  [LetterName.F]: number,
+  [LetterName.G]: number,
+}
 
 
+// eventually scales might not have 7 notes
+// but for now:
 type Accidentals = [ number, number, number, number, number, number, number ]
 
 
@@ -40,6 +51,18 @@ enum LetterName {
   'F' = 'F',
   'G' = 'G',
 };
+
+function letter_name_enum(letter: LetterName): number {
+  switch (letter) {
+    case LetterName.A: return 0;
+    case LetterName.B: return 1;
+    case LetterName.C: return 2;
+    case LetterName.D: return 3;
+    case LetterName.E: return 4;
+    case LetterName.F: return 5;
+    case LetterName.G: return 6;
+  }
+}
 
 
 enum ScaleType {

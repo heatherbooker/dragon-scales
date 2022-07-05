@@ -49,20 +49,48 @@ function ionian_signatures_for_letter(letter: LetterName): number {
   }
 }
 
-function ionian_signatures(note: Note): KeySig {
-  const extra_sharps = 7 * note.sharps;
-  const sharps = ionian_signatures_for_letter(note.letter) + extra_sharps;
-  if (sharps < 0) {
-    return {
-      sharps: 0,
-      flats: (-sharps),
-    }
-  } else {
-    return {
-      sharps: sharps,
-      flats: 0,
-    }
+function interval_up_letter(letter: LetterName, interval: number): LetterName {
+  const letter_name_array: LetterName[] = Object.values(LetterName);
+  const idx: number = letter_name_array.indexOf(letter);
+  return letter_name_array[(idx+interval-1) % 7];
+}
+
+
+function up_fifth(letter: LetterName): LetterName {
+  return interval_up_letter(letter, 5)
+}
+
+function up_fourth(letter: LetterName): LetterName {
+  return interval_up_letter(letter, 4)
+}
+
+
+function ionian_signature(note: Note): KeySig {
+  const sig: KeySig = {
+      [LetterName.A]: 0,
+      [LetterName.B]: 0,
+      [LetterName.C]: 0,
+      [LetterName.D]: 0,
+      [LetterName.E]: 0,
+      [LetterName.F]: 0,
+      [LetterName.G]: 0,
   }
+
+  // negative sharps implies flats
+  const starting_sharps = 7 * note.sharps;
+  let sharps = ionian_signatures_for_letter(note.letter) + starting_sharps;
+
+  for (let current_sharp = LetterName.F; sharps > 0; sharps--) {
+    sig[current_sharp]++;
+    current_sharp = up_fifth(current_sharp);
+  }
+
+  for (let current_flat = LetterName.B; sharps < 0; sharps++) {
+    sig[current_flat]--;
+    current_flat = up_fourth(current_flat);
+  }
+
+  return sig;
 }
 
 
@@ -218,9 +246,13 @@ function choose_random_scale(enabled_scale_types: ScaleType[]): Scale {
       mode: scale_type,
     }
 
+    // if a scale has double-sharps or double-flats in its key sig,
+    // that's a silly scale. roll again.
     const key_sig = key_signature(scale);
-    if (key_sig.sharps > 7 || key_sig.flats > 7) {
-      return choose_random_scale(enabled_scale_types); // re-roll
+    for (let n of Object.values(key_sig)) {
+      if (n < -1 || n > 1) {
+        return choose_random_scale(enabled_scale_types); // re-roll
+      }
     }
 
     return scale;
@@ -344,11 +376,19 @@ function key_signature(scale: Scale): KeySig {
                            tonic: interval_up(tonic, interval)});
   }
 
-  let not_yet_implemented_key_sig = { sharps: 2, flats: 2 };
+  let not_yet_implemented_key_sig = {
+    [LetterName.A]: 0,
+    [LetterName.B]: -1,
+    [LetterName.C]: 1,
+    [LetterName.D]: 0,
+    [LetterName.E]: -1,
+    [LetterName.F]: 1,
+    [LetterName.G]: 0,
+  };
 
   switch (scale.mode) {
     case ScaleType.Ionian:
-      return ionian_signatures(scale.tonic);
+      return ionian_signature(scale.tonic);
     case ScaleType.Dorian:
       return key_signature_ionian(scale.tonic, Interval.MinorSeventh);
     case ScaleType.Phrygian:
