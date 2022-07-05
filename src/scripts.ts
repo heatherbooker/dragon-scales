@@ -419,8 +419,15 @@ function key_signature(scale: Scale): KeySig {
       return {... parallel_phrygian,
               [sixth]: parallel_phrygian[sixth] + 1,
       };
-    case ScaleType.MelodicMinorMode3:
-      return not_yet_implemented_key_sig;
+    case ScaleType.MelodicMinorMode3: {
+      // Lydian with a raised fifth
+      const parallel_lydian = key_signature({ tonic: scale.tonic,
+                                              mode: ScaleType.Lydian });
+      const fifth = interval_up_letter(scale.tonic.letter, 5);
+      return {... parallel_lydian,
+              [fifth]: parallel_lydian[fifth] + 1,
+      };
+    }
     case ScaleType.Simpsons: {
       // Lydian with a lowered seventh
       const parallel_lydian = key_signature({ tonic: scale.tonic,
