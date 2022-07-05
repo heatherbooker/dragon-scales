@@ -283,12 +283,12 @@ function main() {
       const key_sig: KeySig = key_signature(scale);
       console.log("key sig is : " + JSON.stringify(key_sig));
 
-      const accids: Accidentals = accidentals(scale.mode);
+      const accids: Accidentals = accidentals(scale);
 
       const staff: HTMLElement =
         document.querySelector('.staff svg') as HTMLElement;
       draw_key_sig(staff, key_sig);
-      draw_note_heads(staff, scale.tonic.letter, accids);
+      draw_note_heads(staff, scale.tonic.letter, accids, key_sig);
     }
     const scale_flavour: HTMLElement =
       document.querySelector('#scale-flavour') as HTMLElement;
@@ -445,10 +445,21 @@ function key_signature(scale: Scale): KeySig {
   }
 }
 
-function accidentals(scale: ScaleType): Accidentals {
-  let not_yet_implemented_accidentals: Accidentals = [0,0,0,0,0,0,0];
 
-  switch (scale) {
+function accidentals(scale: Scale): Accidentals {
+  const all_naturals: Accidentals = {
+    [LetterName.A]: 0,
+    [LetterName.B]: 0,
+    [LetterName.C]: 0,
+    [LetterName.D]: 0,
+    [LetterName.E]: 0,
+    [LetterName.F]: 0,
+    [LetterName.G]: 0,
+  };
+
+  const not_yet_implemented_accidentals: Accidentals = all_naturals;
+
+  switch (scale.mode) {
     case ScaleType.Ionian:
     case ScaleType.Dorian:
     case ScaleType.Phrygian:
@@ -456,12 +467,14 @@ function accidentals(scale: ScaleType): Accidentals {
     case ScaleType.Mixolydian:
     case ScaleType.Aeolian:
     case ScaleType.Locrian:
-      return [0,0,0,0,0,0,0];
+      return all_naturals;
 
     case ScaleType.MelodicMinor:
       return not_yet_implemented_accidentals;
     case ScaleType.HarmonicMinor:
-      return [0,0,0,0,0,0,1];
+      // has a raised seventh
+      const seventh = interval_up_letter(scale.tonic.letter, 7);
+      return {... all_naturals, [seventh]: 1};
     case ScaleType.DoubleHarmonic:
       return not_yet_implemented_accidentals;
 

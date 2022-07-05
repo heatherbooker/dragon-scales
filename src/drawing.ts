@@ -10,7 +10,8 @@ function clear_staff() {
 
 function draw_note_heads(staff: HTMLElement,
                          first: LetterName,
-                         accids: Accidentals): void {
+                         accids: Accidentals,
+                         key_sig: KeySig): void {
   const notes =
     ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C'];
 
@@ -23,6 +24,7 @@ function draw_note_heads(staff: HTMLElement,
   let y_position = bottom - lowest_cy;
 
   // FIXME: some scales don't have 7 notes
+  let current_letter = first;
   for (let i = 0; i < 7; i++) {
     const notehead = createElementSVG('ellipse');
     notehead.setAttribute('class', "notehead");
@@ -30,10 +32,11 @@ function draw_note_heads(staff: HTMLElement,
     y_position = y_position - distanceBetweenStaffLines;
 
     // draw accid, if necessary
-    if (accids[i]) {
+    if (accids[current_letter]) {
+      const acc = accidental_svg(key_sig[current_letter]
+                                 + accids[current_letter]);
       x_position = x_position + 35;
-      // FIXME other accidentals besides sharp are sometimes needed
-      draw_accidental(staff, SHARP_SVG_PATH, x_position, y_position+25);
+      draw_accidental(staff, acc, x_position, y_position+25);
       x_position = x_position + 35;
     } else {
       x_position = x_position + 50;
@@ -49,6 +52,9 @@ function draw_note_heads(staff: HTMLElement,
     if (ledgerLines.includes(y_position)) {
       draw_ledger_line(staff, y_position, (x_position-22));
     }
+
+    // up a second to the next letter name
+    current_letter = interval_up_letter(current_letter, 2);
   }
 }
 
@@ -117,4 +123,24 @@ function draw_ledger_line(staff: HTMLElement, cy: number, cx: number) {
   ledgerLine.setAttribute('x', cx.toString());
   ledgerLine.setAttribute('class', "ledger");
   staff.appendChild(ledgerLine);
+}
+
+function accidental_svg(accid: number) {
+  switch (accid) {
+    case -2:
+      console.log('make an svg for double-flat');
+      return DOUBLE_FLAT_SVG_PATH;
+    case -1:
+      return FLAT_SVG_PATH;
+    case 0:
+      return NATURAL_SVG_PATH;
+    case 1:
+      return SHARP_SVG_PATH;
+    case 2:
+      console.log('make an svg for double-sharp');
+      return DOUBLE_SHARP_SVG_PATH;
+    default:
+      console.log('invalid accidental number: ', accid);
+      return FLAT_SVG_PATH;
+  }
 }

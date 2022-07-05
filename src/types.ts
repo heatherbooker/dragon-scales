@@ -24,7 +24,16 @@ type KeySig = {
 
 // eventually scales might not have 7 notes
 // but for now:
-type Accidentals = [ number, number, number, number, number, number, number ]
+type Accidentals = {
+  // positive means raised -- not necessarily sharp!
+  [LetterName.A]: number,
+  [LetterName.B]: number,
+  [LetterName.C]: number,
+  [LetterName.D]: number,
+  [LetterName.E]: number,
+  [LetterName.F]: number,
+  [LetterName.G]: number,
+}
 
 
 const enum Interval {
