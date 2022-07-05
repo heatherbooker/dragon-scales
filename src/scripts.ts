@@ -142,9 +142,25 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
 };
 
 const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
-  "majors": [ScaleType.Ionian],
+  "ionian": [ScaleType.Ionian],
   "melodic-minor": [ScaleType.MelodicMinor],
   "harmonic-minor": [ScaleType.HarmonicMinor],
+
+  // various major scales
+  "majors": [
+    ScaleType.Ionian,
+    ScaleType.Lydian,
+    ScaleType.Mixolydian,
+    ScaleType.Simpsons,
+  ],
+
+  // various minor scales
+  "minors": [
+    ScaleType.Aeolian,
+    ScaleType.Dorian,
+    ScaleType.MelodicMinor,
+    ScaleType.HarmonicMinor,
+  ],
 
   // modes of ionian
   "ionian-modes": [

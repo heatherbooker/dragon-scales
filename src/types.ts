@@ -124,11 +124,14 @@ enum ScaleType {
 
 
 const enum CheckBoxen {
-  "majors" = "majors",
+  "ionian" = "ionian",
   "melodic-minor" = "melodic-minor",
   "harmonic-minor" = "harmonic-minor",
+  "majors" = "majors",
+  "minors" = "minors",
   "ionian-modes" = "ionian-modes",
   "memimos" = "memimos", // modes of melodic minor
+  "altered-dominant" = "altered-dominant",
   "pentatonic" = "pentatonic",
   "whole-tone" = "whole-tone",
   "chromatic" = "chromatic",
