@@ -413,7 +413,16 @@ function key_signature(scale: Scale): KeySig {
 
     case ScaleType.MelodicMinorMode2:
     case ScaleType.MelodicMinorMode3:
-    case ScaleType.Simpsons:
+      return not_yet_implemented_key_sig;
+    case ScaleType.Simpsons: {
+      // Lydian with a lowered seventh
+      const parallel_lydian = key_signature({ tonic: scale.tonic,
+                                              mode: ScaleType.Lydian });
+      const seventh = interval_up_letter(scale.tonic.letter, 7);
+      return {... parallel_lydian,
+              [seventh]: parallel_lydian[seventh] - 1,
+      };
+    }
     case ScaleType.MelodicMinorMode5:
     case ScaleType.HalfDiminished:
     case ScaleType.AlteredDominant:

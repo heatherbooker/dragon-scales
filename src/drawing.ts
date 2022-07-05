@@ -89,7 +89,7 @@ function draw_key_sig(staff: HTMLElement, sig: KeySig) {
         draw_accidental(staff,
                         accid,
                         (20*sig_x_position+70),
-                        heights[sig_x_position].height);
+                        k.height);
         sig_x_position++;
       }
     }
