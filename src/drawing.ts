@@ -33,8 +33,7 @@ function draw_note_heads(staff: HTMLElement,
 
     // draw accid, if necessary
     if (accids[current_letter]) {
-      const acc = accidental_svg(key_sig[current_letter]
-                                 + accids[current_letter]);
+      const acc = key_sig[current_letter] + accids[current_letter];
       x_position = x_position + 35;
       draw_accidental(staff, acc, x_position, y_position+25);
       x_position = x_position + 35;
@@ -83,12 +82,12 @@ function draw_key_sig(staff: HTMLElement, sig: KeySig) {
   let sig_x_position = 0;
 
   // -1 is flat, 1 is sharp
-  function draw_symbols(svg: string, symbol_numeric_repr: number,
+  function draw_symbols(accid: number,
                         heights: { letter: LetterName, height: number}[]) {
     for (let k of heights) {
-      if (sig[k.letter] === symbol_numeric_repr) {
+      if (sig[k.letter] === accid) {
         draw_accidental(staff,
-                        svg,
+                        accid,
                         (20*sig_x_position+70),
                         heights[sig_x_position].height);
         sig_x_position++;
@@ -98,21 +97,40 @@ function draw_key_sig(staff: HTMLElement, sig: KeySig) {
 
   // in the key signature, flats come first, then sharps.
   // there isn't really a reason why; that's just the order we chose.
-  draw_symbols(FLAT_SVG_PATH, -1, flat_sig_heights);
-  draw_symbols(SHARP_SVG_PATH, 1, sharp_sig_heights);
+  draw_symbols(-1, flat_sig_heights);
+  draw_symbols(1, sharp_sig_heights);
 }
 
 function draw_accidental(staff: HTMLElement,
-                         svg: string,
+                         accid: number,
                          x_pos: number,
                          y_pos: number) {
-  const sharp = createElementSVG('path');
-  sharp.setAttribute('d', svg);
-  sharp.setAttribute('class', 'note-modifier');
-  sharp.setAttribute('transform', `translate(${x_pos} , ${y_pos})`);
-//   sharp.setAttribute('cx', x_pos.toString());
-//   sharp.setAttribute('cy', y_pos.toString());
-  staff.appendChild(sharp);
+
+  function accidental_svg(accid: number) {
+    switch (accid) {
+      case -2:
+        console.log('make an svg for double-flat');
+        return DOUBLE_FLAT_SVG_PATH;
+      case -1:
+        return FLAT_SVG_PATH;
+      case 0:
+        return NATURAL_SVG_PATH;
+      case 1:
+        return SHARP_SVG_PATH;
+      case 2:
+        console.log('make an svg for double-sharp');
+        return DOUBLE_SHARP_SVG_PATH;
+      default:
+        console.log('invalid accidental number: ', accid);
+        return FLAT_SVG_PATH;
+    }
+  }
+
+  const svg = createElementSVG('path');
+  svg.setAttribute('d', accidental_svg(accid));
+  svg.setAttribute('class', 'note-modifier');
+  svg.setAttribute('transform', `translate(${x_pos} , ${y_pos})`);
+  staff.appendChild(svg);
 }
 
 function draw_ledger_line(staff: HTMLElement, cy: number, cx: number) {
@@ -123,24 +141,4 @@ function draw_ledger_line(staff: HTMLElement, cy: number, cx: number) {
   ledgerLine.setAttribute('x', cx.toString());
   ledgerLine.setAttribute('class', "ledger");
   staff.appendChild(ledgerLine);
-}
-
-function accidental_svg(accid: number) {
-  switch (accid) {
-    case -2:
-      console.log('make an svg for double-flat');
-      return DOUBLE_FLAT_SVG_PATH;
-    case -1:
-      return FLAT_SVG_PATH;
-    case 0:
-      return NATURAL_SVG_PATH;
-    case 1:
-      return SHARP_SVG_PATH;
-    case 2:
-      console.log('make an svg for double-sharp');
-      return DOUBLE_SHARP_SVG_PATH;
-    default:
-      console.log('invalid accidental number: ', accid);
-      return FLAT_SVG_PATH;
-  }
 }

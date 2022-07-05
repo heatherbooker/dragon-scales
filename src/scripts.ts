@@ -281,8 +281,6 @@ function main() {
                                          scale_types_difficulty[scale.mode]);
       message = `${render_note(scale.tonic)} ${render_scale_type(scale.mode)}, metronome at: ${speed}`;
       const key_sig: KeySig = key_signature(scale);
-      console.log("key sig is : " + JSON.stringify(key_sig));
-
       const accids: Accidentals = accidentals(scale);
 
       const staff: HTMLElement =
