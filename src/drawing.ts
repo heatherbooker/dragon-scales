@@ -109,7 +109,6 @@ function draw_accidental(staff: HTMLElement,
   function accidental_svg(accid: number) {
     switch (accid) {
       case -2:
-        console.log('make an svg for double-flat');
         return DOUBLE_FLAT_SVG_PATH;
       case -1:
         return FLAT_SVG_PATH;
@@ -118,7 +117,6 @@ function draw_accidental(staff: HTMLElement,
       case 1:
         return SHARP_SVG_PATH;
       case 2:
-        console.log('make an svg for double-sharp');
         return DOUBLE_SHARP_SVG_PATH;
       default:
         console.log('invalid accidental number: ', accid);
