@@ -58,16 +58,6 @@ function draw_note_heads(staff: HTMLElement,
 }
 
 function draw_key_sig(staff: HTMLElement, sig: KeySig) {
-  const sharp_sig_heights = [
-    {letter: LetterName.F, height: 53},
-    {letter: LetterName.C, height: 83},
-    {letter: LetterName.G, height: 43},
-    {letter: LetterName.D, height: 73},
-    {letter: LetterName.A, height: 103},
-    {letter: LetterName.E, height: 63},
-    {letter: LetterName.B, height: 93},
-  ];
-
   const flat_sig_heights: { letter: LetterName, height: number }[] = [
     {letter: LetterName.B, height: 83},
     {letter: LetterName.E, height: 53},
@@ -76,6 +66,16 @@ function draw_key_sig(staff: HTMLElement, sig: KeySig) {
     {letter: LetterName.G, height: 103},
     {letter: LetterName.C, height: 73},
     {letter: LetterName.F, height: 113},
+  ];
+
+  const sharp_sig_heights = [
+    {letter: LetterName.F, height: 53},
+    {letter: LetterName.C, height: 83},
+    {letter: LetterName.G, height: 43},
+    {letter: LetterName.D, height: 73},
+    {letter: LetterName.A, height: 103},
+    {letter: LetterName.E, height: 63},
+    {letter: LetterName.B, height: 93},
   ];
 
   // keep track of how far we have moved from the left
