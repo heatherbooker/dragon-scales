@@ -114,7 +114,7 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.Simpsons]: 0.5,
   [ScaleType.MelodicMinorMode5]: 0.7,
   [ScaleType.HalfDiminished]: 0.4,
-  [ScaleType.AlteredDominant]: 0.4,
+  [ScaleType.SuperLocrian]: 0.4,
 
   // modes of melodic minor
   [ScaleType.HarmonicMinorMode2]: 0.9,
@@ -132,6 +132,7 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.DoubleHarmonicMode7]: 0.9,
 
   // others
+  [ScaleType.AlteredDominant]: 0.4,
   [ScaleType.Pentatonic]: 0.4,
   [ScaleType.WholeTone]: 0.4,
   [ScaleType.Chromatic]: 0.3,
@@ -164,10 +165,11 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.Simpsons,
     ScaleType.MelodicMinorMode5,
     ScaleType.HalfDiminished,
-    ScaleType.AlteredDominant,
+    ScaleType.SuperLocrian,
   ],
 
   // others
+  "altered-dominant": [ScaleType.AlteredDominant],
   "pentatonic": [ScaleType.Pentatonic],
   "whole-tone": [ScaleType.WholeTone],
   "chromatic": [ScaleType.Chromatic],
@@ -455,8 +457,15 @@ function key_signature(scale: Scale): KeySig {
               [second]: parallel_locrian[second] + 1,
       };
     }
-    case ScaleType.AlteredDominant:
-      return not_yet_implemented_key_sig;
+    case ScaleType.SuperLocrian: {
+      // Locrian with a lowered fourth
+      const parallel_locrian = key_signature({ tonic: scale.tonic,
+                                               mode: ScaleType.Locrian });
+      const fourth = interval_up_letter(scale.tonic.letter, 4);
+      return {... parallel_locrian,
+              [fourth]: parallel_locrian[fourth] - 1,
+      };
+    }
 
     case ScaleType.HarmonicMinorMode2:
     case ScaleType.HarmonicMinorMode3:
@@ -474,6 +483,7 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.DoubleHarmonicMode7:
       return not_yet_implemented_key_sig;
 
+    case ScaleType.AlteredDominant:
     case ScaleType.Pentatonic:
     case ScaleType.WholeTone:
     case ScaleType.Chromatic:
@@ -526,7 +536,7 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.Simpsons:
     case ScaleType.MelodicMinorMode5:
     case ScaleType.HalfDiminished:
-    case ScaleType.AlteredDominant:
+    case ScaleType.SuperLocrian:
       return not_yet_implemented_accidentals;
 
     case ScaleType.HarmonicMinorMode2:
@@ -545,6 +555,7 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.DoubleHarmonicMode7:
       return not_yet_implemented_accidentals;
 
+    case ScaleType.AlteredDominant:
     case ScaleType.Pentatonic:
     case ScaleType.WholeTone:
     case ScaleType.Chromatic:

@@ -94,7 +94,7 @@ enum ScaleType {
   Simpsons,
   MelodicMinorMode5,
   HalfDiminished,
-  AlteredDominant,
+  SuperLocrian,
 
     // modes of harmonic minor
   HarmonicMinorMode2,
@@ -113,6 +113,8 @@ enum ScaleType {
   DoubleHarmonicMode7,
 
     // others
+  AlteredDominant, // enharmonically the same as SuperLocrian,
+                   // but with a different key sig and accidentals
   Pentatonic,
   WholeTone,
   Chromatic,
@@ -158,7 +160,7 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.Simpsons: return "acoustic (Simpsons)";
     case ScaleType.MelodicMinorMode5: return "mode 5 of melodic minor";
     case ScaleType.HalfDiminished: return "half-diminished";
-    case ScaleType.AlteredDominant: return "altered dominant";
+    case ScaleType.SuperLocrian: return "super-Locrian";
 
     case ScaleType.HarmonicMinorMode2: return "mode 2 of harmonic minor";
     case ScaleType.HarmonicMinorMode3: return "mode 3 of harmonic minor";
@@ -174,6 +176,7 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.DoubleHarmonicMode6: return "mode 6 of double harmonic minor";
     case ScaleType.DoubleHarmonicMode7: return "mode 7 of double harmonic minor";
 
+    case ScaleType.AlteredDominant: return "altered dominant";
     case ScaleType.Pentatonic: return "pentatonic";
     case ScaleType.WholeTone: return "whole-tone";
     case ScaleType.Chromatic: return "chromatic";
