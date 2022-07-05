@@ -437,7 +437,15 @@ function key_signature(scale: Scale): KeySig {
               [seventh]: parallel_lydian[seventh] - 1,
       };
     }
-    case ScaleType.MelodicMinorMode5:
+    case ScaleType.MelodicMinorMode5: {
+      // Mixolydian with a lowered sixth
+      const parallel_mixolydian =
+        key_signature({ tonic: scale.tonic, mode: ScaleType.Mixolydian });
+      const sixth = interval_up_letter(scale.tonic.letter, 6);
+      return {... parallel_mixolydian,
+              [sixth]: parallel_mixolydian[sixth] - 1,
+      };
+    }
     case ScaleType.HalfDiminished:
     case ScaleType.AlteredDominant:
       return not_yet_implemented_key_sig;
