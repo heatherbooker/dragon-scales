@@ -98,7 +98,11 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.Ionian]: 0.1,
   [ScaleType.MelodicMinor]: 0.3,
   [ScaleType.HarmonicMinor]: 0.4,
+  [ScaleType.HarmonicMajor]: 0.4,
   [ScaleType.DoubleHarmonic]: 0.6,
+  [ScaleType.NeapolitanMajor]: 0.7,
+  [ScaleType.NeapolitanMinor]: 0.7,
+  [ScaleType.HungarianMajor]: 0.7,
 
   // modes of ionian
   [ScaleType.Aeolian]: 0.15,
@@ -116,13 +120,26 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.HalfDiminished]: 0.4,
   [ScaleType.SuperLocrian]: 0.4,
 
-  // modes of melodic minor
   [ScaleType.HarmonicMinorMode2]: 0.9,
   [ScaleType.HarmonicMinorMode3]: 0.9,
   [ScaleType.UkrainianDorian]: 0.9,
   [ScaleType.PhrygianDominant]: 0.9,
   [ScaleType.HarmonicMinorMode6]: 0.9,
   [ScaleType.HarmonicMinorMode7]: 0.9,
+
+  [ScaleType.HarmonicMajorMode2]: 0.9,
+  [ScaleType.HarmonicMajorMode3]: 0.9,
+  [ScaleType.HarmonicMajorMode4]: 0.9,
+  [ScaleType.HarmonicMajorMode5]: 0.9,
+  [ScaleType.HarmonicMajorMode6]: 0.9,
+  [ScaleType.HarmonicMajorMode7]: 0.9,
+
+  [ScaleType.HarmonicMajorMode2]: 0.9,
+  [ScaleType.HarmonicMajorMode3]: 0.9,
+  [ScaleType.HarmonicMajorMode4]: 0.9,
+  [ScaleType.HarmonicMajorMode5]: 0.9,
+  [ScaleType.HarmonicMajorMode6]: 0.9,
+  [ScaleType.HarmonicMajorMode7]: 0.9,
 
   [ScaleType.DoubleHarmonicMode2]: 0.9,
   [ScaleType.DoubleHarmonicMode3]: 0.9,
@@ -131,13 +148,38 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.DoubleHarmonicMode6]: 0.9,
   [ScaleType.DoubleHarmonicMode7]: 0.9,
 
+  [ScaleType.NeapolitanMajorMode2]: 0.9,
+  [ScaleType.NeapolitanMajorMode3]: 0.9,
+  [ScaleType.NeapolitanMajorMode4]: 0.9,
+  [ScaleType.NeapolitanMajorMode5]: 0.9,
+  [ScaleType.NeapolitanMajorMode6]: 0.9,
+  [ScaleType.NeapolitanMajorMode7]: 0.9,
+
+  [ScaleType.NeapolitanMinorMode2]: 0.9,
+  [ScaleType.NeapolitanMinorMode3]: 0.9,
+  [ScaleType.NeapolitanMinorMode4]: 0.9,
+  [ScaleType.NeapolitanMinorMode5]: 0.9,
+  [ScaleType.NeapolitanMinorMode6]: 0.9,
+  [ScaleType.NeapolitanMinorMode7]: 0.9,
+
+  [ScaleType.HungarianMajorMode2]: 0.9,
+  [ScaleType.HungarianMajorMode3]: 0.9,
+  [ScaleType.HungarianMajorMode4]: 0.9,
+  [ScaleType.HungarianMajorMode5]: 0.9,
+  [ScaleType.HungarianMajorMode6]: 0.9,
+  [ScaleType.HungarianMajorMode7]: 0.9,
+
+
   // others
-  [ScaleType.AlteredDominant]: 0.4,
-  [ScaleType.Pentatonic]: 0.4,
-  [ScaleType.WholeTone]: 0.4,
   [ScaleType.Chromatic]: 0.3,
   [ScaleType.OctatonicDominant]: 0.5,
   [ScaleType.OctatonicDiminished]: 0.6,
+  [ScaleType.AlteredDominant]: 0.4,
+  [ScaleType.Blues]: 0.4,
+  [ScaleType.Prometheus]: 0.4,
+  [ScaleType.WholeTone]: 0.4,
+  [ScaleType.PentatonicMajor]: 0.4,
+  [ScaleType.PentatonicMinor]: 0.4,
 
 };
 
@@ -185,11 +227,19 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   ],
 
   // others
-  "altered-dominant": [ScaleType.AlteredDominant],
-  "pentatonic": [ScaleType.Pentatonic],
-  "whole-tone": [ScaleType.WholeTone],
   "chromatic": [ScaleType.Chromatic],
   "octatonic": [ScaleType.OctatonicDominant, ScaleType.OctatonicDiminished],
+  "altered-dominant": [ScaleType.AlteredDominant],
+  "hexatonic": [
+    ScaleType.Blues,
+    ScaleType.Prometheus,
+    ScaleType.WholeTone,
+  ],
+  "pentatonic": [
+    ScaleType.PentatonicMajor,
+    ScaleType.PentatonicMinor,
+  ],
+  "whole-tone": [ScaleType.WholeTone],
 }
 
 function get_random_array_value(array: any[]) {
@@ -426,7 +476,17 @@ function key_signature(scale: Scale): KeySig {
       return key_signature({ tonic: scale.tonic,
                              mode: ScaleType.Aeolian });
 
+    case ScaleType.HarmonicMajor:
+      return not_yet_implemented_key_sig;
+
     case ScaleType.DoubleHarmonic:
+      return not_yet_implemented_key_sig;
+
+    case ScaleType.NeapolitanMajor:
+      return not_yet_implemented_key_sig;
+    case ScaleType.NeapolitanMinor:
+      return not_yet_implemented_key_sig;
+    case ScaleType.HungarianMajor:
       return not_yet_implemented_key_sig;
 
     case ScaleType.MelodicMinorMode2:
@@ -491,6 +551,14 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.HarmonicMinorMode7:
       return not_yet_implemented_key_sig;
 
+    case ScaleType.HarmonicMajorMode2:
+    case ScaleType.HarmonicMajorMode3:
+    case ScaleType.HarmonicMajorMode4:
+    case ScaleType.HarmonicMajorMode5:
+    case ScaleType.HarmonicMajorMode6:
+    case ScaleType.HarmonicMajorMode7:
+      return not_yet_implemented_key_sig;
+
     case ScaleType.DoubleHarmonicMode2:
     case ScaleType.DoubleHarmonicMode3:
     case ScaleType.HungarianMinor:
@@ -499,12 +567,39 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.DoubleHarmonicMode7:
       return not_yet_implemented_key_sig;
 
-    case ScaleType.AlteredDominant:
-    case ScaleType.Pentatonic:
-    case ScaleType.WholeTone:
+    case ScaleType.NeapolitanMajorMode2:
+    case ScaleType.NeapolitanMajorMode3:
+    case ScaleType.NeapolitanMajorMode4:
+    case ScaleType.NeapolitanMajorMode5:
+    case ScaleType.NeapolitanMajorMode6:
+    case ScaleType.NeapolitanMajorMode7:
+      return not_yet_implemented_key_sig;
+
+    case ScaleType.NeapolitanMinorMode2:
+    case ScaleType.NeapolitanMinorMode3:
+    case ScaleType.NeapolitanMinorMode4:
+    case ScaleType.NeapolitanMinorMode5:
+    case ScaleType.NeapolitanMinorMode6:
+    case ScaleType.NeapolitanMinorMode7:
+      return not_yet_implemented_key_sig;
+
+    case ScaleType.HungarianMajorMode2:
+    case ScaleType.HungarianMajorMode3:
+    case ScaleType.HungarianMajorMode4:
+    case ScaleType.HungarianMajorMode5:
+    case ScaleType.HungarianMajorMode6:
+    case ScaleType.HungarianMajorMode7:
+      return not_yet_implemented_key_sig;
+
     case ScaleType.Chromatic:
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
+    case ScaleType.AlteredDominant:
+    case ScaleType.Blues:
+    case ScaleType.Prometheus:
+    case ScaleType.WholeTone:
+    case ScaleType.PentatonicMajor:
+    case ScaleType.PentatonicMinor:
       return not_yet_implemented_key_sig;
   }
 }
@@ -544,7 +639,19 @@ function accidentals(scale: Scale): Accidentals {
       const seventh = interval_up_letter(scale.tonic.letter, 7);
       return {... all_naturals, [seventh]: 1};
     }
+
+    case ScaleType.HarmonicMajor:
+      return not_yet_implemented_accidentals;
+
     case ScaleType.DoubleHarmonic:
+      return not_yet_implemented_accidentals;
+
+    case ScaleType.NeapolitanMajor:
+      return not_yet_implemented_accidentals;
+    case ScaleType.NeapolitanMinor:
+      return not_yet_implemented_accidentals;
+
+    case ScaleType.HungarianMajor:
       return not_yet_implemented_accidentals;
 
     case ScaleType.MelodicMinorMode2:
@@ -563,6 +670,14 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.HarmonicMinorMode7:
       return not_yet_implemented_accidentals;
 
+    case ScaleType.HarmonicMajorMode2:
+    case ScaleType.HarmonicMajorMode3:
+    case ScaleType.HarmonicMajorMode4:
+    case ScaleType.HarmonicMajorMode5:
+    case ScaleType.HarmonicMajorMode6:
+    case ScaleType.HarmonicMajorMode7:
+      return not_yet_implemented_accidentals;
+
     case ScaleType.DoubleHarmonicMode2:
     case ScaleType.DoubleHarmonicMode3:
     case ScaleType.HungarianMinor:
@@ -571,12 +686,39 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.DoubleHarmonicMode7:
       return not_yet_implemented_accidentals;
 
-    case ScaleType.AlteredDominant:
-    case ScaleType.Pentatonic:
-    case ScaleType.WholeTone:
+    case ScaleType.NeapolitanMajorMode2:
+    case ScaleType.NeapolitanMajorMode3:
+    case ScaleType.NeapolitanMajorMode4:
+    case ScaleType.NeapolitanMajorMode5:
+    case ScaleType.NeapolitanMajorMode6:
+    case ScaleType.NeapolitanMajorMode7:
+      return not_yet_implemented_accidentals;
+
+    case ScaleType.NeapolitanMinorMode2:
+    case ScaleType.NeapolitanMinorMode3:
+    case ScaleType.NeapolitanMinorMode4:
+    case ScaleType.NeapolitanMinorMode5:
+    case ScaleType.NeapolitanMinorMode6:
+    case ScaleType.NeapolitanMinorMode7:
+      return not_yet_implemented_accidentals;
+
+    case ScaleType.HungarianMajorMode2:
+    case ScaleType.HungarianMajorMode3:
+    case ScaleType.HungarianMajorMode4:
+    case ScaleType.HungarianMajorMode5:
+    case ScaleType.HungarianMajorMode6:
+    case ScaleType.HungarianMajorMode7:
+      return not_yet_implemented_accidentals;
+
     case ScaleType.Chromatic:
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
+    case ScaleType.AlteredDominant:
+    case ScaleType.Blues:
+    case ScaleType.Prometheus:
+    case ScaleType.WholeTone:
+    case ScaleType.PentatonicMajor:
+    case ScaleType.PentatonicMinor:
       return not_yet_implemented_accidentals;
   }
 }
