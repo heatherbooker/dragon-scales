@@ -499,7 +499,7 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.HungarianMajor:
       return not_yet_implemented_key_sig;
 
-    case ScaleType.MelodicMinorMode2:
+    case ScaleType.MelodicMinorMode2: {
       // Phrygian with a raised 6
       const parallel_phrygian = key_signature({ tonic: scale.tonic,
                                                 mode: ScaleType.Phrygian });
@@ -507,6 +507,7 @@ function key_signature(scale: Scale): KeySig {
       return {... parallel_phrygian,
               [sixth]: parallel_phrygian[sixth] + 1,
       };
+    }
     case ScaleType.MelodicMinorMode3: {
       // Lydian with a raised fifth
       const parallel_lydian = key_signature({ tonic: scale.tonic,
