@@ -36,6 +36,11 @@ type Accidentals = {
 }
 
 
+type ScaleDetails = {
+  key_sig: KeySig,
+  accidentals: Accidentals,
+}
+
 const enum Interval {
   PerfectUnison,
   MinorSecond,

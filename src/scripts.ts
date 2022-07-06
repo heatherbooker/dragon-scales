@@ -335,7 +335,7 @@ function choose_random_scale(enabled_scale_types: ScaleType[]): Scale {
 
     // if a scale has double-sharps or double-flats in its key sig,
     // that's a silly scale. roll again.
-    const key_sig = key_signature(scale);
+    const key_sig = scale_details(scale).key_sig;
     for (let n of Object.values(key_sig)) {
       if (n < -1 || n > 1) {
         return choose_random_scale(enabled_scale_types); // re-roll
@@ -367,8 +367,11 @@ function main() {
                                          note_difficulty_weight(scale.tonic),
                                          scale_types_difficulty[scale.mode]);
       message = `${render_note(scale.tonic)} ${render_scale_type(scale.mode)}, metronome at: ${speed}`;
-      const key_sig: KeySig = key_signature(scale);
-      const accids: Accidentals = accidentals(scale);
+
+      const scale_deets = scale_details(scale);
+
+      const key_sig: KeySig = scale_deets.key_sig;
+      const accids: Accidentals = scale_deets.accidentals;
 
       const staff: HTMLElement =
         document.querySelector('.staff svg') as HTMLElement;
@@ -454,14 +457,9 @@ function interval_up(note: Note, interval: Interval): Note {
   }
 }
 
-
-function key_signature(scale: Scale): KeySig {
-  function key_signature_ionian(tonic: Note, interval: Interval): KeySig {
-    return key_signature({ mode: ScaleType.Ionian,
-                           tonic: interval_up(tonic, interval)});
-  }
-
-  let not_yet_implemented_key_sig = {
+function scale_details(scale: Scale): ScaleDetails {
+  console.log(scale)
+  const not_yet_implemented_key_sig = {
     [LetterName.A]: 0,
     [LetterName.B]: -1,
     [LetterName.C]: 1,
@@ -471,166 +469,7 @@ function key_signature(scale: Scale): KeySig {
     [LetterName.G]: 0,
   };
 
-  switch (scale.mode) {
-    case ScaleType.Ionian:
-      return ionian_signature(scale.tonic);
-    case ScaleType.Dorian:
-      return key_signature_ionian(scale.tonic, Interval.MinorSeventh);
-    case ScaleType.Phrygian:
-      return key_signature_ionian(scale.tonic, Interval.MinorSixth);
-    case ScaleType.Lydian:
-      return key_signature_ionian(scale.tonic, Interval.PerfectFifth);
-    case ScaleType.Mixolydian:
-      return key_signature_ionian(scale.tonic, Interval.PerfectFourth);
-    case ScaleType.Aeolian:
-      return key_signature_ionian(scale.tonic, Interval.MinorThird);
-    case ScaleType.Locrian:
-      return key_signature_ionian(scale.tonic, Interval.MinorSecond);
-
-    case ScaleType.MelodicMinor:
-      return key_signature({ tonic: scale.tonic,
-                             mode: ScaleType.Aeolian });
-
-    case ScaleType.HarmonicMinor:
-      return key_signature({ tonic: scale.tonic,
-                             mode: ScaleType.Aeolian });
-
-    case ScaleType.HarmonicMajor: {
-      // Ionian wih a lowered sixth
-      return key_signature({ tonic: scale.tonic,
-                             mode: ScaleType.Ionian });
-    }
-
-    case ScaleType.DoubleHarmonic:
-      // harmonic major with a lowered second
-      return key_signature({ tonic: scale.tonic,
-                             mode: ScaleType.HarmonicMajor });
-
-    case ScaleType.NeapolitanMajor:
-      return not_yet_implemented_key_sig;
-    case ScaleType.NeapolitanMinor:
-      return not_yet_implemented_key_sig;
-    case ScaleType.HungarianMajor: {
-      // Simpsons with a raised 2
-      const parallel_simpsons = key_signature({ tonic: scale.tonic,
-                                                mode: ScaleType.Simpsons });
-      const second = interval_up_letter(scale.tonic.letter, 2);
-      return {... parallel_simpsons,
-              [second]: parallel_simpsons[second] + 1,
-      };
-    }
-
-    case ScaleType.MelodicMinorMode2: {
-      return key_signature({ mode: ScaleType.MelodicMinor,
-                             tonic: interval_up(scale.tonic,
-                                                Interval.MinorSeventh)});
-    }
-    case ScaleType.MelodicMinorMode3: {
-      // Lydian with a raised fifth
-      return key_signature({ tonic: scale.tonic, mode: ScaleType.Lydian });
-    }
-    case ScaleType.Simpsons: {
-      // Lydian with a lowered seventh
-      const parallel_lydian = key_signature({ tonic: scale.tonic,
-                                              mode: ScaleType.Lydian });
-      const seventh = interval_up_letter(scale.tonic.letter, 7);
-      return {... parallel_lydian,
-              [seventh]: parallel_lydian[seventh] - 1,
-      };
-    }
-    case ScaleType.MelodicMinorMode5: {
-      return key_signature({ mode: ScaleType.MelodicMinor,
-                             tonic: interval_up(scale.tonic,
-                                                Interval.PerfectFourth)});
-    }
-    case ScaleType.HalfDiminished: {
-      // has the key signature of its seventh
-      const seventh = interval_up(scale.tonic, Interval.MinorSeventh);
-      return key_signature({ tonic: seventh, mode: ScaleType.Aeolian });
-    }
-    case ScaleType.SuperLocrian: {
-      // Locrian with a lowered fourth
-      const parallel_locrian = key_signature({ tonic: scale.tonic,
-                                               mode: ScaleType.Locrian });
-      const fourth = interval_up_letter(scale.tonic.letter, 4);
-      return {... parallel_locrian,
-              [fourth]: parallel_locrian[fourth] - 1,
-      };
-    }
-
-    case ScaleType.HarmonicMinorMode2:
-    case ScaleType.HarmonicMinorMode3:
-    case ScaleType.UkrainianDorian:
-    case ScaleType.PhrygianDominant:
-    case ScaleType.HarmonicMinorMode6:
-    case ScaleType.HarmonicMinorMode7:
-      return not_yet_implemented_key_sig;
-
-    case ScaleType.HarmonicMajorMode2:
-    case ScaleType.HarmonicMajorMode3:
-    case ScaleType.HarmonicMajorMode4:
-    case ScaleType.HarmonicMajorMode5:
-    case ScaleType.HarmonicMajorMode6:
-    case ScaleType.HarmonicMajorMode7:
-      return not_yet_implemented_key_sig;
-
-    case ScaleType.DoubleHarmonicMode2:
-    case ScaleType.DoubleHarmonicMode3:
-    case ScaleType.HungarianMinor:
-    case ScaleType.DoubleHarmonicMode5:
-    case ScaleType.DoubleHarmonicMode6:
-    case ScaleType.DoubleHarmonicMode7:
-      return not_yet_implemented_key_sig;
-
-    case ScaleType.NeapolitanMajorMode2:
-    case ScaleType.NeapolitanMajorMode3:
-    case ScaleType.NeapolitanMajorMode4:
-    case ScaleType.NeapolitanMajorMode5:
-    case ScaleType.NeapolitanMajorMode6:
-    case ScaleType.NeapolitanMajorMode7:
-      return not_yet_implemented_key_sig;
-
-    case ScaleType.NeapolitanMinorMode2:
-    case ScaleType.NeapolitanMinorMode3:
-    case ScaleType.NeapolitanMinorMode4:
-    case ScaleType.NeapolitanMinorMode5:
-    case ScaleType.NeapolitanMinorMode6:
-    case ScaleType.NeapolitanMinorMode7:
-      return not_yet_implemented_key_sig;
-
-    case ScaleType.HungarianMajorMode2:
-    case ScaleType.HungarianMajorMode3:
-    case ScaleType.HungarianMajorMode4:
-    case ScaleType.HungarianMajorMode5:
-    case ScaleType.HungarianMajorMode6:
-    case ScaleType.HungarianMajorMode7:
-      return not_yet_implemented_key_sig;
-
-    case ScaleType.Chromatic:
-    case ScaleType.OctatonicDominant:
-    case ScaleType.OctatonicDiminished:
-      return not_yet_implemented_key_sig;
-    case ScaleType.AlteredDominant:
-    // has a flat 5, sharp 5, flat 9, sharp 9
-      return not_yet_implemented_key_sig;
-    case ScaleType.LydianDominant: {
-      // is a dominant scale, with a raised 4
-      return key_signature({ mode: ScaleType.Ionian,
-                             tonic: interval_up(scale.tonic,
-                                                Interval.PerfectFourth)});
-    }
-    case ScaleType.Blues:
-    case ScaleType.Prometheus:
-    case ScaleType.WholeTone:
-    case ScaleType.PentatonicMajor:
-    case ScaleType.PentatonicMinor:
-      return not_yet_implemented_key_sig;
-  }
-}
-
-
-function accidentals(scale: Scale): Accidentals {
-  const all_naturals: Accidentals = {
+  const no_accidentals: Accidentals = {
     [LetterName.A]: 0,
     [LetterName.B]: 0,
     [LetterName.C]: 0,
@@ -640,80 +479,149 @@ function accidentals(scale: Scale): Accidentals {
     [LetterName.G]: 0,
   };
 
-  const not_yet_implemented_accidentals: Accidentals = all_naturals;
+  const not_yet_implemented_accidentals: Accidentals = no_accidentals;
+
+  const not_yet_implemented_scale = {
+    key_sig: not_yet_implemented_key_sig,
+    accidentals: not_yet_implemented_accidentals,
+  };
+
+  function deets_equiv(mode: ScaleType, interval: Interval): ScaleDetails {
+    return scale_details({ mode: mode,
+                           tonic: interval_up(scale.tonic, interval)});
+  }
+
+  function key_sig_equiv(mode: ScaleType, interval: Interval): KeySig {
+    return deets_equiv(mode, interval).key_sig;
+  }
+
 
   switch (scale.mode) {
-    case ScaleType.Ionian:
-    case ScaleType.Dorian:
-    case ScaleType.Phrygian:
-    case ScaleType.Lydian:
-    case ScaleType.Mixolydian:
-    case ScaleType.Aeolian:
-    case ScaleType.Locrian:
-      return all_naturals;
+    case ScaleType.Ionian: {
+      const sig = ionian_signature(scale.tonic);
+      return { key_sig: sig, accidentals: no_accidentals };
+    }
+    case ScaleType.Dorian: {
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorSeventh);
+      return { key_sig: sig, accidentals: no_accidentals };
+    }
+    case ScaleType.Phrygian: {
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorSixth);
+      return { key_sig: sig, accidentals: no_accidentals };
+    }
+    case ScaleType.Lydian: {
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFifth);
+      return { key_sig: sig, accidentals: no_accidentals };
+    }
+    case ScaleType.Mixolydian: {
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
+      return { key_sig: sig, accidentals: no_accidentals };
+    }
+    case ScaleType.Aeolian: {
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorThird);
+      return { key_sig: sig, accidentals: no_accidentals };
+    }
+    case ScaleType.Locrian: {
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorSecond);
+      return { key_sig: sig, accidentals: no_accidentals };
+    }
 
     case ScaleType.MelodicMinor: {
-      // has a raised sixth and seventh
-        const sixth = interval_up_letter(scale.tonic.letter, 6);
-        const seventh = interval_up_letter(scale.tonic.letter, 7);
-        return {... all_naturals, [sixth]: 1, [seventh]: 1};
+      // Aeolian with a raised sixth and seventh
+      const sig = key_sig_equiv(ScaleType.Aeolian, Interval.PerfectUnison);
+      const sixth = interval_up_letter(scale.tonic.letter, 6);
+      const seventh = interval_up_letter(scale.tonic.letter, 7);
+      const accs = {... no_accidentals, [sixth]: 1, [seventh]: 1};
+      return { key_sig: sig, accidentals: accs };
     }
     case ScaleType.HarmonicMinor: {
-      // has a raised seventh
+      // Aeolian with a raised seventh
+      const sig = key_sig_equiv(ScaleType.Aeolian, Interval.PerfectUnison);
       const seventh = interval_up_letter(scale.tonic.letter, 7);
-      return {... all_naturals, [seventh]: 1};
+      const accs = {... no_accidentals, [seventh]: 1};
+      return { key_sig: sig, accidentals: accs };
     }
 
     case ScaleType.HarmonicMajor: {
-      // Ionian with a lowered sixth
+      // Ionian wih a lowered sixth
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectUnison);
       const sixth = interval_up_letter(scale.tonic.letter, 6);
-      return {... all_naturals, [sixth]: -1};
+      const accs = {... no_accidentals, [sixth]: -1};
+      return { key_sig: sig, accidentals: accs };
     }
 
     case ScaleType.DoubleHarmonic: {
       // harmonic major with a lowered second
-      const parallel_harmonic_major =
-        accidentals({ tonic: scale.tonic, mode: ScaleType.HarmonicMajor });
+      const { key_sig, accidentals } = deets_equiv(ScaleType.HarmonicMajor,
+                                                   Interval.PerfectUnison);
       const second = interval_up_letter(scale.tonic.letter, 2);
-      return {... parallel_harmonic_major, [second]: -1};
+      const accs = {... accidentals, [second]: -1};
+      return { key_sig: key_sig, accidentals: accs };
     }
-      return not_yet_implemented_accidentals;
 
     case ScaleType.NeapolitanMajor:
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
     case ScaleType.NeapolitanMinor:
-      return not_yet_implemented_accidentals;
-
-    case ScaleType.HungarianMajor:
-      return all_naturals;
+      return not_yet_implemented_scale;
+    case ScaleType.HungarianMajor: {
+      // Simpsons with a raised 2
+      const sig = key_sig_equiv(ScaleType.Simpsons, Interval.PerfectUnison);
+      const second = interval_up_letter(scale.tonic.letter, 2);
+      const accs = {... no_accidentals, [second]: 1};
+      return { key_sig: sig, accidentals: accs };
+    }
 
     case ScaleType.MelodicMinorMode2: {
       // has the key sig of its seventh, with a raised 5 and 6
+      const sig = key_sig_equiv(ScaleType.MelodicMinor, Interval.MinorSeventh);
       const fifth = interval_up_letter(scale.tonic.letter, 5);
       const sixth = interval_up_letter(scale.tonic.letter, 6);
-      return {... all_naturals, [fifth]: 1, [sixth]: 1};
+      const accs = {... no_accidentals, [fifth]: 1, [sixth]: 1};
+      return { key_sig: sig, accidentals: accs };
     }
     case ScaleType.MelodicMinorMode3: {
-      // has the key sig of its fifth, with a raised 5
+      // Lydian with a raised fifth
+      const sig = key_sig_equiv(ScaleType.Lydian, Interval.PerfectUnison);
       const fifth = interval_up_letter(scale.tonic.letter, 5);
-      return {... all_naturals, [fifth]: 1};
+      const accs = {... no_accidentals, [fifth]: 1};
+      return { key_sig: sig, accidentals: accs };
     }
-      return not_yet_implemented_accidentals;
-    case ScaleType.Simpsons:
-      return all_naturals;
+    case ScaleType.Simpsons: {
+      // Lydian with a lowered seventh in the key sig
+      const parallel_lydian = key_sig_equiv(ScaleType.Lydian,
+                                            Interval.PerfectUnison);
+      const seventh = interval_up_letter(scale.tonic.letter, 7);
+      const sig = {... parallel_lydian,
+              [seventh]: parallel_lydian[seventh] - 1,
+      };
+      return { key_sig: sig, accidentals: no_accidentals };
+    }
     case ScaleType.MelodicMinorMode5: {
       // has the key sig of its fourth, with a raised 2 and 3
+      const sig = key_sig_equiv(ScaleType.MelodicMinor,
+                                Interval.PerfectFourth);
       const second = interval_up_letter(scale.tonic.letter, 2);
       const third = interval_up_letter(scale.tonic.letter, 3);
-      return {... all_naturals, [second]: 1, [third]: 1};
+      const accs = {... no_accidentals, [second]: 1, [third]: 1};
+      return { key_sig: sig, accidentals: accs };
     }
     case ScaleType.HalfDiminished: {
       // has the key sig of its seventh, with a raised 2
+      const sig = key_sig_equiv(ScaleType.Aeolian, Interval.MinorSeventh);
       const second = interval_up_letter(scale.tonic.letter, 2);
-      return {... all_naturals, [second]: 1};
+      const accs = {... no_accidentals, [second]: 1};
+      return { key_sig: sig, accidentals: accs };
     }
-    case ScaleType.SuperLocrian:
-      return not_yet_implemented_accidentals;
+    case ScaleType.SuperLocrian: {
+      // Locrian with a lowered fourth
+      const parallel_locrian = key_sig_equiv(ScaleType.Locrian,
+                                             Interval.PerfectUnison);
+      const fourth = interval_up_letter(scale.tonic.letter, 4);
+      const sig = {... parallel_locrian,
+              [fourth]: parallel_locrian[fourth] - 1,
+      };
+      return { key_sig: sig, accidentals: no_accidentals };
+    }
 
     case ScaleType.HarmonicMinorMode2:
     case ScaleType.HarmonicMinorMode3:
@@ -721,7 +629,7 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.PhrygianDominant:
     case ScaleType.HarmonicMinorMode6:
     case ScaleType.HarmonicMinorMode7:
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
 
     case ScaleType.HarmonicMajorMode2:
     case ScaleType.HarmonicMajorMode3:
@@ -729,7 +637,7 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.HarmonicMajorMode5:
     case ScaleType.HarmonicMajorMode6:
     case ScaleType.HarmonicMajorMode7:
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
 
     case ScaleType.DoubleHarmonicMode2:
     case ScaleType.DoubleHarmonicMode3:
@@ -737,7 +645,7 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.DoubleHarmonicMode5:
     case ScaleType.DoubleHarmonicMode6:
     case ScaleType.DoubleHarmonicMode7:
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
 
     case ScaleType.NeapolitanMajorMode2:
     case ScaleType.NeapolitanMajorMode3:
@@ -745,7 +653,7 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.NeapolitanMajorMode5:
     case ScaleType.NeapolitanMajorMode6:
     case ScaleType.NeapolitanMajorMode7:
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
 
     case ScaleType.NeapolitanMinorMode2:
     case ScaleType.NeapolitanMinorMode3:
@@ -753,7 +661,7 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.NeapolitanMinorMode5:
     case ScaleType.NeapolitanMinorMode6:
     case ScaleType.NeapolitanMinorMode7:
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
 
     case ScaleType.HungarianMajorMode2:
     case ScaleType.HungarianMajorMode3:
@@ -761,26 +669,28 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.HungarianMajorMode5:
     case ScaleType.HungarianMajorMode6:
     case ScaleType.HungarianMajorMode7:
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
 
     case ScaleType.Chromatic:
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
     case ScaleType.AlteredDominant:
       // has a flat 5, sharp 5, flat 9, sharp 9
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
     case ScaleType.LydianDominant: {
-      // is a dominant scale, with a raised 4
+      // is a dominant scale with a raised 4
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
       const fourth = interval_up_letter(scale.tonic.letter, 4);
-      return {... all_naturals, [fourth]: 1};
+      const accs = {... no_accidentals, [fourth]: 1};
+      return { key_sig: sig, accidentals: accs };
     }
     case ScaleType.Blues:
     case ScaleType.Prometheus:
     case ScaleType.WholeTone:
     case ScaleType.PentatonicMajor:
     case ScaleType.PentatonicMinor:
-      return not_yet_implemented_accidentals;
+      return not_yet_implemented_scale;
   }
 }
 
