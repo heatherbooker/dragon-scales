@@ -8,6 +8,8 @@ function clear_staff() {
   document.querySelectorAll('path.note-modifier').forEach(sharp => sharp.remove());
 }
 
+const distanceBetweenStaffLines = 10; // in pixels?
+
 function draw_note_heads(staff: HTMLElement,
                          first: LetterName,
                          accids: Accidentals,
@@ -15,7 +17,6 @@ function draw_note_heads(staff: HTMLElement,
   const notes =
     ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C'];
 
-  const distanceBetweenStaffLines = 10;
   const lowest_cy = (6 + notes.indexOf(first)) * distanceBetweenStaffLines;
   const bottom = 200; // since size of our svg is 200
   const ledgerLines = [10, 130]; // highest and lowest notes
@@ -59,13 +60,13 @@ function draw_note_heads(staff: HTMLElement,
 
 function draw_key_sig(staff: HTMLElement, sig: KeySig) {
   const flat_sig_heights: { letter: LetterName, height: number }[] = [
-    {letter: LetterName.B, height: 83},
-    {letter: LetterName.E, height: 53},
-    {letter: LetterName.A, height: 93},
-    {letter: LetterName.D, height: 63},
-    {letter: LetterName.G, height: 103},
-    {letter: LetterName.C, height: 73},
-    {letter: LetterName.F, height: 113},
+    {letter: LetterName.B, height: 93},
+    {letter: LetterName.E, height: 63},
+    {letter: LetterName.A, height: 103},
+    {letter: LetterName.D, height: 73},
+    {letter: LetterName.G, height: 113},
+    {letter: LetterName.C, height: 83},
+    {letter: LetterName.F, height: 123},
   ];
 
   const sharp_sig_heights = [
@@ -111,6 +112,7 @@ function draw_accidental(staff: HTMLElement,
       case -2:
         return DOUBLE_FLAT_SVG_PATH;
       case -1:
+        y_pos -= 1 * distanceBetweenStaffLines;
         return FLAT_SVG_PATH;
       case 0:
         return NATURAL_SVG_PATH;

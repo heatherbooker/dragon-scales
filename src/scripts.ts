@@ -195,7 +195,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.Mixolydian,
     ScaleType.Simpsons,
     ScaleType.HarmonicMajor,
-    // ScaleType.HungarianMajor,
+    ScaleType.HungarianMajor,
   ],
 
   // various minor scales
@@ -496,8 +496,15 @@ function key_signature(scale: Scale): KeySig {
       return not_yet_implemented_key_sig;
     case ScaleType.NeapolitanMinor:
       return not_yet_implemented_key_sig;
-    case ScaleType.HungarianMajor:
-      return not_yet_implemented_key_sig;
+    case ScaleType.HungarianMajor: {
+      // Simpsons with a raised 2
+      const parallel_simpsons = key_signature({ tonic: scale.tonic,
+                                                mode: ScaleType.Simpsons });
+      const second = interval_up_letter(scale.tonic.letter, 2);
+      return {... parallel_simpsons,
+              [second]: parallel_simpsons[second] + 1,
+      };
+    }
 
     case ScaleType.MelodicMinorMode2: {
       return key_signature({ mode: ScaleType.MelodicMinor,
@@ -649,7 +656,7 @@ function accidentals(scale: Scale): Accidentals {
       return not_yet_implemented_accidentals;
 
     case ScaleType.HungarianMajor:
-      return not_yet_implemented_accidentals;
+      return all_naturals;
 
     case ScaleType.MelodicMinorMode2: {
       // has the key sig of its seventh, with a raised 5 and 6
