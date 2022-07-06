@@ -194,7 +194,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.Lydian,
     ScaleType.Mixolydian,
     ScaleType.Simpsons,
-    // ScaleType.HarmonicMajor,
+    ScaleType.HarmonicMajor,
     // ScaleType.HungarianMajor,
   ],
 
@@ -483,8 +483,11 @@ function key_signature(scale: Scale): KeySig {
       return key_signature({ tonic: scale.tonic,
                              mode: ScaleType.Aeolian });
 
-    case ScaleType.HarmonicMajor:
-      return not_yet_implemented_key_sig;
+    case ScaleType.HarmonicMajor: {
+      // Ionian wih a lowered sixth
+      return key_signature({ tonic: scale.tonic,
+                             mode: ScaleType.Ionian });
+    }
 
     case ScaleType.DoubleHarmonic:
       return not_yet_implemented_key_sig;
@@ -647,8 +650,11 @@ function accidentals(scale: Scale): Accidentals {
       return {... all_naturals, [seventh]: 1};
     }
 
-    case ScaleType.HarmonicMajor:
-      return not_yet_implemented_accidentals;
+    case ScaleType.HarmonicMajor: {
+      // Ionian with a lowered sixth
+      const sixth = interval_up_letter(scale.tonic.letter, 6);
+      return {... all_naturals, [sixth]: -1};
+    }
 
     case ScaleType.DoubleHarmonic:
       return not_yet_implemented_accidentals;
