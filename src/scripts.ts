@@ -194,6 +194,8 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.Lydian,
     ScaleType.Mixolydian,
     ScaleType.Simpsons,
+    // ScaleType.HarmonicMajor,
+    // ScaleType.HungarianMajor,
   ],
 
   // various minor scales
@@ -202,6 +204,11 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.Dorian,
     ScaleType.MelodicMinor,
     ScaleType.HarmonicMinor,
+    // FIXME
+    // ScaleType.NeapolitanMajor,
+    // ScaleType.NeapolitanMinor,
+    // ScaleType.HungarianMinor,
+
   ],
 
   // modes of ionian
