@@ -215,8 +215,8 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
 
   "dominants": [
     ScaleType.Mixolydian,
+    ScaleType.LydianDominant,
     // FIXME
-//     ScaleType.LydianDominant,
 //     ScaleType.PhrygianDominant,
 //     ScaleType.AlteredDominant,
 //     ScaleType.OctatonicDominant,
@@ -609,8 +609,16 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.Chromatic:
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
+      return not_yet_implemented_key_sig;
     case ScaleType.AlteredDominant:
-    case ScaleType.LydianDominant:
+    // has a flat 5, sharp 5, flat 9, sharp 9
+      return not_yet_implemented_key_sig;
+    case ScaleType.LydianDominant: {
+      // is a dominant scale, with a raised 4
+      return key_signature({ mode: ScaleType.Ionian,
+                             tonic: interval_up(scale.tonic,
+                                                Interval.PerfectFourth)});
+    }
     case ScaleType.Blues:
     case ScaleType.Prometheus:
     case ScaleType.WholeTone:
@@ -758,8 +766,15 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.Chromatic:
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
+      return not_yet_implemented_accidentals;
     case ScaleType.AlteredDominant:
-    case ScaleType.LydianDominant:
+      // has a flat 5, sharp 5, flat 9, sharp 9
+      return not_yet_implemented_accidentals;
+    case ScaleType.LydianDominant: {
+      // is a dominant scale, with a raised 4
+      const fourth = interval_up_letter(scale.tonic.letter, 4);
+      return {... all_naturals, [fourth]: 1};
+    }
     case ScaleType.Blues:
     case ScaleType.Prometheus:
     case ScaleType.WholeTone:
