@@ -500,22 +500,13 @@ function key_signature(scale: Scale): KeySig {
       return not_yet_implemented_key_sig;
 
     case ScaleType.MelodicMinorMode2: {
-      // Phrygian with a raised 6
-      const parallel_phrygian = key_signature({ tonic: scale.tonic,
-                                                mode: ScaleType.Phrygian });
-      const sixth = interval_up_letter(scale.tonic.letter, 6);
-      return {... parallel_phrygian,
-              [sixth]: parallel_phrygian[sixth] + 1,
-      };
+      return key_signature({ mode: ScaleType.MelodicMinor,
+                             tonic: interval_up(scale.tonic,
+                                                Interval.MinorSeventh)});
     }
     case ScaleType.MelodicMinorMode3: {
       // Lydian with a raised fifth
-      const parallel_lydian = key_signature({ tonic: scale.tonic,
-                                              mode: ScaleType.Lydian });
-      const fifth = interval_up_letter(scale.tonic.letter, 5);
-      return {... parallel_lydian,
-              [fifth]: parallel_lydian[fifth] + 1,
-      };
+      return key_signature({ tonic: scale.tonic, mode: ScaleType.Lydian });
     }
     case ScaleType.Simpsons: {
       // Lydian with a lowered seventh
@@ -527,13 +518,9 @@ function key_signature(scale: Scale): KeySig {
       };
     }
     case ScaleType.MelodicMinorMode5: {
-      // Mixolydian with a lowered sixth
-      const parallel_mixolydian =
-        key_signature({ tonic: scale.tonic, mode: ScaleType.Mixolydian });
-      const sixth = interval_up_letter(scale.tonic.letter, 6);
-      return {... parallel_mixolydian,
-              [sixth]: parallel_mixolydian[sixth] - 1,
-      };
+      return key_signature({ mode: ScaleType.MelodicMinor,
+                             tonic: interval_up(scale.tonic,
+                                                Interval.PerfectFourth)});
     }
     case ScaleType.HalfDiminished: {
       // has the key signature of its seventh
@@ -664,13 +651,26 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.HungarianMajor:
       return not_yet_implemented_accidentals;
 
-    case ScaleType.MelodicMinorMode2:
-    case ScaleType.MelodicMinorMode3:
+    case ScaleType.MelodicMinorMode2: {
+      // has the key sig of its seventh, with a raised 5 and 6
+      const fifth = interval_up_letter(scale.tonic.letter, 5);
+      const sixth = interval_up_letter(scale.tonic.letter, 6);
+      return {... all_naturals, [fifth]: 1, [sixth]: 1};
+    }
+    case ScaleType.MelodicMinorMode3: {
+      // has the key sig of its fifth, with a raised 5
+      const fifth = interval_up_letter(scale.tonic.letter, 5);
+      return {... all_naturals, [fifth]: 1};
+    }
       return not_yet_implemented_accidentals;
     case ScaleType.Simpsons:
       return all_naturals;
-    case ScaleType.MelodicMinorMode5:
-      return not_yet_implemented_accidentals;
+    case ScaleType.MelodicMinorMode5: {
+      // has the key sig of its fourth, with a raised 2 and 3
+      const second = interval_up_letter(scale.tonic.letter, 2);
+      const third = interval_up_letter(scale.tonic.letter, 3);
+      return {... all_naturals, [second]: 1, [third]: 1};
+    }
     case ScaleType.HalfDiminished: {
       // has the key sig of its seventh, with a raised 2
       const second = interval_up_letter(scale.tonic.letter, 2);
