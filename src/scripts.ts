@@ -175,6 +175,7 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.OctatonicDominant]: 0.5,
   [ScaleType.OctatonicDiminished]: 0.6,
   [ScaleType.AlteredDominant]: 0.4,
+  [ScaleType.LydianDominant]: 0.4,
   [ScaleType.Blues]: 0.4,
   [ScaleType.Prometheus]: 0.4,
   [ScaleType.WholeTone]: 0.4,
@@ -210,7 +211,15 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     // ScaleType.NeapolitanMajor,
     // ScaleType.NeapolitanMinor,
     // ScaleType.HungarianMinor,
+  ],
 
+  "dominants": [
+    ScaleType.Mixolydian,
+    // FIXME
+//     ScaleType.LydianDominant,
+//     ScaleType.PhrygianDominant,
+//     ScaleType.AlteredDominant,
+//     ScaleType.OctatonicDominant,
   ],
 
   // modes of ionian
@@ -239,6 +248,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "chromatic": [ScaleType.Chromatic],
   "octatonic": [ScaleType.OctatonicDominant, ScaleType.OctatonicDiminished],
   "altered-dominant": [ScaleType.AlteredDominant],
+  "lydian-dominant": [ScaleType.LydianDominant],
   "hexatonic": [
     ScaleType.Blues,
     ScaleType.Prometheus,
@@ -600,6 +610,7 @@ function key_signature(scale: Scale): KeySig {
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
     case ScaleType.AlteredDominant:
+    case ScaleType.LydianDominant:
     case ScaleType.Blues:
     case ScaleType.Prometheus:
     case ScaleType.WholeTone:
@@ -748,6 +759,7 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
     case ScaleType.AlteredDominant:
+    case ScaleType.LydianDominant:
     case ScaleType.Blues:
     case ScaleType.Prometheus:
     case ScaleType.WholeTone:

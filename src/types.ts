@@ -155,6 +155,8 @@ enum ScaleType {
   OctatonicDiminished,
   AlteredDominant, // enharmonically the same as SuperLocrian,
                    // but with a different key sig and accidentals
+  LydianDominant, // enharmonically the same as Simpsons,
+                  // but different key sig and accidentals
 
   Blues,
   Prometheus,
@@ -172,11 +174,13 @@ const enum CheckBoxen {
   "double-harmonic" = "double-harmonic",
   "majors" = "majors",
   "minors" = "minors",
+  "dominants" = "dominants",
   "ionian-modes" = "ionian-modes",
   "memimos" = "memimos", // modes of melodic minor
   "chromatic" = "chromatic",
   "octatonic" = "octatonic",
   "altered-dominant" = "altered-dominant",
+  "lydian-dominant" = "lydian-dominant",
   "hexatonic" = "hexatonic",
   "whole-tone" = "whole-tone",
   "pentatonic" = "pentatonic",
@@ -281,6 +285,7 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.OctatonicDominant: return "dominant octatonic";
     case ScaleType.OctatonicDiminished: return "diminished octatonic";
     case ScaleType.AlteredDominant: return "altered dominant";
+    case ScaleType.LydianDominant: return "Lydian dominant";
     case ScaleType.Blues: return "blues";
     case ScaleType.Prometheus: return "Prometheus";
     case ScaleType.WholeTone: return "whole-tone";
