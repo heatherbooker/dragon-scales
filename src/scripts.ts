@@ -187,6 +187,8 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "ionian": [ScaleType.Ionian],
   "melodic-minor": [ScaleType.MelodicMinor],
   "harmonic-minor": [ScaleType.HarmonicMinor],
+  "harmonic-major": [ScaleType.HarmonicMajor],
+  "double-harmonic": [ScaleType.DoubleHarmonic],
 
   // various major scales
   "majors": [

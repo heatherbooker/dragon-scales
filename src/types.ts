@@ -168,6 +168,8 @@ const enum CheckBoxen {
   "ionian" = "ionian",
   "melodic-minor" = "melodic-minor",
   "harmonic-minor" = "harmonic-minor",
+  "harmonic-major" = "harmonic-major",
+  "double-harmonic" = "double-harmonic",
   "majors" = "majors",
   "minors" = "minors",
   "ionian-modes" = "ionian-modes",
