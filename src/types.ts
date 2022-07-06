@@ -79,7 +79,7 @@ enum ScaleType {
   MelodicMinor,
   HarmonicMinor,
   HarmonicMajor,
-  DoubleHarmonic, // flat 2 and flat 6
+  DoubleHarmonic,
   NeapolitanMajor,
   NeapolitanMinor,
   HungarianMajor,
@@ -200,7 +200,7 @@ function render_scale_type(scale: ScaleType): string {
 
     case ScaleType.HarmonicMajor: return "harmonic major";
 
-    case ScaleType.DoubleHarmonic: return "double harmonic minor";
+    case ScaleType.DoubleHarmonic: return "double harmonic";
 
     case ScaleType.NeapolitanMajor: return "Neapolitan major";
     case ScaleType.NeapolitanMinor: return "Neapolitan minor";

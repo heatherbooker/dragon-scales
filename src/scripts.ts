@@ -490,7 +490,9 @@ function key_signature(scale: Scale): KeySig {
     }
 
     case ScaleType.DoubleHarmonic:
-      return not_yet_implemented_key_sig;
+      // harmonic major with a lowered second
+      return key_signature({ tonic: scale.tonic,
+                             mode: ScaleType.HarmonicMajor });
 
     case ScaleType.NeapolitanMajor:
       return not_yet_implemented_key_sig;
@@ -647,7 +649,13 @@ function accidentals(scale: Scale): Accidentals {
       return {... all_naturals, [sixth]: -1};
     }
 
-    case ScaleType.DoubleHarmonic:
+    case ScaleType.DoubleHarmonic: {
+      // harmonic major with a lowered second
+      const parallel_harmonic_major =
+        accidentals({ tonic: scale.tonic, mode: ScaleType.HarmonicMajor });
+      const second = interval_up_letter(scale.tonic.letter, 2);
+      return {... parallel_harmonic_major, [second]: -1};
+    }
       return not_yet_implemented_accidentals;
 
     case ScaleType.NeapolitanMajor:
