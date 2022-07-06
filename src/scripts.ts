@@ -536,13 +536,9 @@ function key_signature(scale: Scale): KeySig {
       };
     }
     case ScaleType.HalfDiminished: {
-      // Locrian with a raised 2
-      const parallel_locrian = key_signature({ tonic: scale.tonic,
-                                               mode: ScaleType.Locrian });
-      const second = interval_up_letter(scale.tonic.letter, 2);
-      return {... parallel_locrian,
-              [second]: parallel_locrian[second] + 1,
-      };
+      // has the key signature of its seventh
+      const seventh = interval_up(scale.tonic, Interval.MinorSeventh);
+      return key_signature({ tonic: seventh, mode: ScaleType.Aeolian });
     }
     case ScaleType.SuperLocrian: {
       // Locrian with a lowered fourth
@@ -672,7 +668,12 @@ function accidentals(scale: Scale): Accidentals {
     case ScaleType.MelodicMinorMode3:
     case ScaleType.Simpsons:
     case ScaleType.MelodicMinorMode5:
-    case ScaleType.HalfDiminished:
+      return not_yet_implemented_accidentals;
+    case ScaleType.HalfDiminished: {
+      // has the key sig of its seventh, with a raised 2
+      const second = interval_up_letter(scale.tonic.letter, 2);
+      return {... all_naturals, [second]: 1};
+    }
     case ScaleType.SuperLocrian:
       return not_yet_implemented_accidentals;
 
