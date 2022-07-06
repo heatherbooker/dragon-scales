@@ -211,7 +211,7 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.MelodicMinorMode2: return "mode 2 of melodic minor";
     case ScaleType.MelodicMinorMode3: return "Lydian augmented";
     case ScaleType.Simpsons: return "acoustic (Simpsons)";
-    case ScaleType.MelodicMinorMode5: return "mode 5 of melodic minor";
+    case ScaleType.MelodicMinorMode5: return "Aeolian dominant";
     case ScaleType.HalfDiminished: return "half-diminished";
     case ScaleType.SuperLocrian: return "super-Locrian";
 
