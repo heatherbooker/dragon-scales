@@ -666,7 +666,9 @@ function accidentals(scale: Scale): Accidentals {
 
     case ScaleType.MelodicMinorMode2:
     case ScaleType.MelodicMinorMode3:
+      return not_yet_implemented_accidentals;
     case ScaleType.Simpsons:
+      return all_naturals;
     case ScaleType.MelodicMinorMode5:
       return not_yet_implemented_accidentals;
     case ScaleType.HalfDiminished: {
