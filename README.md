@@ -27,6 +27,16 @@ TODO: write this section
 - sit at piano
 - play scales! make beautiful musics!
 
+## how to test
+
+Testing is still semi-manual; run:
+
+```sh
+make test
+```
+
+Then check the console in the automagically opened browser window for any test failures.
+
 ## TO DO
 
 - key signatures
