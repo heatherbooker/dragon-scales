@@ -112,7 +112,6 @@ function draw_accidental(staff: HTMLElement,
       case -2:
         return DOUBLE_FLAT_SVG_PATH;
       case -1:
-        y_pos -= 1 * distanceBetweenStaffLines;
         return FLAT_SVG_PATH;
       case 0:
         return NATURAL_SVG_PATH;
