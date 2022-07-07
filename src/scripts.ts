@@ -224,7 +224,7 @@ function main() {
       const speed: number = select_speed(difficulty,
                                          note_difficulty_weight(scale.tonic),
                                          scale_types_difficulty[scale.mode]);
-      message = `${render_note(scale.tonic)} ${render_scale_type(scale.mode)}, metronome at: ${speed}`;
+      message = `${render_note(scale.tonic)} <span id="test-id-scale-mode">${render_scale_type(scale.mode)}</span>, metronome at: ${speed}`;
 
       const scale_deets = scale_details(scale);
 
@@ -238,7 +238,7 @@ function main() {
     }
     const scale_flavour: HTMLElement =
       document.querySelector('#scale-flavour') as HTMLElement;
-    scale_flavour.textContent = message;
+    scale_flavour.innerHTML = message;
   };
 }
 
