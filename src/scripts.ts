@@ -130,6 +130,16 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.SuperLocrian,
   ],
 
+  "modes-harmonic-minor": [
+    ScaleType.HarmonicMinor,
+    ScaleType.HarmonicMinorMode2,
+    ScaleType.HarmonicMinorMode3,
+    ScaleType.UkrainianDorian,
+    ScaleType.PhrygianDominant,
+    ScaleType.HarmonicMinorMode6,
+    ScaleType.HarmonicMinorMode7,
+  ],
+
   // others
   "chromatic": [ScaleType.Chromatic],
   "octatonic": [ScaleType.OctatonicDominant, ScaleType.OctatonicDiminished],
@@ -482,12 +492,17 @@ function scale_details(scale: Scale): ScaleDetails {
     }
 
     case ScaleType.HarmonicMinorMode2:
+      return deets_equiv(ScaleType.HarmonicMinor, Interval.MinorSeventh);
     case ScaleType.HarmonicMinorMode3:
+      return deets_equiv(ScaleType.HarmonicMinor, Interval.MajorSixth);
     case ScaleType.UkrainianDorian:
+      return deets_equiv(ScaleType.HarmonicMinor, Interval.PerfectFifth);
     case ScaleType.PhrygianDominant:
+      return deets_equiv(ScaleType.HarmonicMinor, Interval.PerfectFourth);
     case ScaleType.HarmonicMinorMode6:
+      return deets_equiv(ScaleType.HarmonicMinor, Interval.MajorThird);
     case ScaleType.HarmonicMinorMode7:
-      return not_yet_implemented_scale;
+      return deets_equiv(ScaleType.HarmonicMinor, Interval.MinorSecond);
 
     case ScaleType.HarmonicMajorMode2:
     case ScaleType.HarmonicMajorMode3:
