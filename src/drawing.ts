@@ -41,7 +41,7 @@ function draw_scale(staff: HTMLElement,
     draw_note_head(staff, x_position, y_position);
 
     if (ledgerLines.includes(y_position)) {
-      draw_ledger_line(staff, y_position, x_position);
+      draw_ledger_line(staff, x_position, y_position);
     }
 
     // up a second to the next letter name
@@ -134,7 +134,7 @@ function draw_accidental(staff: HTMLElement,
   staff.appendChild(svg);
 }
 
-function draw_ledger_line(staff: HTMLElement, cy: number, cx: number) {
+function draw_ledger_line(staff: HTMLElement, cx: number, cy: number) {
   const ledgerLine = createElementSVG('rect');
   ledgerLine.setAttribute('height', '2');
   ledgerLine.setAttribute('width', '44');
