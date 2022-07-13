@@ -17,9 +17,9 @@ function draw_note_heads(staff: HTMLElement,
   const notes =
     ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C'];
 
-  const lowest_cy = (6 + notes.indexOf(first)) * distanceBetweenStaffLines;
+  const lowest_cy = (3 + notes.indexOf(first)) * distanceBetweenStaffLines;
   const bottom = 200; // since size of our svg is 200
-  const ledgerLines = [10, 130]; // highest and lowest notes
+  const ledgerLines = [40, 160]; // highest and lowest notes
 
   let x_position = 200;
   let y_position = bottom - lowest_cy;
@@ -60,23 +60,23 @@ function draw_note_heads(staff: HTMLElement,
 
 function draw_key_sig(staff: HTMLElement, sig: KeySig) {
   const flat_sig_heights: { letter: LetterName, height: number }[] = [
-    {letter: LetterName.B, height: 93},
-    {letter: LetterName.E, height: 63},
-    {letter: LetterName.A, height: 103},
-    {letter: LetterName.D, height: 73},
-    {letter: LetterName.G, height: 113},
-    {letter: LetterName.C, height: 83},
-    {letter: LetterName.F, height: 123},
+    {letter: LetterName.B, height: 123},
+    {letter: LetterName.E, height: 93},
+    {letter: LetterName.A, height: 133},
+    {letter: LetterName.D, height: 103},
+    {letter: LetterName.G, height: 143},
+    {letter: LetterName.C, height: 113},
+    {letter: LetterName.F, height: 153},
   ];
 
   const sharp_sig_heights = [
-    {letter: LetterName.F, height: 53},
-    {letter: LetterName.C, height: 83},
-    {letter: LetterName.G, height: 43},
-    {letter: LetterName.D, height: 73},
-    {letter: LetterName.A, height: 103},
-    {letter: LetterName.E, height: 63},
-    {letter: LetterName.B, height: 93},
+    {letter: LetterName.F, height: 83},
+    {letter: LetterName.C, height: 113},
+    {letter: LetterName.G, height: 73},
+    {letter: LetterName.D, height: 103},
+    {letter: LetterName.A, height: 133},
+    {letter: LetterName.E, height: 93},
+    {letter: LetterName.B, height: 123},
   ];
 
   // keep track of how far we have moved from the left
