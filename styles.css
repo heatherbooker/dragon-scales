@@ -15,3 +15,15 @@ label {
   padding: 10px 20px;
   margin: 20px;
 }
+
+div.checkboxen#mains-and-modes {
+  column-count: 2;
+  width: 25em;
+  white-space: nowrap;
+}
+
+div.checkboxen#others {
+  column-count: 3;
+  width: 50em;
+  white-space: nowrap;
+}
