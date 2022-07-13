@@ -32,9 +32,8 @@ function draw_scale(staff: HTMLElement,
     // draw accid, if necessary
     if (accids[current_letter]) {
       const acc = key_sig[current_letter] + accids[current_letter];
-      x_position = x_position + 35;
-      draw_accidental(staff, acc, x_position, y_position+25);
-      x_position = x_position + 35;
+      draw_accidental(staff, acc, x_position+35, y_position+25);
+      x_position = x_position + 70;
     } else {
       x_position = x_position + 50;
     }
