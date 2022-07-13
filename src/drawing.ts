@@ -15,12 +15,12 @@ const bottom = 180; // since size of our svg is 180
 const staff_positions = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 const ledgerLines = [30, 150]; // highest and lowest notes
 
-function draw_note_heads(staff: HTMLElement,
-                         first: LetterName,
-                         accids: Accidentals,
-                         key_sig: KeySig): void {
+function draw_scale(staff: HTMLElement,
+                    first: LetterName,
+                    accids: Accidentals,
+                    key_sig: KeySig): void {
 
-  const lowest_cy = (2 + staff_positions.indexOf(first))
+  const lowest_cy = (3 + staff_positions.indexOf(first))
                     * distanceBetweenStaffLines;
 
   let x_position = 200; // enough space for a key sig with 7 symbols
@@ -29,11 +29,6 @@ function draw_note_heads(staff: HTMLElement,
   // FIXME: some scales don't have 7 notes
   let current_letter = first;
   for (let i = 0; i < 7; i++) {
-    const notehead = createElementSVG('ellipse');
-    notehead.setAttribute('class', "notehead");
-
-    y_position = y_position - distanceBetweenStaffLines;
-
     // draw accid, if necessary
     if (accids[current_letter]) {
       const acc = key_sig[current_letter] + accids[current_letter];
@@ -44,12 +39,7 @@ function draw_note_heads(staff: HTMLElement,
       x_position = x_position + 50;
     }
 
-    notehead.setAttribute('cx', x_position.toString());
-    notehead.setAttribute('cy', y_position.toString());
-    notehead.setAttribute('rx', '14');
-    notehead.setAttribute('ry', '10');
-
-    staff.appendChild(notehead);
+    draw_note_head(staff, x_position, y_position);
 
     if (ledgerLines.includes(y_position)) {
       draw_ledger_line(staff, y_position, (x_position-22));
@@ -57,7 +47,18 @@ function draw_note_heads(staff: HTMLElement,
 
     // up a second to the next letter name
     current_letter = interval_up_letter(current_letter, 2);
+    y_position = y_position - distanceBetweenStaffLines;
   }
+}
+
+function draw_note_head(staff: HTMLElement, x_pos: number, y_pos: number): void {
+    const notehead = createElementSVG('ellipse');
+    notehead.setAttribute('class', "notehead");
+    notehead.setAttribute('cx', x_pos.toString());
+    notehead.setAttribute('cy', y_pos.toString());
+    notehead.setAttribute('rx', '14');
+    notehead.setAttribute('ry', '10');
+    staff.appendChild(notehead);
 }
 
 function draw_key_sig(staff: HTMLElement, sig: KeySig) {

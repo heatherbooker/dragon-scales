@@ -264,7 +264,7 @@ function main() {
       const staff: HTMLElement =
         document.querySelector('.staff svg') as HTMLElement;
       draw_key_sig(staff, key_sig);
-      draw_note_heads(staff, scale.tonic.letter, accids, key_sig);
+      draw_scale(staff, scale.tonic.letter, accids, key_sig);
     }
     const scale_flavour: HTMLElement =
       document.querySelector('#scale-flavour') as HTMLElement;
