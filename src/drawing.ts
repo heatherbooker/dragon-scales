@@ -9,19 +9,21 @@ function clear_staff() {
 }
 
 const distanceBetweenStaffLines = 10; // in pixels?
+const bottom = 180; // since size of our svg is 180
+
+// beginning from the ledger line below the staff, count up:
+const staff_positions = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+const ledgerLines = [30, 150]; // highest and lowest notes
 
 function draw_note_heads(staff: HTMLElement,
                          first: LetterName,
                          accids: Accidentals,
                          key_sig: KeySig): void {
-  const notes =
-    ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C'];
 
-  const lowest_cy = (2 + notes.indexOf(first)) * distanceBetweenStaffLines;
-  const bottom = 180; // since size of our svg is 180
-  const ledgerLines = [30, 150]; // highest and lowest notes
+  const lowest_cy = (2 + staff_positions.indexOf(first))
+                    * distanceBetweenStaffLines;
 
-  let x_position = 200;
+  let x_position = 200; // enough space for a key sig with 7 symbols
   let y_position = bottom - lowest_cy;
 
   // FIXME: some scales don't have 7 notes
