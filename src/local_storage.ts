@@ -1,3 +1,5 @@
+import { Settings } from './types';
+
 function add_checkbox_savers() {
   const checkboxen: NodeListOf<HTMLInputElement> =
     document.querySelectorAll('input[type = "checkbox"]');
@@ -40,3 +42,4 @@ function applySettings() {
   });
 }
 
+export { applySettings, add_checkbox_savers };

@@ -1,3 +1,5 @@
+import { ScaleType, LetterName, Note } from './types';
+
 function note_difficulty_weight(note: Note): number {
   // FIXME this is not terribly sophisticated.
   let difficulty: number;
@@ -144,3 +146,4 @@ function select_speed(levelFactor: number,
   return Math.floor(Math.min(metronome_max, Math.max(metronome_min, speed)));
 }
 
+export { scale_types_difficulty, select_speed, note_difficulty_weight };

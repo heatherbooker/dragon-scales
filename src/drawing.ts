@@ -1,3 +1,7 @@
+import { SHARP_SVG_PATH, FLAT_SVG_PATH, NATURAL_SVG_PATH, DOUBLE_SHARP_SVG_PATH, DOUBLE_FLAT_SVG_PATH } from './svgpaths';
+import { interval_up_letter } from './intervals';
+import { LetterName, Accidentals, KeySig } from './types';
+
 function createElementSVG(shape: string) {
   return document.createElementNS('http://www.w3.org/2000/svg', shape);
 }
@@ -9,6 +13,7 @@ function clear_staff() {
 }
 
 const distanceBetweenStaffLines = 10; // in pixels?
+
 
 function draw_note_heads(staff: HTMLElement,
                          first: LetterName,
@@ -141,3 +146,5 @@ function draw_ledger_line(staff: HTMLElement, cy: number, cx: number) {
   ledgerLine.setAttribute('class', "ledger");
   staff.appendChild(ledgerLine);
 }
+
+export { clear_staff, draw_key_sig, draw_note_heads };

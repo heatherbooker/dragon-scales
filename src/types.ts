@@ -298,3 +298,5 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.PentatonicMinor: return "pentatonic minor";
   }
 }
+
+export { Note, Scale, ScaleType, ScaleDetails, CheckBoxen, Settings, render_scale_type, Interval, LetterName, letter_name_enum, KeySig, Accidentals };
