@@ -109,7 +109,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   ],
 
   // modes of ionian
-  "ionian-modes": [
+  "modes-ionian": [
     ScaleType.Ionian,
     ScaleType.Aeolian,
     ScaleType.Dorian,
