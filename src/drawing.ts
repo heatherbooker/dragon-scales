@@ -32,7 +32,7 @@ function draw_scale(staff: HTMLElement,
     // draw accid, if necessary
     if (accids[current_letter]) {
       const acc = key_sig[current_letter] + accids[current_letter];
-      draw_accidental(staff, acc, x_position+35, y_position+25);
+      draw_accidental(staff, acc, x_position, y_position);
       x_position = x_position + 70;
     } else {
       x_position = x_position + 50;
@@ -41,7 +41,7 @@ function draw_scale(staff: HTMLElement,
     draw_note_head(staff, x_position, y_position);
 
     if (ledgerLines.includes(y_position)) {
-      draw_ledger_line(staff, y_position, (x_position-22));
+      draw_ledger_line(staff, y_position, x_position);
     }
 
     // up a second to the next letter name
@@ -62,23 +62,23 @@ function draw_note_head(staff: HTMLElement, x_pos: number, y_pos: number): void 
 
 function draw_key_sig(staff: HTMLElement, sig: KeySig) {
   const flat_sig_heights: { letter: LetterName, height: number }[] = [
-    {letter: LetterName.B, height: 113},
-    {letter: LetterName.E, height: 83},
-    {letter: LetterName.A, height: 123},
-    {letter: LetterName.D, height: 93},
-    {letter: LetterName.G, height: 133},
-    {letter: LetterName.C, height: 103},
-    {letter: LetterName.F, height: 143},
+    {letter: LetterName.B, height: 88},
+    {letter: LetterName.E, height: 58},
+    {letter: LetterName.A, height: 98},
+    {letter: LetterName.D, height: 68},
+    {letter: LetterName.G, height: 108},
+    {letter: LetterName.C, height: 78},
+    {letter: LetterName.F, height: 118},
   ];
 
   const sharp_sig_heights = [
-    {letter: LetterName.F, height: 73},
-    {letter: LetterName.C, height: 103},
-    {letter: LetterName.G, height: 63},
-    {letter: LetterName.D, height: 93},
-    {letter: LetterName.A, height: 123},
-    {letter: LetterName.E, height: 83},
-    {letter: LetterName.B, height: 113},
+    {letter: LetterName.F, height: 48},
+    {letter: LetterName.C, height: 78},
+    {letter: LetterName.G, height: 38},
+    {letter: LetterName.D, height: 68},
+    {letter: LetterName.A, height: 98},
+    {letter: LetterName.E, height: 58},
+    {letter: LetterName.B, height: 88},
   ];
 
   // keep track of how far we have moved from the left
@@ -91,7 +91,7 @@ function draw_key_sig(staff: HTMLElement, sig: KeySig) {
       if (sig[k.letter] === accid) {
         draw_accidental(staff,
                         accid,
-                        (20*sig_x_position+70),
+                        (20*sig_x_position+35),
                         k.height);
         sig_x_position++;
       }
@@ -130,7 +130,7 @@ function draw_accidental(staff: HTMLElement,
   const svg = createElementSVG('path');
   svg.setAttribute('d', accidental_svg(accid));
   svg.setAttribute('class', 'note-modifier');
-  svg.setAttribute('transform', `translate(${x_pos} , ${y_pos})`);
+  svg.setAttribute('transform', `translate(${x_pos+35} , ${y_pos+25})`);
   staff.appendChild(svg);
 }
 
@@ -139,7 +139,7 @@ function draw_ledger_line(staff: HTMLElement, cy: number, cx: number) {
   ledgerLine.setAttribute('height', '2');
   ledgerLine.setAttribute('width', '44');
   ledgerLine.setAttribute('y', cy.toString());
-  ledgerLine.setAttribute('x', cx.toString());
+  ledgerLine.setAttribute('x', (cx-22).toString());
   ledgerLine.setAttribute('class', "ledger");
   staff.appendChild(ledgerLine);
 }
