@@ -2,6 +2,8 @@
 
 HAVE FUM PLAY SCALES 🎵
 
+![screenshot](scrot-c0db290.png)
+
 ## build dependencies
 
 - [tsc](https://www.typescriptlang.org/)
@@ -39,10 +41,12 @@ Then check the console in the automagically opened browser window for any test f
 
 ## TO DO
 
-- key signatures
 - label difficulty dial prettier
 - implement rhythms scale types
 - implement contrary motions scale types
+- enharmonic scales
+- scales with a non-7 number of tones
+- don't give the same scale twice consecutively
 - add fingerings
 - full on dan mode
 - add choice of clefs
@@ -52,3 +56,6 @@ Then check the console in the automagically opened browser window for any test f
     check whether the checkbox for it is true
     try again until we get lucky.
     there are easier ways!
+- cute fact bubble
+    "the dorian scale is common in popular music, used by Thriller, Get Lucky, and Royals"
+- back button to repeat a scale, keep history
