@@ -156,8 +156,14 @@ enum ScaleType {
                   // but different key sig and accidentals
 
   Blues,
+  MajorBlues, // second mode of blues scale
   Prometheus,
   WholeTone,
+  MajorHexatonic,
+  Augmented,
+  Tritone,
+  TwoSemitoneTritone,
+  NonatonicBlues,  // ionian with extra flat 3 and flat 7
   PentatonicMajor,
   PentatonicMinor,
 }
@@ -287,9 +293,15 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.AlteredDominant: return "altered dominant";
     case ScaleType.LydianDominant: return "Lydian dominant";
     case ScaleType.Blues: return "blues";
+    case ScaleType.MajorBlues: return "major blues";
     case ScaleType.Prometheus: return "Prometheus";
     case ScaleType.WholeTone: return "whole-tone";
+    case ScaleType.MajorHexatonic: return "major blues";
+    case ScaleType.Augmented: return "major blues";
+    case ScaleType.Tritone: return "major blues";
+    case ScaleType.TwoSemitoneTritone: return "major blues";
     case ScaleType.PentatonicMajor: return "pentatonic major";
     case ScaleType.PentatonicMinor: return "pentatonic minor";
+    case ScaleType.NonatonicBlues: return "pentatonic minor";
   }
 }

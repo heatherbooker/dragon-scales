@@ -615,11 +615,104 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: accs };
     }
     case ScaleType.Blues:
+    case ScaleType.MajorBlues:
     case ScaleType.Prometheus:
     case ScaleType.WholeTone:
+    case ScaleType.MajorHexatonic:
+    case ScaleType.Augmented:
+    case ScaleType.Tritone:
+    case ScaleType.TwoSemitoneTritone:
     case ScaleType.PentatonicMajor:
     case ScaleType.PentatonicMinor:
+    case ScaleType.NonatonicBlues:
       return not_yet_implemented_scale;
+  }
+}
+
+function scale_length(scale: Scale): number {
+  switch (scale.mode) {
+    case ScaleType.PentatonicMajor:
+    case ScaleType.PentatonicMinor:
+      return 5;
+
+    case ScaleType.Blues:
+    case ScaleType.MajorBlues:
+    case ScaleType.Prometheus:
+    case ScaleType.WholeTone:
+    case ScaleType.MajorHexatonic:
+    case ScaleType.Augmented:
+    case ScaleType.Tritone:
+    case ScaleType.TwoSemitoneTritone:
+      return 6;
+
+    case ScaleType.Ionian:
+    case ScaleType.Dorian:
+    case ScaleType.Phrygian:
+    case ScaleType.Lydian:
+    case ScaleType.Mixolydian:
+    case ScaleType.Aeolian:
+    case ScaleType.Locrian:
+    case ScaleType.MelodicMinor:
+    case ScaleType.HarmonicMinor:
+    case ScaleType.HarmonicMajor:
+    case ScaleType.DoubleHarmonic:
+    case ScaleType.NeapolitanMajor:
+    case ScaleType.NeapolitanMinor:
+    case ScaleType.HungarianMajor:
+    case ScaleType.MelodicMinorMode2:
+    case ScaleType.MelodicMinorMode3:
+    case ScaleType.Simpsons:
+    case ScaleType.MelodicMinorMode5:
+    case ScaleType.HalfDiminished:
+    case ScaleType.SuperLocrian:
+    case ScaleType.HarmonicMinorMode2:
+    case ScaleType.HarmonicMinorMode3:
+    case ScaleType.UkrainianDorian:
+    case ScaleType.PhrygianDominant:
+    case ScaleType.HarmonicMinorMode6:
+    case ScaleType.HarmonicMinorMode7:
+    case ScaleType.HarmonicMajorMode2:
+    case ScaleType.HarmonicMajorMode3:
+    case ScaleType.HarmonicMajorMode4:
+    case ScaleType.HarmonicMajorMode5:
+    case ScaleType.HarmonicMajorMode6:
+    case ScaleType.HarmonicMajorMode7:
+    case ScaleType.DoubleHarmonicMode2:
+    case ScaleType.DoubleHarmonicMode3:
+    case ScaleType.HungarianMinor:
+    case ScaleType.DoubleHarmonicMode5:
+    case ScaleType.DoubleHarmonicMode6:
+    case ScaleType.DoubleHarmonicMode7:
+    case ScaleType.NeapolitanMajorMode2:
+    case ScaleType.NeapolitanMajorMode3:
+    case ScaleType.NeapolitanMajorMode4:
+    case ScaleType.NeapolitanMajorMode5:
+    case ScaleType.NeapolitanMajorMode6:
+    case ScaleType.NeapolitanMajorMode7:
+    case ScaleType.NeapolitanMinorMode2:
+    case ScaleType.NeapolitanMinorMode3:
+    case ScaleType.NeapolitanMinorMode4:
+    case ScaleType.NeapolitanMinorMode5:
+    case ScaleType.NeapolitanMinorMode6:
+    case ScaleType.NeapolitanMinorMode7:
+    case ScaleType.HungarianMajorMode2:
+    case ScaleType.HungarianMajorMode3:
+    case ScaleType.HungarianMajorMode4:
+    case ScaleType.HungarianMajorMode5:
+    case ScaleType.HungarianMajorMode6:
+    case ScaleType.HungarianMajorMode7:
+    case ScaleType.AlteredDominant:
+    case ScaleType.LydianDominant:
+      return 7;
+
+    case ScaleType.OctatonicDominant:
+    case ScaleType.OctatonicDiminished:
+      return 8;
+
+    case ScaleType.NonatonicBlues:
+      return 9;
+    case ScaleType.Chromatic:
+      return 12;
   }
 }
 

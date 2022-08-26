@@ -106,10 +106,16 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.AlteredDominant]: 0.4,
   [ScaleType.LydianDominant]: 0.4,
   [ScaleType.Blues]: 0.4,
+  [ScaleType.MajorBlues]: 0.4,
   [ScaleType.Prometheus]: 0.4,
   [ScaleType.WholeTone]: 0.4,
+  [ScaleType.MajorHexatonic]: 0.8,
+  [ScaleType.Augmented]: 0.8,
+  [ScaleType.Tritone]: 0.8,
+  [ScaleType.TwoSemitoneTritone]: 0.8,
   [ScaleType.PentatonicMajor]: 0.4,
   [ScaleType.PentatonicMinor]: 0.4,
+  [ScaleType.NonatonicBlues]: 0.8,
 
 };
 
