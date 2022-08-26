@@ -102,9 +102,10 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "dominants": [
     ScaleType.Mixolydian,
     ScaleType.LydianDominant,
+    ScaleType.PhrygianDominant,
+    ScaleType.AlteredDominant,
+    ScaleType.MelodicMinorMode5,
     // FIXME
-//     ScaleType.PhrygianDominant,
-//     ScaleType.AlteredDominant,
 //     ScaleType.OctatonicDominant,
   ],
 
