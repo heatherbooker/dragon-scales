@@ -6,7 +6,7 @@ type Note = {
 
 type Scale = {
   tonic: Note,
-  mode: ScaleType,
+  mode: ScaleType, // FIXME please rename this
 }
 
 
@@ -22,25 +22,6 @@ type KeySig = {
 }
 
 
-// eventually scales might not have 7 notes
-// but for now:
-type Accidentals = {
-  // positive means raised -- not necessarily sharp!
-  [LetterName.A]: number,
-  [LetterName.B]: number,
-  [LetterName.C]: number,
-  [LetterName.D]: number,
-  [LetterName.E]: number,
-  [LetterName.F]: number,
-  [LetterName.G]: number,
-}
-
-
-type ScaleDetails = {
-  key_sig: KeySig,
-  accidentals: Accidentals,
-}
-
 const enum Interval {
   PerfectUnison,
   MinorSecond,
@@ -54,6 +35,17 @@ const enum Interval {
   MinorSeventh,
   MajorSeventh,
 };
+
+
+type RelativeNote = {
+  position: number,
+  accidental: number
+}
+
+type ScaleDetails = {
+  key_sig: KeySig,
+  pattern: RelativeNote[],
+}
 
 
 enum LetterName {

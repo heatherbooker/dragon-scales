@@ -9,7 +9,7 @@ function clear_staff() {
 }
 
 const distanceBetweenStaffLines = 10; // in pixels?
-const bottom = 180; // since size of our svg is 180
+const svg_bottom = 180; // since size of our svg is 180
 
 // beginning from the ledger line below the staff, count up:
 const staff_positions = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -17,21 +17,23 @@ const ledgerLines = [30, 150]; // highest and lowest notes
 
 function draw_scale(staff: HTMLElement,
                     first: LetterName,
-                    accids: Accidentals,
+                    notes: RelativeNote[],
                     key_sig: KeySig): void {
 
   const lowest_cy = (3 + staff_positions.indexOf(first))
                     * distanceBetweenStaffLines;
+  const scale_bottom = svg_bottom - lowest_cy;
 
   let x_position = 200; // enough space for a key sig with 7 symbols
-  let y_position = bottom - lowest_cy;
 
-  // FIXME: some scales don't have 7 notes
-  let current_letter = first;
-  for (let i = 0; i < 7; i++) {
+  for (const note of notes) {
+    const current_letter = interval_up_letter(first, note.position + 1);
+    const y_position = scale_bottom - (note.position *
+                                       distanceBetweenStaffLines);
+
     // draw accid, if necessary
-    if (accids[current_letter]) {
-      const acc = key_sig[current_letter] + accids[current_letter];
+    if (note.accidental) {
+      const acc = key_sig[current_letter] + note.accidental;
       draw_accidental(staff, acc, x_position, y_position);
       x_position = x_position + 70;
     } else {
@@ -43,10 +45,6 @@ function draw_scale(staff: HTMLElement,
     if (ledgerLines.includes(y_position)) {
       draw_ledger_line(staff, x_position, y_position);
     }
-
-    // up a second to the next letter name
-    current_letter = interval_up_letter(current_letter, 2);
-    y_position = y_position - distanceBetweenStaffLines;
   }
 }
 

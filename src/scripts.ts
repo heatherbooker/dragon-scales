@@ -259,12 +259,12 @@ function main() {
       const scale_deets = scale_details(scale);
 
       const key_sig: KeySig = scale_deets.key_sig;
-      const accids: Accidentals = scale_deets.accidentals;
+      const pattern: RelativeNote[] = scale_deets.pattern;
 
       const staff: HTMLElement =
         document.querySelector('.staff svg') as HTMLElement;
       draw_key_sig(staff, key_sig);
-      draw_scale(staff, scale.tonic.letter, accids, key_sig);
+      draw_scale(staff, scale.tonic.letter, pattern, key_sig);
     }
     const scale_flavour: HTMLElement =
       document.querySelector('#scale-flavour') as HTMLElement;
@@ -357,21 +357,25 @@ function scale_details(scale: Scale): ScaleDetails {
     [LetterName.G]: 0,
   };
 
-  const no_accidentals: Accidentals = {
-    [LetterName.A]: 0,
-    [LetterName.B]: 0,
-    [LetterName.C]: 0,
-    [LetterName.D]: 0,
-    [LetterName.E]: 0,
-    [LetterName.F]: 0,
-    [LetterName.G]: 0,
-  };
+  const no_accidentals: RelativeNote[] = [
+    { position: 0, accidental: 0 },
+    { position: 1, accidental: 0 },
+    { position: 2, accidental: 0 },
+    { position: 3, accidental: 0 },
+    { position: 4, accidental: 0 },
+    { position: 5, accidental: 0 },
+    { position: 6, accidental: 0 },
+  ];
 
-  const not_yet_implemented_accidentals: Accidentals = no_accidentals;
+  const not_yet_implemented_pattern: RelativeNote[] = [
+    { position: 3, accidental: 0 },
+    { position: 4, accidental: 0 },
+    { position: 5, accidental: 0 },
+  ];
 
   const not_yet_implemented_scale = {
     key_sig: not_yet_implemented_key_sig,
-    accidentals: not_yet_implemented_accidentals,
+    pattern: not_yet_implemented_pattern,
   };
 
   function deets_equiv(mode: ScaleType, interval: Interval): ScaleDetails {
@@ -379,72 +383,82 @@ function scale_details(scale: Scale): ScaleDetails {
                            tonic: interval_up(scale.tonic, interval)});
   }
 
+
   function key_sig_equiv(mode: ScaleType, interval: Interval): KeySig {
     return deets_equiv(mode, interval).key_sig;
   }
 
+  const sharpen = (x: number) => x+1;
+  const flatten = (x: number) => x-1;
+
+  function modify_pattern(original: RelativeNote[],
+                          position: number,
+                          modify: (x: number) => number): RelativeNote[] {
+    const index = position - 1;
+    const new_pat = [... original];
+    new_pat[index].accidental = modify(new_pat[index].accidental);
+    return new_pat;
+  }
 
   switch (scale.mode) {
     case ScaleType.Ionian: {
       const sig = ionian_signature(scale.tonic);
-      return { key_sig: sig, accidentals: no_accidentals };
+      return { key_sig: sig, pattern: no_accidentals };
     }
     case ScaleType.Dorian: {
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorSeventh);
-      return { key_sig: sig, accidentals: no_accidentals };
+      return { key_sig: sig, pattern: no_accidentals };
     }
     case ScaleType.Phrygian: {
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorSixth);
-      return { key_sig: sig, accidentals: no_accidentals };
+      return { key_sig: sig, pattern: no_accidentals };
     }
     case ScaleType.Lydian: {
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFifth);
-      return { key_sig: sig, accidentals: no_accidentals };
+      return { key_sig: sig, pattern: no_accidentals };
     }
     case ScaleType.Mixolydian: {
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
-      return { key_sig: sig, accidentals: no_accidentals };
+      return { key_sig: sig, pattern: no_accidentals };
     }
     case ScaleType.Aeolian: {
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorThird);
-      return { key_sig: sig, accidentals: no_accidentals };
+      return { key_sig: sig, pattern: no_accidentals };
     }
     case ScaleType.Locrian: {
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorSecond);
-      return { key_sig: sig, accidentals: no_accidentals };
+      return { key_sig: sig, pattern: no_accidentals };
     }
 
     case ScaleType.MelodicMinor: {
       // Aeolian with a raised sixth and seventh
       const sig = key_sig_equiv(ScaleType.Aeolian, Interval.PerfectUnison);
-      const sixth = interval_up_letter(scale.tonic.letter, 6);
-      const seventh = interval_up_letter(scale.tonic.letter, 7);
-      const accs = {... no_accidentals, [sixth]: 1, [seventh]: 1};
-      return { key_sig: sig, accidentals: accs };
+      const accs = modify_pattern(
+        modify_pattern(no_accidentals,
+          6, sharpen),
+        7, sharpen);
+      return { key_sig: sig, pattern: accs };
     }
     case ScaleType.HarmonicMinor: {
       // Aeolian with a raised seventh
       const sig = key_sig_equiv(ScaleType.Aeolian, Interval.PerfectUnison);
-      const seventh = interval_up_letter(scale.tonic.letter, 7);
-      const accs = {... no_accidentals, [seventh]: 1};
-      return { key_sig: sig, accidentals: accs };
+      const accs = modify_pattern(no_accidentals, 7, sharpen);
+      return { key_sig: sig, pattern: accs };
     }
 
     case ScaleType.HarmonicMajor: {
       // Ionian wih a lowered sixth
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectUnison);
-      const sixth = interval_up_letter(scale.tonic.letter, 6);
-      const accs = {... no_accidentals, [sixth]: -1};
-      return { key_sig: sig, accidentals: accs };
+      const accs = modify_pattern(no_accidentals, 6, flatten);
+      return { key_sig: sig, pattern: accs };
     }
 
     case ScaleType.DoubleHarmonic: {
       // harmonic major with a lowered second
-      const { key_sig, accidentals } = deets_equiv(ScaleType.HarmonicMajor,
-                                                   Interval.PerfectUnison);
-      const second = interval_up_letter(scale.tonic.letter, 2);
-      const accs = {... accidentals, [second]: -1};
-      return { key_sig: key_sig, accidentals: accs };
+      const { key_sig, pattern } = deets_equiv(ScaleType.HarmonicMajor,
+                                               Interval.PerfectUnison);
+      const accs = modify_pattern(pattern, 2, flatten);
+      return { key_sig: key_sig, pattern: accs };
     }
 
     case ScaleType.NeapolitanMajor:
@@ -454,27 +468,27 @@ function scale_details(scale: Scale): ScaleDetails {
     case ScaleType.HungarianMajor: {
       // Simpsons with a raised 2
       const sig = key_sig_equiv(ScaleType.Simpsons, Interval.PerfectUnison);
-      const second = interval_up_letter(scale.tonic.letter, 2);
-      const accs = {... no_accidentals, [second]: 1};
-      return { key_sig: sig, accidentals: accs };
+      const accs = modify_pattern(no_accidentals, 2, sharpen);
+      return { key_sig: sig, pattern: accs };
     }
 
     case ScaleType.MelodicMinorMode2: {
       // has the key sig of its seventh, with a raised 5 and 6
       const sig = key_sig_equiv(ScaleType.MelodicMinor, Interval.MinorSeventh);
-      const fifth = interval_up_letter(scale.tonic.letter, 5);
-      const sixth = interval_up_letter(scale.tonic.letter, 6);
-      const accs = {... no_accidentals, [fifth]: 1, [sixth]: 1};
-      return { key_sig: sig, accidentals: accs };
+      const accs = modify_pattern(
+        modify_pattern(no_accidentals,
+          5, sharpen),
+        6, sharpen);
+      return { key_sig: sig, pattern: accs };
     }
     case ScaleType.MelodicMinorMode3: {
       // Lydian with a raised fifth
       const sig = key_sig_equiv(ScaleType.Lydian, Interval.PerfectUnison);
-      const fifth = interval_up_letter(scale.tonic.letter, 5);
-      const accs = {... no_accidentals, [fifth]: 1};
-      return { key_sig: sig, accidentals: accs };
+      const accs = modify_pattern(no_accidentals, 5, sharpen);
+      return { key_sig: sig, pattern: accs };
     }
     case ScaleType.Simpsons: {
+      // FIXME should this use a traditional key sig?
       // Lydian with a lowered seventh in the key sig
       const parallel_lydian = key_sig_equiv(ScaleType.Lydian,
                                             Interval.PerfectUnison);
@@ -482,23 +496,23 @@ function scale_details(scale: Scale): ScaleDetails {
       const sig = {... parallel_lydian,
               [seventh]: parallel_lydian[seventh] - 1,
       };
-      return { key_sig: sig, accidentals: no_accidentals };
+      return { key_sig: sig, pattern: no_accidentals };
     }
     case ScaleType.MelodicMinorMode5: {
       // has the key sig of its fourth, with a raised 2 and 3
       const sig = key_sig_equiv(ScaleType.MelodicMinor,
                                 Interval.PerfectFourth);
-      const second = interval_up_letter(scale.tonic.letter, 2);
-      const third = interval_up_letter(scale.tonic.letter, 3);
-      const accs = {... no_accidentals, [second]: 1, [third]: 1};
-      return { key_sig: sig, accidentals: accs };
+      const accs = modify_pattern(
+        modify_pattern(no_accidentals,
+          2, sharpen),
+        3, sharpen);
+      return { key_sig: sig, pattern: accs };
     }
     case ScaleType.HalfDiminished: {
       // has the key sig of its seventh, with a raised 2
       const sig = key_sig_equiv(ScaleType.Aeolian, Interval.MinorSeventh);
-      const second = interval_up_letter(scale.tonic.letter, 2);
-      const accs = {... no_accidentals, [second]: 1};
-      return { key_sig: sig, accidentals: accs };
+      const accs = modify_pattern(no_accidentals, 2, sharpen);
+      return { key_sig: sig, pattern: accs };
     }
     case ScaleType.SuperLocrian: {
       // Locrian with a lowered fourth
@@ -508,7 +522,7 @@ function scale_details(scale: Scale): ScaleDetails {
       const sig = {... parallel_locrian,
               [fourth]: parallel_locrian[fourth] - 1,
       };
-      return { key_sig: sig, accidentals: no_accidentals };
+      return { key_sig: sig, pattern: no_accidentals };
     }
 
     case ScaleType.HarmonicMinorMode2:
@@ -579,14 +593,25 @@ function scale_details(scale: Scale): ScaleDetails {
     case ScaleType.OctatonicDiminished:
       return not_yet_implemented_scale;
     case ScaleType.AlteredDominant:
-      // has a flat 5, sharp 5, flat 9, sharp 9
-      return not_yet_implemented_scale;
+      // C7alt has the key sig of F major
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
+      // has a flat 5, sharp 5, flat 9, sharp 9, without a 4 or 6
+      const pat: RelativeNote[] = [
+        { position: 0, accidental: 0 },
+        { position: 1, accidental: -1 },
+        { position: 1, accidental: +1 },
+        { position: 2, accidental: 0 },
+        { position: 4, accidental: -1 },
+        { position: 4, accidental: +1 },
+        { position: 6, accidental: 0 },
+      ];
+
+      return { key_sig: sig, pattern: pat };
     case ScaleType.LydianDominant: {
       // is a dominant scale with a raised 4
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
-      const fourth = interval_up_letter(scale.tonic.letter, 4);
-      const accs = {... no_accidentals, [fourth]: 1};
-      return { key_sig: sig, accidentals: accs };
+      const accs = modify_pattern(no_accidentals, 4, sharpen);
+      return { key_sig: sig, pattern: accs };
     }
     case ScaleType.Blues:
     case ScaleType.Prometheus:
