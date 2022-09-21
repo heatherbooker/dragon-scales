@@ -14,6 +14,7 @@ label {
   font-size: 150%;
   padding: 10px 20px;
   margin: 20px;
+  margin-left: 3px;
 }
 
 div.checkboxen#mains-and-modes {
@@ -23,7 +24,7 @@ div.checkboxen#mains-and-modes {
 }
 
 div.checkboxen#others {
-  column-count: 3;
+  column-count: 1;
   width: 50em;
   white-space: nowrap;
 }
