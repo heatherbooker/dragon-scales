@@ -162,10 +162,22 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   ],
 
   // others
-  "chromatic": [ScaleType.Chromatic],
-  "octatonic": [ScaleType.OctatonicDominant, ScaleType.OctatonicDiminished],
-  "altered-dominant": [ScaleType.AlteredDominant],
-  "lydian-dominant": [ScaleType.LydianDominant],
+  "funky": [
+    ScaleType.Chromatic,
+    ScaleType.OctatonicDominant,
+    ScaleType.OctatonicDiminished,
+    ScaleType.AlteredDominant,
+    ScaleType.LydianDominant,
+    ScaleType.Blues,
+    ScaleType.Prometheus,
+    ScaleType.WholeTone,
+    ScaleType.PentatonicMajor,
+    ScaleType.PentatonicMinor,
+  ],
+  "octatonic": [
+    ScaleType.OctatonicDominant,
+    ScaleType.OctatonicDiminished,
+  ],
   "hexatonic": [
     ScaleType.Blues,
     ScaleType.Prometheus,
@@ -175,10 +187,14 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.PentatonicMajor,
     ScaleType.PentatonicMinor,
   ],
-  "whole-tone": [ScaleType.WholeTone],
 
   // individual funky scales
+  "altered-dominant": [ScaleType.AlteredDominant],
+  "lydian-dominant": [ScaleType.LydianDominant],
+  "chromatic": [ScaleType.Chromatic],
   "blues": [ScaleType.Blues],
+  "prometheus": [ScaleType.Prometheus],
+  "whole-tone": [ScaleType.WholeTone],
 }
 
 function get_random_array_value(array: any[]) {

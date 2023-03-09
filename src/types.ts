@@ -183,14 +183,16 @@ const enum CheckBoxen {
   "modes-harmonic-minor" = "modes-harmonic-minor",
   "modes-harmonic-major" = "modes-harmonic-major",
   "modes-double-major" = "modes-double-harmonic",
-  "chromatic" = "chromatic",
+  "funky" = "funky",
   "octatonic" = "octatonic",
+  "hexatonic" = "hexatonic",
+  "pentatonic" = "pentatonic",
   "altered-dominant" = "altered-dominant",
   "lydian-dominant" = "lydian-dominant",
-  "hexatonic" = "hexatonic",
-  "whole-tone" = "whole-tone",
-  "pentatonic" = "pentatonic",
+  "chromatic" = "chromatic",
   "blues" = "blues",
+  "whole-tone" = "whole-tone",
+  "prometheus" = "prometheus",
 };
 
 interface Settings {
