@@ -176,6 +176,9 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.PentatonicMinor,
   ],
   "whole-tone": [ScaleType.WholeTone],
+
+  // individual funky scales
+  "blues": [ScaleType.Blues],
 }
 
 function get_random_array_value(array: any[]) {
@@ -610,7 +613,19 @@ function scale_details(scale: Scale): ScaleDetails {
       const accs = modify_pattern(no_accidentals, 4, sharpen);
       return { key_sig: sig, pattern: accs };
     }
-    case ScaleType.Blues:
+
+    case ScaleType.Blues: {
+      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectUnison);
+      const pat: RelativeNote[] = [
+        { position: 0, accidental: 0 },
+        { position: 2, accidental: -1 },
+        { position: 3, accidental: 0 },
+        { position: 3, accidental: +1 },
+        { position: 4, accidental: 0 },
+        { position: 6, accidental: -1 },
+      ];
+      return { key_sig: sig, pattern: pat };
+    }
     case ScaleType.MajorBlues:
     case ScaleType.Prometheus:
     case ScaleType.WholeTone:

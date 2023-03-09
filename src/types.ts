@@ -190,6 +190,7 @@ const enum CheckBoxen {
   "hexatonic" = "hexatonic",
   "whole-tone" = "whole-tone",
   "pentatonic" = "pentatonic",
+  "blues" = "blues",
 };
 
 interface Settings {
