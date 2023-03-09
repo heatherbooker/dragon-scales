@@ -588,7 +588,7 @@ function scale_details(scale: Scale): ScaleDetails {
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
       return not_yet_implemented_scale;
-    case ScaleType.AlteredDominant:
+    case ScaleType.AlteredDominant: {
       // C7alt has the key sig of F major
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
       // has a flat 5, sharp 5, flat 9, sharp 9, without a 4 or 6
@@ -603,6 +603,7 @@ function scale_details(scale: Scale): ScaleDetails {
       ];
 
       return { key_sig: sig, pattern: pat };
+    }
     case ScaleType.LydianDominant: {
       // is a dominant scale with a raised 4
       const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
