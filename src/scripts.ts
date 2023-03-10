@@ -360,8 +360,37 @@ function interval_up(note: Note, interval: Interval): Note {
   }
 }
 
+function mode_of(mode: ScaleType,
+                 tonic: Note,
+                 interval: Interval): ScaleDetails {
+  let deets = scale_details({ mode: mode,
+                              tonic: interval_up(tonic, interval) });
+  deets.pattern = cycle_accidentals(deets.pattern,
+                                    1 + deets.pattern.length
+                                      - interval_size(interval));
+  return deets;
+}
+
+function cycle_accidentals(pattern: RelativeNote[],
+                           times: number): RelativeNote[] {
+  if (pattern.length === 0) {
+    return [];
+  }
+
+  const positions = pattern.map((x) => x.position);
+  let sharps = pattern.map((x) => x.accidental);
+
+  for (let i = 0; i < times; i++) {
+    // typescript thinks `shift` could return `undefined`
+    // (because the array could be empty)
+    // but `pattern` has already been checked for emptiness!
+    sharps.push(sharps.shift() as number);
+  }
+
+  return positions.map((p,i) => ({ position: p, accidental: sharps[i] }) );
+}
+
 function scale_details(scale: Scale): ScaleDetails {
-  console.log(scale)
   const not_yet_implemented_key_sig = {
     [LetterName.A]: 0,
     [LetterName.B]: -1,
@@ -393,14 +422,8 @@ function scale_details(scale: Scale): ScaleDetails {
     pattern: not_yet_implemented_pattern,
   };
 
-  function deets_equiv(mode: ScaleType, interval: Interval): ScaleDetails {
-    return scale_details({ mode: mode,
-                           tonic: interval_up(scale.tonic, interval)});
-  }
-
-
   function key_sig_equiv(mode: ScaleType, interval: Interval): KeySig {
-    return deets_equiv(mode, interval).key_sig;
+    return mode_of(mode, scale.tonic, interval).key_sig;
   }
 
   const sharpen = (x: number) => x+1;
@@ -420,30 +443,19 @@ function scale_details(scale: Scale): ScaleDetails {
       const sig = ionian_signature(scale.tonic);
       return { key_sig: sig, pattern: no_accidentals };
     }
-    case ScaleType.Dorian: {
-      const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorSeventh);
-      return { key_sig: sig, pattern: no_accidentals };
-    }
-    case ScaleType.Phrygian: {
-      const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorSixth);
-      return { key_sig: sig, pattern: no_accidentals };
-    }
-    case ScaleType.Lydian: {
-      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFifth);
-      return { key_sig: sig, pattern: no_accidentals };
-    }
-    case ScaleType.Mixolydian: {
-      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
-      return { key_sig: sig, pattern: no_accidentals };
-    }
-    case ScaleType.Aeolian: {
-      const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorThird);
-      return { key_sig: sig, pattern: no_accidentals };
-    }
-    case ScaleType.Locrian: {
-      const sig = key_sig_equiv(ScaleType.Ionian, Interval.MinorSecond);
-      return { key_sig: sig, pattern: no_accidentals };
-    }
+
+    case ScaleType.Dorian:
+      return mode_of(ScaleType.Ionian, scale.tonic, Interval.MinorSeventh);
+    case ScaleType.Phrygian:
+      return mode_of(ScaleType.Ionian, scale.tonic, Interval.MinorSixth);
+    case ScaleType.Lydian:
+      return mode_of(ScaleType.Ionian, scale.tonic, Interval.PerfectFifth);
+    case ScaleType.Mixolydian:
+      return mode_of(ScaleType.Ionian, scale.tonic, Interval.PerfectFourth);
+    case ScaleType.Aeolian:
+      return mode_of(ScaleType.Ionian, scale.tonic, Interval.MinorThird);
+    case ScaleType.Locrian:
+      return mode_of(ScaleType.Ionian, scale.tonic, Interval.MinorSecond);
 
     case ScaleType.MelodicMinor: {
       // Aeolian with a raised sixth and seventh
@@ -454,6 +466,7 @@ function scale_details(scale: Scale): ScaleDetails {
         7, sharpen);
       return { key_sig: sig, pattern: accs };
     }
+
     case ScaleType.HarmonicMinor: {
       // Aeolian with a raised seventh
       const sig = key_sig_equiv(ScaleType.Aeolian, Interval.PerfectUnison);
@@ -470,8 +483,8 @@ function scale_details(scale: Scale): ScaleDetails {
 
     case ScaleType.DoubleHarmonic: {
       // harmonic major with a lowered second
-      const { key_sig, pattern } = deets_equiv(ScaleType.HarmonicMajor,
-                                               Interval.PerfectUnison);
+      const { key_sig, pattern } =
+        scale_details({ tonic: scale.tonic, mode: ScaleType.HarmonicMajor });
       const accs = modify_pattern(pattern, 2, flatten);
       return { key_sig: key_sig, pattern: accs };
     }
@@ -487,21 +500,12 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: accs };
     }
 
-    case ScaleType.MelodicMinorMode2: {
-      // has the key sig of its seventh, with a raised 5 and 6
-      const sig = key_sig_equiv(ScaleType.MelodicMinor, Interval.MinorSeventh);
-      const accs = modify_pattern(
-        modify_pattern(no_accidentals,
-          5, sharpen),
-        6, sharpen);
-      return { key_sig: sig, pattern: accs };
-    }
-    case ScaleType.MelodicMinorMode3: {
-      // Lydian with a raised fifth
-      const sig = key_sig_equiv(ScaleType.Lydian, Interval.PerfectUnison);
-      const accs = modify_pattern(no_accidentals, 5, sharpen);
-      return { key_sig: sig, pattern: accs };
-    }
+    case ScaleType.MelodicMinorMode2:
+      return mode_of(ScaleType.MelodicMinor, scale.tonic,
+                     Interval.MinorSeventh);
+    case ScaleType.MelodicMinorMode3:
+      return mode_of(ScaleType.MelodicMinor, scale.tonic,
+                     Interval.MinorSixth);
     case ScaleType.Simpsons: {
       // FIXME should this use a traditional key sig?
       // Lydian with a lowered seventh in the key sig
@@ -513,17 +517,13 @@ function scale_details(scale: Scale): ScaleDetails {
       };
       return { key_sig: sig, pattern: no_accidentals };
     }
-    case ScaleType.MelodicMinorMode5: {
-      // has the key sig of its fourth, with a raised 2 and 3
-      const sig = key_sig_equiv(ScaleType.MelodicMinor,
-                                Interval.PerfectFourth);
-      const accs = modify_pattern(
-        modify_pattern(no_accidentals,
-          2, sharpen),
-        3, sharpen);
-      return { key_sig: sig, pattern: accs };
-    }
+    case ScaleType.MelodicMinorMode5:
+      return mode_of(ScaleType.MelodicMinor, scale.tonic,
+                     Interval.PerfectFourth);
     case ScaleType.HalfDiminished: {
+//       return mode_of(ScaleType.MelodicMinor,
+//                      scale.tonic,
+//                      Interval.MinorThird);
       // has the key sig of its seventh, with a raised 2
       const sig = key_sig_equiv(ScaleType.Aeolian, Interval.MinorSeventh);
       const accs = modify_pattern(no_accidentals, 2, sharpen);
@@ -540,44 +540,52 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: no_accidentals };
     }
 
+    // do this for all of em
+    // but actually write a more general form of this
     case ScaleType.HarmonicMinorMode2:
-      return deets_equiv(ScaleType.HarmonicMinor, Interval.MinorSeventh);
+      return mode_of(ScaleType.HarmonicMinor, scale.tonic,
+                     Interval.MinorSeventh);
     case ScaleType.HarmonicMinorMode3:
-      return deets_equiv(ScaleType.HarmonicMinor, Interval.MajorSixth);
+      return mode_of(ScaleType.HarmonicMinor, scale.tonic,
+                     Interval.MajorSixth);
     case ScaleType.UkrainianDorian:
-      return deets_equiv(ScaleType.HarmonicMinor, Interval.PerfectFifth);
+      return mode_of(ScaleType.HarmonicMinor, scale.tonic,
+                     Interval.PerfectFifth);
     case ScaleType.PhrygianDominant:
-      return deets_equiv(ScaleType.HarmonicMinor, Interval.PerfectFourth);
+      return mode_of(ScaleType.HarmonicMinor, scale.tonic,
+                     Interval.PerfectFourth);
     case ScaleType.HarmonicMinorMode6:
-      return deets_equiv(ScaleType.HarmonicMinor, Interval.MajorThird);
+      return mode_of(ScaleType.HarmonicMinor, scale.tonic,
+                     Interval.MajorThird);
     case ScaleType.HarmonicMinorMode7:
-      return deets_equiv(ScaleType.HarmonicMinor, Interval.MinorSecond);
+      return mode_of(ScaleType.HarmonicMinor, scale.tonic,
+                     Interval.MinorSecond);
 
     case ScaleType.HarmonicMajorMode2:
-      return deets_equiv(ScaleType.HarmonicMajor, Interval.MinorSeventh);
+      return mode_of(ScaleType.HarmonicMajor, scale.tonic, Interval.MinorSeventh);
     case ScaleType.HarmonicMajorMode3:
-      return deets_equiv(ScaleType.HarmonicMajor, Interval.MinorSixth);
+      return mode_of(ScaleType.HarmonicMajor, scale.tonic, Interval.MinorSixth);
     case ScaleType.HarmonicMajorMode4:
-      return deets_equiv(ScaleType.HarmonicMajor, Interval.PerfectFifth);
+      return mode_of(ScaleType.HarmonicMajor, scale.tonic, Interval.PerfectFifth);
     case ScaleType.HarmonicMajorMode5:
-      return deets_equiv(ScaleType.HarmonicMajor, Interval.PerfectFourth);
+      return mode_of(ScaleType.HarmonicMajor, scale.tonic, Interval.PerfectFourth);
     case ScaleType.HarmonicMajorMode6:
-      return deets_equiv(ScaleType.HarmonicMajor, Interval.MajorThird);
+      return mode_of(ScaleType.HarmonicMajor, scale.tonic, Interval.MajorThird);
     case ScaleType.HarmonicMajorMode7:
-      return deets_equiv(ScaleType.HarmonicMajor, Interval.MinorSecond);
+      return mode_of(ScaleType.HarmonicMajor, scale.tonic, Interval.MinorSecond);
 
     case ScaleType.DoubleHarmonicMode2:
-      return deets_equiv(ScaleType.DoubleHarmonic, Interval.MajorSeventh);
+      return mode_of(ScaleType.DoubleHarmonic, scale.tonic, Interval.MajorSeventh);
     case ScaleType.DoubleHarmonicMode3:
-      return deets_equiv(ScaleType.DoubleHarmonic, Interval.MinorSixth);
+      return mode_of(ScaleType.DoubleHarmonic, scale.tonic, Interval.MinorSixth);
     case ScaleType.HungarianMinor:
-      return deets_equiv(ScaleType.DoubleHarmonic, Interval.PerfectFifth);
+      return mode_of(ScaleType.DoubleHarmonic, scale.tonic, Interval.PerfectFifth);
     case ScaleType.DoubleHarmonicMode5:
-      return deets_equiv(ScaleType.DoubleHarmonic, Interval.PerfectFourth);
+      return mode_of(ScaleType.DoubleHarmonic, scale.tonic, Interval.PerfectFourth);
     case ScaleType.DoubleHarmonicMode6:
-      return deets_equiv(ScaleType.DoubleHarmonic, Interval.MajorThird);
+      return mode_of(ScaleType.DoubleHarmonic, scale.tonic, Interval.MajorThird);
     case ScaleType.DoubleHarmonicMode7:
-      return deets_equiv(ScaleType.DoubleHarmonic, Interval.MinorSecond);
+      return mode_of(ScaleType.DoubleHarmonic, scale.tonic, Interval.MinorSecond);
 
     case ScaleType.NeapolitanMajorMode2:
     case ScaleType.NeapolitanMajorMode3:

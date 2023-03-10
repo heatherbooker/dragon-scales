@@ -36,6 +36,22 @@ const enum Interval {
   MajorSeventh,
 };
 
+function interval_size(interval: Interval): number {
+  switch (interval) {
+    case Interval.PerfectUnison:  return 1;
+    case Interval.MinorSecond:
+    case Interval.MajorSecond:    return 2;
+    case Interval.MinorThird:
+    case Interval.MajorThird:     return 3;
+    case Interval.PerfectFourth:  return 4;
+    case Interval.PerfectFifth:   return 5;
+    case Interval.MinorSixth:
+    case Interval.MajorSixth:     return 6;
+    case Interval.MinorSeventh:
+    case Interval.MajorSeventh:   return 7;
+  }
+}
+
 
 type RelativeNote = {
   position: number,
