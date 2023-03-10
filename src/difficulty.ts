@@ -32,6 +32,7 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.NeapolitanMajor]: 0.7,
   [ScaleType.NeapolitanMinor]: 0.7,
   [ScaleType.HungarianMajor]: 0.7,
+  [ScaleType.RomanianMajor]: 0.7,
 
   // modes of ionian
   [ScaleType.Aeolian]: 0.15,
@@ -98,6 +99,12 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.HungarianMajorMode6]: 0.9,
   [ScaleType.HungarianMajorMode7]: 0.9,
 
+  [ScaleType.RomanianMajorMode2]: 0.9,
+  [ScaleType.RomanianMajorMode3]: 0.9,
+  [ScaleType.RomanianMajorMode4]: 0.9,
+  [ScaleType.RomanianMajorMode5]: 0.9,
+  [ScaleType.RomanianMajorMode6]: 0.9,
+  [ScaleType.RomanianMajorMode7]: 0.9,
 
   // others
   [ScaleType.Chromatic]: 0.3,

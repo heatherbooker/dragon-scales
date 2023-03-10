@@ -85,6 +85,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.Simpsons,
     ScaleType.HarmonicMajor,
     ScaleType.HungarianMajor,
+    // ScaleType.RomanianMajor,
   ],
 
   // various minor scales
@@ -499,6 +500,8 @@ function scale_details(scale: Scale): ScaleDetails {
       const accs = modify_pattern(no_accidentals, 2, sharpen);
       return { key_sig: sig, pattern: accs };
     }
+    case ScaleType.RomanianMajor:
+      return not_yet_implemented_scale;
 
     case ScaleType.MelodicMinorMode2:
       return mode_of(ScaleType.MelodicMinor, scale.tonic,
@@ -611,6 +614,14 @@ function scale_details(scale: Scale): ScaleDetails {
     case ScaleType.HungarianMajorMode7:
       return not_yet_implemented_scale;
 
+    case ScaleType.RomanianMajorMode2:
+    case ScaleType.RomanianMajorMode3:
+    case ScaleType.RomanianMajorMode4:
+    case ScaleType.RomanianMajorMode5:
+    case ScaleType.RomanianMajorMode6:
+    case ScaleType.RomanianMajorMode7:
+      return not_yet_implemented_scale;
+
     case ScaleType.Chromatic:
     case ScaleType.OctatonicDominant:
     case ScaleType.OctatonicDiminished:
@@ -694,6 +705,7 @@ function scale_length(scale: Scale): number {
     case ScaleType.NeapolitanMajor:
     case ScaleType.NeapolitanMinor:
     case ScaleType.HungarianMajor:
+    case ScaleType.RomanianMajor:
     case ScaleType.MelodicMinorMode2:
     case ScaleType.MelodicMinorMode3:
     case ScaleType.Simpsons:
@@ -736,6 +748,12 @@ function scale_length(scale: Scale): number {
     case ScaleType.HungarianMajorMode5:
     case ScaleType.HungarianMajorMode6:
     case ScaleType.HungarianMajorMode7:
+    case ScaleType.RomanianMajorMode2:
+    case ScaleType.RomanianMajorMode3:
+    case ScaleType.RomanianMajorMode4:
+    case ScaleType.RomanianMajorMode5:
+    case ScaleType.RomanianMajorMode6:
+    case ScaleType.RomanianMajorMode7:
     case ScaleType.AlteredDominant:
     case ScaleType.LydianDominant:
       return 7;

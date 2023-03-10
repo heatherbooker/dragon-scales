@@ -96,6 +96,7 @@ enum ScaleType {
   NeapolitanMajor,
   NeapolitanMinor,
   HungarianMajor,
+  RomanianMajor,
 
     // modes of ionian
   Aeolian,
@@ -161,6 +162,13 @@ enum ScaleType {
   HungarianMajorMode5,
   HungarianMajorMode6,
   HungarianMajorMode7,
+
+  RomanianMajorMode2,
+  RomanianMajorMode3,
+  RomanianMajorMode4,
+  RomanianMajorMode5,
+  RomanianMajorMode6,
+  RomanianMajorMode7,
 
     // others
   Chromatic,
@@ -237,6 +245,7 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.NeapolitanMinor: return "Neapolitan minor";
 
     case ScaleType.HungarianMajor: return "Hungarian major";
+    case ScaleType.RomanianMajor: return "Romanian major";
 
 
     case ScaleType.MelodicMinorMode2: return "mode 2 of melodic minor";
@@ -305,6 +314,19 @@ function render_scale_type(scale: ScaleType): string {
       return "mode 6 of Hungarian minor";
     case ScaleType.HungarianMajorMode7:
       return "mode 7 of Hungarian minor";
+
+    case ScaleType.RomanianMajorMode2:
+      return "Romanian major mode 2";
+    case ScaleType.RomanianMajorMode3:
+      return "Romanian major mode 3";
+    case ScaleType.RomanianMajorMode4:
+      return "Romanian major mode 4";
+    case ScaleType.RomanianMajorMode5:
+      return "Romanian major mode 5";
+    case ScaleType.RomanianMajorMode6:
+      return "Romanian major mode 6";
+    case ScaleType.RomanianMajorMode7:
+      return "Romanian major mode 7";
 
     case ScaleType.Chromatic: return "chromatic";
     case ScaleType.OctatonicDominant: return "dominant octatonic";
