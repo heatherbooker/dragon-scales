@@ -17,6 +17,18 @@ label {
   margin-left: 3px;
 }
 
+#back-button {
+  visibility: hidden;
+  font-size: 100%;
+  padding: 10px 20px;
+  margin: 20px;
+  margin-left: 3px;
+}
+
+div.header {
+  display: flex;
+}
+
 div.checkboxen#mains-and-modes {
   column-count: 2;
   width: 25em;
