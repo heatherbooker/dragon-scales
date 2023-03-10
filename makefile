@@ -8,7 +8,7 @@ TEST_OUT = test/test.js
 TEST_HTML = index-test.html
 TEST_HELP = 'please check browser console for test output'
 
-.PHONY: all watch clean test test-watch
+.PHONY: all watch clean deploy test test-watch
 all: $(OUT)
 
 $(OUT): $(SRC)
@@ -20,6 +20,9 @@ watch: $(SRC)
 clean:
 	rm -r dist/ > /dev/null 2>&1 || true
 	rm $(TEST_OUT) $(TEST_HTML) > /dev/null 2>&1 || true
+
+deploy: all
+	scp -r index.html styles.css dist/ dansohost:/var/www/dragon-scales
 
 $(TEST_OUT): $(TEST_IN) $(SRC)
 	tsc $(FLAGS) test/test.ts
