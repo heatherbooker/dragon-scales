@@ -242,9 +242,19 @@ function choose_random_scale(enabled_scale_types: ScaleType[]): Scale {
       mode: scale_type,
     }
 
+    const key_sig = scale_details(scale).key_sig;
+    const total_sharps = key_sig_total(key_sig);
+
+    const difficulty_input: HTMLInputElement =
+      document.querySelector('#max-sig-input') as HTMLInputElement;
+    const difficulty = Number(difficulty_input.value);
+    if (total_sharps < -difficulty || total_sharps > difficulty) {
+      // FIXME there's gotta be a better way
+      return choose_random_scale(enabled_scale_types); // re-roll
+    }
+
     // if a scale has double-sharps or double-flats in its key sig,
     // that's a silly scale. roll again.
-    const key_sig = scale_details(scale).key_sig;
     for (let n of Object.values(key_sig)) {
       if (n < -1 || n > 1) {
         return choose_random_scale(enabled_scale_types); // re-roll
@@ -252,6 +262,14 @@ function choose_random_scale(enabled_scale_types: ScaleType[]): Scale {
     }
 
     return scale;
+}
+
+function key_sig_total(sig: KeySig): number {
+  let sum = 0;
+  for (let n of Object.values(sig)) {
+    sum += n;
+  }
+  return sum;
 }
 
 function main() {

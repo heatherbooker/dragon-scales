@@ -29,6 +29,10 @@ div.header {
   display: flex;
 }
 
+div.complexity-slider {
+  display: flex;
+}
+
 div.checkboxen#mains-and-modes {
   column-count: 2;
   width: 25em;
