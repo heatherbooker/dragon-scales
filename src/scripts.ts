@@ -391,6 +391,11 @@ function cycle_accidentals(pattern: RelativeNote[],
   return positions.map((p,i) => ({ position: p, accidental: sharps[i] }) );
 }
 
+
+function key_sig_of(tonic: Note, mode: ScaleType): KeySig {
+  return mode_of(mode, tonic, Interval.PerfectUnison).key_sig;
+}
+
 function scale_details(scale: Scale): ScaleDetails {
   const not_yet_implemented_key_sig = {
     [LetterName.A]: 0,
@@ -422,10 +427,6 @@ function scale_details(scale: Scale): ScaleDetails {
     key_sig: not_yet_implemented_key_sig,
     pattern: not_yet_implemented_pattern,
   };
-
-  function key_sig_equiv(mode: ScaleType, interval: Interval): KeySig {
-    return mode_of(mode, scale.tonic, interval).key_sig;
-  }
 
   const sharpen = (x: number) => x+1;
   const flatten = (x: number) => x-1;
@@ -528,12 +529,13 @@ function scale_details(scale: Scale): ScaleDetails {
       return mode_of(ScaleType.MelodicMinor, scale.tonic,
                      Interval.PerfectFourth);
     case ScaleType.HalfDiminished: {
+      // for traditional mode rules:
 //       return mode_of(ScaleType.MelodicMinor,
 //                      scale.tonic,
 //                      Interval.MinorThird);
       // has the key sig of its seventh, with a raised 2
-      // // FIXME change this
-      const sig = key_sig_equiv(ScaleType.Aeolian, Interval.MinorSeventh);
+      const sig = key_sig_of(interval_up(scale.tonic, Interval.MinorSeventh),
+                             ScaleType.MelodicMinor);
       const accs = modify_pattern(no_accidentals, 2, sharpen);
       return { key_sig: sig, pattern: accs };
     }
@@ -633,7 +635,8 @@ function scale_details(scale: Scale): ScaleDetails {
       return not_yet_implemented_scale;
     case ScaleType.AlteredDominant: {
       // C7alt has the key sig of F major
-      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
+      const sig = key_sig_of(interval_up(scale.tonic, Interval.PerfectFourth),
+                             ScaleType.Ionian);
       // has a flat 5, sharp 5, flat 9, sharp 9, without a 4 or 6
       const pat: RelativeNote[] = [
         { position: 0, accidental: 0 },
@@ -649,7 +652,8 @@ function scale_details(scale: Scale): ScaleDetails {
     }
     case ScaleType.LydianDominant: {
       // is a dominant scale with a raised 4
-      const sig = key_sig_equiv(ScaleType.Ionian, Interval.PerfectFourth);
+      const sig = key_sig_of(interval_up(scale.tonic, Interval.PerfectFourth),
+                             ScaleType.Ionian);
       const accs = modify_pattern(no_accidentals, 4, sharpen);
       return { key_sig: sig, pattern: accs };
     }
