@@ -277,7 +277,11 @@ function main() {
   applySettings();
   const go_button: HTMLElement =
     document.querySelector('#go-button') as HTMLElement;
-  go_button.onclick = function () {
+  go_button.onclick = present;
+  present();
+}
+
+  function present() {
     clear_staff();
     let message: string;
 
@@ -304,7 +308,6 @@ function main() {
       document.querySelector('#scale-flavour') as HTMLElement;
     scale_flavour.innerHTML = message;
   };
-}
 
 function interval_up(note: Note, interval: Interval): Note {
   function next_letter_fn(letter: LetterName): LetterName {
