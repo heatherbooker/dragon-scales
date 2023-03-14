@@ -245,9 +245,11 @@ function choose_random_scale(enabled_scale_types: ScaleType[]): Scale {
     const key_sig = scale_details(scale).key_sig;
     const total_sharps = key_sig_total(key_sig);
 
-    const difficulty_input: HTMLInputElement =
-      document.querySelector('#max-sig-input') as HTMLInputElement;
-    const difficulty = Number(difficulty_input.value);
+    if (recent(scale)) {
+      return choose_random_scale(enabled_scale_types); // re-roll
+    }
+
+    const difficulty = get_key_sig_complexity();
     if (total_sharps < -difficulty || total_sharps > difficulty) {
       // FIXME there's gotta be a better way
       return choose_random_scale(enabled_scale_types); // re-roll
@@ -281,6 +283,21 @@ function main() {
   present();
 }
 
+let scale_history: Scale[] = [];
+
+function recent(scale: Scale): boolean {
+  // if they select only 1 key sig, they get repetitions.
+  // FIXME should consider total scales chosen
+  if (get_key_sig_complexity() === 0) {
+    return false;
+  }
+
+  return scale_history
+    .slice(-2)
+    .map((s) => JSON.stringify(s))
+    .includes(JSON.stringify(scale));
+}
+
 function present() {
   clear_staff();
   let message: string;
@@ -291,8 +308,7 @@ function present() {
     message = 'check a box';
   } else {
     const scale: Scale = choose_random_scale(enabled_scales);
-//       message = `${render_note(scale.tonic)} <span id="test-id-scale-mode">${render_scale_type(scale.mode)}</span>, metronome at: ${speed}`;
-    message = `${render_note(scale.tonic)} <span id="test-id-scale-mode">${render_scale_type(scale.mode)}</span>`;
+    message = render_scale(scale);
 
     const scale_deets = scale_details(scale);
 
@@ -303,6 +319,7 @@ function present() {
       document.querySelector('.staff svg') as HTMLElement;
     draw_key_sig(staff, key_sig);
     draw_scale(staff, scale.tonic.letter, pattern, key_sig);
+    scale_history.push(scale);
   }
   const scale_flavour: HTMLElement =
     document.querySelector('#scale-flavour') as HTMLElement;

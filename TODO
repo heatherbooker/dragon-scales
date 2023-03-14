@@ -2,7 +2,7 @@
 [ ] work without cookies
 [ ] traditional key sigs mode
 [ ] stack with history
-[ ] don't repeat scales
+[x] don't repeat scales
 [ ] link to code
 [ ] splash page when js is disabled
 [x] load the first one automatically

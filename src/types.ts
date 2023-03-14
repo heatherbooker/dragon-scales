@@ -9,6 +9,11 @@ type Scale = {
   mode: ScaleType, // FIXME please rename this
 }
 
+function render_scale(scale: Scale): string {
+  const note = render_note(scale.tonic);
+  const mode = render_scale_type(scale.mode);
+  return `${note} <span id="test-id-scale-mode">${mode}</span>`;
+}
 
 type KeySig = {
   // positive means sharps, negative means flats, zero means none/natural
