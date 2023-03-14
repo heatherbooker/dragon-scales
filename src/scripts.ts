@@ -281,33 +281,34 @@ function main() {
   present();
 }
 
-  function present() {
-    clear_staff();
-    let message: string;
+function present() {
+  clear_staff();
+  let message: string;
 
-    const enabled_scales = get_enabled_scales();
+  const enabled_scales = get_enabled_scales();
 
-    if (enabled_scales.length === 0) {
-      message = 'check a box';
-    } else {
-      const scale: Scale = choose_random_scale(enabled_scales);
+  if (enabled_scales.length === 0) {
+    message = 'check a box';
+  } else {
+    const scale: Scale = choose_random_scale(enabled_scales);
 //       message = `${render_note(scale.tonic)} <span id="test-id-scale-mode">${render_scale_type(scale.mode)}</span>, metronome at: ${speed}`;
-      message = `${render_note(scale.tonic)} <span id="test-id-scale-mode">${render_scale_type(scale.mode)}</span>`;
+    message = `${render_note(scale.tonic)} <span id="test-id-scale-mode">${render_scale_type(scale.mode)}</span>`;
 
-      const scale_deets = scale_details(scale);
+    const scale_deets = scale_details(scale);
 
-      const key_sig: KeySig = scale_deets.key_sig;
-      const pattern: RelativeNote[] = scale_deets.pattern;
+    const key_sig: KeySig = scale_deets.key_sig;
+    const pattern: RelativeNote[] = scale_deets.pattern;
 
-      const staff: HTMLElement =
-        document.querySelector('.staff svg') as HTMLElement;
-      draw_key_sig(staff, key_sig);
-      draw_scale(staff, scale.tonic.letter, pattern, key_sig);
-    }
-    const scale_flavour: HTMLElement =
-      document.querySelector('#scale-flavour') as HTMLElement;
-    scale_flavour.innerHTML = message;
-  };
+    const staff: HTMLElement =
+      document.querySelector('.staff svg') as HTMLElement;
+    draw_key_sig(staff, key_sig);
+    draw_scale(staff, scale.tonic.letter, pattern, key_sig);
+  }
+  const scale_flavour: HTMLElement =
+    document.querySelector('#scale-flavour') as HTMLElement;
+  scale_flavour.innerHTML = message;
+};
+
 
 function interval_up(note: Note, interval: Interval): Note {
   function next_letter_fn(letter: LetterName): LetterName {
