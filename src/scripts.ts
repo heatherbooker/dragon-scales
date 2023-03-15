@@ -214,16 +214,9 @@ function get_random_note(): Note {
 
 
 function get_enabled_scales(): ScaleType[] {
-  const checked_boxen = new Set<CheckBoxen>();
-
-  const checkboxen: NodeListOf<HTMLInputElement> =
-    document.querySelectorAll('input[type = "checkbox"]');
-  checkboxen.forEach((checkbox) => {
-    checkbox.checked && checked_boxen.add(checkbox.id as CheckBoxen);
-  });
+  const checked_boxen = get_checked_boxen();
 
   const options = new Set<ScaleType>();
-
   checked_boxen.forEach((scalestypes_subset) => {
     scaletype_subsets[scalestypes_subset].forEach((scale_type) => {
       options.add(scale_type);
