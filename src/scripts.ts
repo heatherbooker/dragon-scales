@@ -277,8 +277,7 @@ function key_sig_total(sig: KeySig): number {
 function main() {
   add_checkbox_savers();
   applySettings();
-  const go_button: HTMLElement =
-    document.querySelector('#go-button') as HTMLElement;
+  const go_button: HTMLElement = get_html_element('#go-button');
   go_button.onclick = present;
   present();
 }
@@ -315,14 +314,12 @@ function present() {
     const key_sig: KeySig = scale_deets.key_sig;
     const pattern: RelativeNote[] = scale_deets.pattern;
 
-    const staff: HTMLElement =
-      document.querySelector('.staff svg') as HTMLElement;
+    const staff: HTMLElement = get_html_element('.staff svg');
     draw_key_sig(staff, key_sig);
     draw_scale(staff, scale.tonic.letter, pattern, key_sig);
     scale_history.push(scale);
   }
-  const scale_flavour: HTMLElement =
-    document.querySelector('#scale-flavour') as HTMLElement;
+  const scale_flavour: HTMLElement = get_html_element('#scale-flavour');
   scale_flavour.innerHTML = message;
 };
 
