@@ -270,12 +270,17 @@ function key_sig_total(sig: KeySig): number {
 function main() {
   add_checkbox_savers();
   applySettings();
-  const go_button: HTMLElement = get_html_element('#go-button');
-  go_button.onclick = present;
-  present();
+
+  const go_button: HTMLElement   = get_html_element('#go-button');
+  const back_button: HTMLElement = get_html_element('#back-button');
+  go_button.onclick   = next_scale;
+  back_button.onclick = previous_scale;
+
+  new_random_scale();
 }
 
 let scale_history: Scale[] = [];
+let scale_future : Scale[] = [];
 
 function recent(scale: Scale): boolean {
   // if they select only 1 key sig, they get repetitions.
@@ -290,32 +295,61 @@ function recent(scale: Scale): boolean {
     .includes(JSON.stringify(scale));
 }
 
-function present() {
+function present(scale: Scale) {
   clear_staff();
-  let message: string;
 
+  const scale_deets = scale_details(scale);
+
+  const key_sig: KeySig = scale_deets.key_sig;
+  const pattern: RelativeNote[] = scale_deets.pattern;
+
+  const staff: HTMLElement = get_html_element('.staff svg');
+  draw_key_sig(staff, key_sig);
+  draw_scale(staff, scale.tonic.letter, pattern, key_sig);
+
+  const scale_description = get_html_element('#scale-description');
+  scale_description.innerHTML = render_scale(scale);
+};
+
+function new_random_scale(): void {
   const enabled_scales = get_enabled_scales();
 
   if (enabled_scales.length === 0) {
-    message = 'check a box';
+    const scale_description = get_html_element('#scale-description');
+    scale_description.innerHTML = 'check a box';
   } else {
     const scale: Scale = choose_random_scale(enabled_scales);
-    message = render_scale(scale);
-
-    const scale_deets = scale_details(scale);
-
-    const key_sig: KeySig = scale_deets.key_sig;
-    const pattern: RelativeNote[] = scale_deets.pattern;
-
-    const staff: HTMLElement = get_html_element('.staff svg');
-    draw_key_sig(staff, key_sig);
-    draw_scale(staff, scale.tonic.letter, pattern, key_sig);
+    present(scale);
     scale_history.push(scale);
   }
-  const scale_flavour: HTMLElement = get_html_element('#scale-flavour');
-  scale_flavour.innerHTML = message;
-};
+}
 
+function next_scale(): void {
+  let scale = scale_future.pop();
+  if (scale === undefined) {
+    new_random_scale();
+  } else {
+    present(scale);
+    scale_history.push(scale);
+  }
+}
+
+function previous_scale(): void {
+  const current = scale_history.pop();
+  if (current === undefined) {
+    console.log("no current scale; this is an invalid state");
+    return;
+  }
+
+  const scale = scale_history.at(-1);
+  if (scale === undefined) {
+    scale_history.push(current);
+    return;
+  }
+
+  present(scale);
+  scale_future.push(current);
+}
 
 function interval_up(note: Note, interval: Interval): Note {
   function next_letter_fn(letter: LetterName): LetterName {

@@ -1,7 +1,9 @@
 [ ] when to use key sigs vs accidentals?
 [ ] work without cookies
 [ ] traditional key sigs mode
-[ ] stack with history
+[x] stack with history
+[ ] change arrow buttons
+[ ] keyboard shortcuts (left, right, and also enter/space?)
 [x] don't repeat scales
 [ ] link to code
 [ ] splash page when js is disabled

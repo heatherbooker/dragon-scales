@@ -1,5 +1,5 @@
 SHELL := /bin/sh
-FLAGS := --lib es2020,dom
+FLAGS := --lib es2022,dom
 
 SRC = src/scripts.ts
 OUT = dist/scripts.js
