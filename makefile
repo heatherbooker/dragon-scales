@@ -1,7 +1,8 @@
 SHELL := /bin/sh
 FLAGS := --lib es2022,dom
 
-SRC = src/scripts.ts
+TS_SRCS := $(shell find src/ -type f -name '*.ts')
+HTML_BLOBS := $(shell find src/blobs/ -type f)
 OUT = dist/scripts.js
 TEST_IN = test/test.ts
 TEST_OUT = test/test.js
@@ -11,26 +12,27 @@ TEST_HELP = 'please check browser console for test output'
 .PHONY: all watch clean deploy test test-watch
 all: $(OUT) index.html
 
-index.html: src/index.m4
-	m4 -I svgs/ $< > $@
+index.html: src/index.html.m4 $(HTML_BLOBS)
+	m4 --prefix-builtins --include src/blobs/ $< > $@
 
-$(OUT): $(SRC)
+$(OUT): $(SRCS)
 	tsc $(FLAGS) --project .
 
-watch: $(SRC)
+watch: $(SRCS)
 	tsc $(FLAGS) --watch --project .
 
 clean:
 	rm -r dist/ > /dev/null 2>&1 || true
+	$(RM) index.html
 	rm $(TEST_OUT) $(TEST_HTML) > /dev/null 2>&1 || true
 
 deploy: all
 	scp -r index.html styles.css dist/ dansohost:/var/www/dragon-scales
 
-$(TEST_OUT): $(TEST_IN) $(SRC)
+$(TEST_OUT): $(TEST_IN) $(SRCS)
 	tsc $(FLAGS) test/test.ts
 
-$(TEST_HTML): $(TEST_IN) $(SRC) index.html
+$(TEST_HTML): $(TEST_IN) $(SRCS) index.html
 	sed 's_</body>_<script src="$(TEST_OUT)"></script>\n</body>_' index.html > $(TEST_HTML)
 
 test: $(TEST_OUT) $(TEST_HTML)

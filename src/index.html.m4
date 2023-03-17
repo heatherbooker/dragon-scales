@@ -26,10 +26,7 @@
   </div>
 
   <div class="staff">
-    <svg xmlns="http://www.w3.org/2000/svg" height="180px" width="800px">
-      include(`clef-treble')
-      include(`staff-lines')
-    </svg>
+    m4_undivert(`src/blobs/staff-treble')
   </div>
 
   <br /> <br /> <br /> <br />
