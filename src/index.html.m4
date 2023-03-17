@@ -18,6 +18,7 @@
   <script src="dist/difficulty.js"></script>
   <script src="dist/scripts.js"></script>
 
+  <main>
   <div class="header">
     <button id="back-button">&#x1F870</button>
     <button id="go-button">&#x1F872</button>
@@ -79,6 +80,13 @@
     <label>Key signature complexity </label>
     <input type="range" id="max-sig-input" min="0" max="7" step="1" style="margin-bottom: 25px" />
   </div>
+
+  <br />
+  </main>
+
+  <footer>
+    dragon scales m4_syscmd(`git describe --always --dirty --tags') (<a href=https://gitlab.com/danso/dragon-scales>code</a>) by <a href=https://danso.ca>danso</a> and <a href=https://hboo.ca>hboo</a>
+  </footer>
 
 </body>
 </html>
