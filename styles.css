@@ -18,8 +18,15 @@ label {
 }
 
 #back-button {
-  font-size: 100%;
+  font-size: 150%;
   padding: 10px 20px;
+  margin: 20px;
+  margin-left: 3px;
+}
+
+#scale-description {
+  font-size: 200%;
+  padding: 10px 10px;
   margin: 20px;
   margin-left: 3px;
 }
