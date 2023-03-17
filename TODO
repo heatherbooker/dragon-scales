@@ -6,7 +6,7 @@
 [ ] keyboard shortcuts (left, right, and also enter/space?)
 [x] don't repeat scales
 [ ] link to code
-[ ] splash page when js is disabled
+[x] splash page when js is disabled
 [x] load the first one automatically
 [ ] many more scales to add
 [ ] other clefs
