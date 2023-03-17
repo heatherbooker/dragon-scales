@@ -9,7 +9,10 @@ TEST_HTML = index-test.html
 TEST_HELP = 'please check browser console for test output'
 
 .PHONY: all watch clean deploy test test-watch
-all: $(OUT)
+all: $(OUT) index.html
+
+index.html: src/index.m4
+	m4 -I svgs/ $< > $@
 
 $(OUT): $(SRC)
 	tsc $(FLAGS) --project .
