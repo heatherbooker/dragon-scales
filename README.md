@@ -46,7 +46,6 @@ Then check the console in the automagically opened browser window for any test f
 - implement contrary motions scale types
 - enharmonic scales
 - scales with a non-7 number of tones
-- don't give the same scale twice consecutively
 - add fingerings
 - full on dan mode
 - add choice of clefs
@@ -58,4 +57,3 @@ Then check the console in the automagically opened browser window for any test f
     there are easier ways!
 - cute fact bubble
     "the dorian scale is common in popular music, used by Thriller, Get Lucky, and Royals"
-- back button to repeat a scale, keep history
