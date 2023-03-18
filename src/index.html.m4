@@ -110,6 +110,9 @@
         <label><input type="checkbox" id="prometheus" /> Prometheus</label>
         <label><input type="checkbox" id="petrushka" /> Petrushka</label>
         <label><input type="checkbox" id="augmented" /> augmented</label>
+        <label>
+          <input type="checkbox" id="major-hexatonic" /> major hexatonic
+        </label>
         <label><input type="checkbox" id="octatonic" /> octatonic</label>
       </div>
 

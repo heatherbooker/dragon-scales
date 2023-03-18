@@ -197,6 +197,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "petrushka": [ScaleType.Petrushka],
   "augmented": [ScaleType.Augmented],
   "whole-tone": [ScaleType.WholeTone],
+  "major-hexatonic": [ScaleType.MajorHexatonic],
 }
 
 function get_random_array_value(array: any[]) {
@@ -766,6 +767,7 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: pat };
     }
     case ScaleType.MajorBlues:
+      return not_yet_implemented_scale;
     case ScaleType.Prometheus: {
       const sig = scale_details({ tonic: scale.tonic,
                                   mode: ScaleType.Ionian }).key_sig;
@@ -792,8 +794,14 @@ function scale_details(scale: Scale): ScaleDetails {
       ];
       return { key_sig: sig, pattern: pat };
     }
-    case ScaleType.MajorHexatonic:
-      return not_yet_implemented_scale;
+    case ScaleType.MajorHexatonic: {
+      // ionian scale without its 7th
+      let { key_sig, pattern } = scale_details({ tonic: scale.tonic,
+                                                 mode: ScaleType.Ionian });
+
+      pattern.pop(); // remove 7th
+      return { key_sig: key_sig, pattern: pattern };
+    }
     case ScaleType.Augmented: {
       // FIXME this should arguably have flat 3 instead of sharp 2
       // but "cancel previous accidental" accidentals are not implemented

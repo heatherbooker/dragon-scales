@@ -224,6 +224,7 @@ const enum CheckBoxen {
   "whole-tone" = "whole-tone",
   "prometheus" = "prometheus",
   "petrushka" = "petrushka",
+  "major-hexatonic" = "major-hexatonic",
 };
 
 interface Settings {
