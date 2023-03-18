@@ -20,8 +20,8 @@
 
     <main>
       <div class="header">
-        <button id="back-button">&#x1F870</button>
-        <button id="go-button">&#x1F872</button>
+        <button id="back-button">&#x1F870;</button>
+        <button id="go-button">&#x1F872;</button>
 
         <h2 id="scale-description">JavaScript is disabled.</h2>
       </div>
@@ -122,7 +122,8 @@
     </main>
 
     <footer>
-      dragon scales m4_syscmd(`git describe --always --dirty --tags')
+      dragon &#x1F409; scales
+      m4_syscmd(`git describe --always --dirty --tags')
       (<a href=https://gitlab.com/danso/dragon-scales>code</a>)
       by <a href=https://danso.ca>danso</a>
       and <a href=https://hboo.ca>hboo</a>
