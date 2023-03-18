@@ -342,12 +342,12 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.MajorBlues: return "major blues";
     case ScaleType.Prometheus: return "Prometheus";
     case ScaleType.WholeTone: return "whole-tone";
-    case ScaleType.MajorHexatonic: return "major blues";
-    case ScaleType.Augmented: return "major blues";
-    case ScaleType.Tritone: return "major blues";
-    case ScaleType.TwoSemitoneTritone: return "major blues";
+    case ScaleType.MajorHexatonic: return "major hexatonic";
+    case ScaleType.Augmented: return "augmented";
+    case ScaleType.Tritone: return "tritone";
+    case ScaleType.TwoSemitoneTritone: return "2-semitone tritone";
     case ScaleType.PentatonicMajor: return "pentatonic major";
     case ScaleType.PentatonicMinor: return "pentatonic minor";
-    case ScaleType.NonatonicBlues: return "pentatonic minor";
+    case ScaleType.NonatonicBlues: return "nonatonic blues";
   }
 }
