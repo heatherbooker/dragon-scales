@@ -184,10 +184,10 @@ enum ScaleType {
   LydianDominant, // enharmonically the same as Simpsons,
                   // but different key sig and accidentals
 
+  WholeTone,
   Blues,
   MajorBlues, // second mode of blues scale
   Prometheus,
-  WholeTone,
   MajorHexatonic,
   Augmented,
   Petrushka, // enharmonically the "tritone scale"

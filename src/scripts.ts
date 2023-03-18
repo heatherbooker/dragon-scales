@@ -179,9 +179,12 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.OctatonicDiminished,
   ],
   "hexatonic": [
+    ScaleType.WholeTone,
     ScaleType.Blues,
     ScaleType.Prometheus,
-    ScaleType.WholeTone,
+    ScaleType.Petrushka,
+    ScaleType.Augmented,
+    ScaleType.MajorHexatonic,
   ],
   "pentatonic": [
     ScaleType.PentatonicMajor,
@@ -192,11 +195,11 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "altered-dominant": [ScaleType.AlteredDominant],
   "lydian-dominant": [ScaleType.LydianDominant],
   "chromatic": [ScaleType.Chromatic],
+  "whole-tone": [ScaleType.WholeTone],
   "blues": [ScaleType.Blues],
   "prometheus": [ScaleType.Prometheus],
   "petrushka": [ScaleType.Petrushka],
   "augmented": [ScaleType.Augmented],
-  "whole-tone": [ScaleType.WholeTone],
   "major-hexatonic": [ScaleType.MajorHexatonic],
 }
 
