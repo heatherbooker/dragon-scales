@@ -533,8 +533,7 @@ function scale_details(scale: Scale): ScaleDetails {
 
     case ScaleType.MelodicMinor: {
       // Aeolian with a raised sixth and seventh
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Aeolian }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Aeolian);
       const accs = modify_pattern(
         modify_pattern(no_accidentals,
           6, sharpen),
@@ -544,16 +543,14 @@ function scale_details(scale: Scale): ScaleDetails {
 
     case ScaleType.HarmonicMinor: {
       // Aeolian with a raised seventh
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Aeolian }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Aeolian);
       const accs = modify_pattern(no_accidentals, 7, sharpen);
       return { key_sig: sig, pattern: accs };
     }
 
     case ScaleType.HarmonicMajor: {
       // Ionian wih a lowered sixth
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Ionian }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Ionian);
       const accs = modify_pattern(no_accidentals, 6, flatten);
       return { key_sig: sig, pattern: accs };
     }
@@ -572,8 +569,7 @@ function scale_details(scale: Scale): ScaleDetails {
       return not_yet_implemented_scale;
     case ScaleType.HungarianMajor: {
       // Simpsons with a raised 2
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Simpsons }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Simpsons);
       const accs = modify_pattern(no_accidentals, 2, sharpen);
       return { key_sig: sig, pattern: accs };
     }
@@ -589,8 +585,7 @@ function scale_details(scale: Scale): ScaleDetails {
     case ScaleType.Simpsons: {
       // FIXME should this use a traditional key sig?
       // Lydian with a lowered seventh in the key sig
-      const parallel_lydian = scale_details({ tonic: scale.tonic,
-                                              mode: ScaleType.Lydian }).key_sig;
+      const parallel_lydian = key_sig_of(scale.tonic, ScaleType.Lydian);
       const seventh = interval_up_letter(scale.tonic.letter, 7);
       const sig = {... parallel_lydian,
               [seventh]: parallel_lydian[seventh] - 1,
@@ -613,8 +608,7 @@ function scale_details(scale: Scale): ScaleDetails {
     }
     case ScaleType.SuperLocrian: {
       // Locrian with a lowered fourth
-      const parallel_locrian =
-        scale_details({ tonic: scale.tonic, mode: ScaleType.Locrian }).key_sig;
+      const parallel_locrian = key_sig_of(scale.tonic, ScaleType.Locrian);
       const fourth = interval_up_letter(scale.tonic.letter, 4);
       const sig = {... parallel_locrian,
               [fourth]: parallel_locrian[fourth] - 1,
@@ -704,8 +698,7 @@ function scale_details(scale: Scale): ScaleDetails {
     case ScaleType.Chromatic:
       return not_yet_implemented_scale;
     case ScaleType.OctatonicDominant: {
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Mixolydian }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Mixolydian);
       const pat: RelativeNote[] = [
         { position: 0, accidental: 0 },
         { position: 1, accidental: -1 },
@@ -720,8 +713,7 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: pat };
     }
     case ScaleType.OctatonicDiminished: {
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Ionian }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Ionian);
       const pat: RelativeNote[] = [
         { position: 0, accidental: 0 },
         { position: 1, accidental: 0 },
@@ -784,8 +776,7 @@ function scale_details(scale: Scale): ScaleDetails {
       ];
       return { key_sig: sig, pattern: pat };
     case ScaleType.Prometheus: {
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Ionian }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Ionian);
       const pat: RelativeNote[] = [
         { position: 0, accidental: 0 },
         { position: 1, accidental: 0 },
@@ -797,8 +788,7 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: pat };
     }
     case ScaleType.WholeTone: {
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Ionian }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Ionian);
       const pat: RelativeNote[] = [
         { position: 0, accidental: 0 },
         { position: 1, accidental: 0 },
@@ -820,8 +810,7 @@ function scale_details(scale: Scale): ScaleDetails {
     case ScaleType.Augmented: {
       // FIXME this should arguably have flat 3 instead of sharp 2
       // but "cancel previous accidental" accidentals are not implemented
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Ionian }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Ionian);
       const pat: RelativeNote[] = [
         { position: 0, accidental: 0 },
         { position: 1, accidental: +1 },
@@ -833,8 +822,7 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: pat };
     }
     case ScaleType.Petrushka: {
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Simpsons }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Simpsons);
       const pat: RelativeNote[] = [
         { position: 0, accidental: 0 },
         { position: 1, accidental: -1 },
