@@ -758,15 +758,14 @@ function scale_details(scale: Scale): ScaleDetails {
     }
 
     case ScaleType.Blues: {
-      const sig = scale_details({ tonic: scale.tonic,
-                                  mode: ScaleType.Ionian }).key_sig;
+      const sig = key_sig_of(scale.tonic, ScaleType.Aeolian);
       const pat: RelativeNote[] = [
         { position: 0, accidental: 0 },
-        { position: 2, accidental: -1 },
+        { position: 2, accidental: 0 },
         { position: 3, accidental: 0 },
         { position: 3, accidental: +1 },
         { position: 4, accidental: 0 },
-        { position: 6, accidental: -1 },
+        { position: 6, accidental: 0 },
       ];
       return { key_sig: sig, pattern: pat };
     }
