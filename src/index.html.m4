@@ -107,6 +107,7 @@
       <div class="checkboxen" id="funky">
         <label><input type="checkbox" id="whole-tone" /> whole-tone</label>
         <label><input type="checkbox" id="blues" /> blues</label>
+        <label><input type="checkbox" id="major-blues" /> major blues</label>
         <label><input type="checkbox" id="prometheus" /> Prometheus</label>
         <label><input type="checkbox" id="petrushka" /> Petrushka</label>
         <label><input type="checkbox" id="augmented" /> augmented</label>

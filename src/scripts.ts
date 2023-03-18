@@ -197,6 +197,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "chromatic": [ScaleType.Chromatic],
   "whole-tone": [ScaleType.WholeTone],
   "blues": [ScaleType.Blues],
+  "major-blues": [ScaleType.MajorBlues],
   "prometheus": [ScaleType.Prometheus],
   "petrushka": [ScaleType.Petrushka],
   "augmented": [ScaleType.Augmented],
@@ -770,7 +771,16 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: pat };
     }
     case ScaleType.MajorBlues:
-      return not_yet_implemented_scale;
+      const sig = key_sig_of(scale.tonic, ScaleType.Ionian);
+      const pat = [
+        { position: 0, accidental: 0 },
+        { position: 1, accidental: 0 },
+        { position: 1, accidental: +1 },
+        { position: 2, accidental: 0 },
+        { position: 4, accidental: 0 },
+        { position: 5, accidental: 0 },
+      ];
+      return { key_sig: sig, pattern: pat };
     case ScaleType.Prometheus: {
       const sig = scale_details({ tonic: scale.tonic,
                                   mode: ScaleType.Ionian }).key_sig;
