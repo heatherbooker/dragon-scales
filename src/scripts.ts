@@ -174,10 +174,12 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.PentatonicMajor,
     ScaleType.PentatonicMinor,
   ],
+
   "octatonic": [
     ScaleType.OctatonicDominant,
     ScaleType.OctatonicDiminished,
   ],
+
   "hexatonic": [
     ScaleType.WholeTone,
     ScaleType.Blues,
@@ -188,6 +190,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.MajorHexatonic,
     ScaleType.TwoSemitoneTritone,
   ],
+
   "pentatonic": [
     ScaleType.PentatonicMajor,
     ScaleType.PentatonicMinor,
