@@ -181,6 +181,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "hexatonic": [
     ScaleType.WholeTone,
     ScaleType.Blues,
+    ScaleType.MajorBlues,
     ScaleType.Prometheus,
     ScaleType.Petrushka,
     ScaleType.Augmented,
