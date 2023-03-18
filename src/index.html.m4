@@ -105,15 +105,18 @@
       <br />
 
       <div class="checkboxen twocol" id="hexatonic">
-        <label><input type="checkbox" id="blues" /> blues</label>
-        <label><input type="checkbox" id="prometheus" /> Prometheus</label>
         <label>
           <input type="checkbox" id="major-hexatonic" /> major hexatonic
         </label>
+        <label><input type="checkbox" id="blues" /> blues</label>
+        <label><input type="checkbox" id="prometheus" /> Prometheus</label>
+        <label><input type="checkbox" id="augmented" /> augmented</label>
         <label><input type="checkbox" id="whole-tone" /> whole-tone</label>
+        <label>
+          <input type="checkbox" id="minor-hexatonic" /> minor hexatonic
+        </label>
         <label><input type="checkbox" id="major-blues" /> major blues</label>
         <label><input type="checkbox" id="petrushka" /> Petrushka</label>
-        <label><input type="checkbox" id="augmented" /> augmented</label>
         <label>
           <input type="checkbox" id="two-semitone-tritone" />
           2-semitone tritone

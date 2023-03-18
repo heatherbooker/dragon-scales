@@ -189,6 +189,7 @@ enum ScaleType {
   MajorBlues, // second mode of blues scale
   Prometheus,
   MajorHexatonic,
+  MinorHexatonic,
   Augmented,
   Petrushka, // enharmonically the "tritone scale"
   TwoSemitoneTritone,
@@ -228,6 +229,7 @@ const enum CheckBoxen {
   "prometheus" = "prometheus",
   "petrushka" = "petrushka",
   "major-hexatonic" = "major-hexatonic",
+  "minor-hexatonic" = "minor-hexatonic",
   "two-semitone-tritone" = "two-semitone-tritone",
 };
 
@@ -350,6 +352,7 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.Prometheus: return "Prometheus";
     case ScaleType.WholeTone: return "whole-tone";
     case ScaleType.MajorHexatonic: return "major hexatonic";
+    case ScaleType.MinorHexatonic: return "minor hexatonic";
     case ScaleType.Augmented: return "augmented";
     case ScaleType.Petrushka: return "Petrushka";
     case ScaleType.TwoSemitoneTritone: return "2-semitone tritone";

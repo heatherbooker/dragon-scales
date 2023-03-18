@@ -188,6 +188,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.Petrushka,
     ScaleType.Augmented,
     ScaleType.MajorHexatonic,
+    ScaleType.MinorHexatonic,
     ScaleType.TwoSemitoneTritone,
   ],
 
@@ -209,6 +210,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "petrushka": [ScaleType.Petrushka],
   "augmented": [ScaleType.Augmented],
   "major-hexatonic": [ScaleType.MajorHexatonic],
+  "minor-hexatonic": [ScaleType.MinorHexatonic],
   "two-semitone-tritone": [ScaleType.TwoSemitoneTritone],
 }
 
@@ -812,6 +814,16 @@ function scale_details(scale: Scale): ScaleDetails {
       pattern.pop(); // remove 7th
       return { key_sig: key_sig, pattern: pattern };
     }
+    case ScaleType.MinorHexatonic: {
+      // aeolian scale without its 6th
+      let { key_sig, pattern } = scale_details({ tonic: scale.tonic,
+                                                 mode: ScaleType.Aeolian });
+
+      const seventh = pattern.pop() as RelativeNote; // remove 7th
+      pattern.pop(); // remove 6th
+      pattern.push(seventh);
+      return { key_sig: key_sig, pattern: pattern };
+    }
     case ScaleType.Augmented: {
       // FIXME this should arguably have flat 3 instead of sharp 2
       // but "cancel previous accidental" accidentals are not implemented
@@ -868,6 +880,7 @@ function scale_length(scale: Scale): number {
     case ScaleType.Prometheus:
     case ScaleType.WholeTone:
     case ScaleType.MajorHexatonic:
+    case ScaleType.MinorHexatonic:
     case ScaleType.Augmented:
     case ScaleType.Petrushka:
     case ScaleType.TwoSemitoneTritone:
