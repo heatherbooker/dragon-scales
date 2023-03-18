@@ -735,8 +735,19 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: pat };
     }
     case ScaleType.MajorBlues:
-    case ScaleType.Prometheus:
-      return not_yet_implemented_scale;
+    case ScaleType.Prometheus: {
+      const sig = scale_details({ tonic: scale.tonic,
+                                  mode: ScaleType.Ionian }).key_sig;
+      const pat: RelativeNote[] = [
+        { position: 0, accidental: 0 },
+        { position: 1, accidental: 0 },
+        { position: 2, accidental: 0 },
+        { position: 3, accidental: +1 },
+        { position: 5, accidental: 0 },
+        { position: 6, accidental: -1 },
+      ];
+      return { key_sig: sig, pattern: pat };
+    }
     case ScaleType.WholeTone: {
       const sig = scale_details({ tonic: scale.tonic,
                                   mode: ScaleType.Ionian }).key_sig;
