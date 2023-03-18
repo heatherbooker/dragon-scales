@@ -65,7 +65,7 @@
 
       <br />
 
-      <div class="checkboxen" id="mains-and-modes">
+      <div class="checkboxen twocol" id="mains-and-modes">
         <label>
           <input type="checkbox" id="ionian" /> ionian (major)
         </label>
@@ -104,16 +104,32 @@
 
       <br />
 
-      <div class="checkboxen" id="funky">
-        <label><input type="checkbox" id="whole-tone" /> whole-tone</label>
+      <div class="checkboxen twocol" id="hexatonic">
         <label><input type="checkbox" id="blues" /> blues</label>
-        <label><input type="checkbox" id="major-blues" /> major blues</label>
         <label><input type="checkbox" id="prometheus" /> Prometheus</label>
-        <label><input type="checkbox" id="petrushka" /> Petrushka</label>
-        <label><input type="checkbox" id="augmented" /> augmented</label>
         <label>
           <input type="checkbox" id="major-hexatonic" /> major hexatonic
         </label>
+        <label><input type="checkbox" id="whole-tone" /> whole-tone</label>
+        <label><input type="checkbox" id="major-blues" /> major blues</label>
+        <label><input type="checkbox" id="petrushka" /> Petrushka</label>
+        <label><input type="checkbox" id="augmented" /> augmented</label>
+      </div>
+
+      <br />
+
+      <div class="checkboxen twocol" id="octatonic">
+        <label>
+          <input type="checkbox" id="oct-dim" /> octatonic (diminished)
+        </label>
+        <label>
+          <input type="checkbox" id="oct-dom" /> octatonic (dominant)
+        </label>
+      </div>
+
+      <br />
+
+      <div class="checkboxen" id="funky">
         <label><input type="checkbox" id="octatonic" /> octatonic</label>
       </div>
 

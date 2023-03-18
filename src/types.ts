@@ -220,6 +220,8 @@ const enum CheckBoxen {
   "altered-dominant" = "altered-dominant",
   "lydian-dominant" = "lydian-dominant",
   "chromatic" = "chromatic",
+  "oct-dim" = "oct-dim",
+  "oct-dom" = "oct-dom",
   "whole-tone" = "whole-tone",
   "blues" = "blues",
   "major-blues" = "major-blues",

@@ -196,6 +196,8 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "altered-dominant": [ScaleType.AlteredDominant],
   "lydian-dominant": [ScaleType.LydianDominant],
   "chromatic": [ScaleType.Chromatic],
+  "oct-dim": [ScaleType.OctatonicDiminished],
+  "oct-dom": [ScaleType.OctatonicDominant],
   "whole-tone": [ScaleType.WholeTone],
   "blues": [ScaleType.Blues],
   "major-blues": [ScaleType.MajorBlues],

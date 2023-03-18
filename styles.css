@@ -58,7 +58,7 @@ div.complexity-slider {
   display: flex;
 }
 
-div.checkboxen#mains-and-modes {
+div.twocol {
   column-count: 2;
   width: 25em;
   white-space: nowrap;
