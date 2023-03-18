@@ -32,28 +32,6 @@
 
       <br /> <br />
 
-
-      <!--
-      <label>
-        <input type="checkbox" id="altered-dominant" />altered dominant
-      </label>
-      <label>
-        <input type="checkbox" id="lydian-dominant" />Lydian dominant
-      </label>
-      <label><input type="checkbox" id="chromatic" />chromatic</label>
-      <label><input type="checkbox" id="pentatonic" />pentatonic</label>
-      <label>
-        <input type="checkbox" id="contrary-motion" />contrary motion
-      </label>
-      <label>
-        <input type="checkbox" id="rhythmic-patterns" />rhythmic patterns
-      </label>
-      <label><input type="checkbox" id="cross-rhythms" />cross rhythms</label>
-      <label>
-        <input type="checkbox" id="fingering-constraints" />fingering constraints
-      </label>
-      <label><input type="checkbox" id="dan" />full-on dan</label>
-      -->
       <div class="checkboxen twocol" id="mains-and-modes">
         <label>
           <input type="checkbox" id="ionian" /> ionian (major)
