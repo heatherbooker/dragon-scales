@@ -15,10 +15,10 @@ all: $(OUT) index.html
 index.html: src/index.html.m4 $(HTML_BLOBS)
 	m4 --prefix-builtins --include src/blobs/ $< > $@
 
-$(OUT): $(SRCS)
+$(OUT): $(TS_SRCS)
 	tsc $(FLAGS) --project .
 
-watch: $(SRCS)
+watch: $(TS_SRCS)
 	tsc $(FLAGS) --watch --project .
 
 clean:
@@ -29,10 +29,10 @@ clean:
 deploy: all
 	scp -r index.html styles.css dist/ dansohost:/var/www/dragon-scales
 
-$(TEST_OUT): $(TEST_IN) $(SRCS)
+$(TEST_OUT): $(TEST_IN) $(TS_SRCS)
 	tsc $(FLAGS) test/test.ts
 
-$(TEST_HTML): $(TEST_IN) $(SRCS) index.html
+$(TEST_HTML): $(TEST_IN) $(TS_SRCS) index.html
 	sed 's_</body>_<script src="$(TEST_OUT)"></script>\n</body>_' index.html > $(TEST_HTML)
 
 test: $(TEST_OUT) $(TEST_HTML)
