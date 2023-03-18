@@ -130,7 +130,12 @@
       <br />
 
       <div class="checkboxen" id="funky">
-        <label><input type="checkbox" id="octatonic" /> octatonic</label>
+        <label>
+          <input type="checkbox" id="hexatonic" /> all hexatonic scales
+        </label>
+        <label>
+          <input type="checkbox" id="octatonic" /> all octatonic scales
+          </label>
       </div>
 
       <br />
