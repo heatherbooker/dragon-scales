@@ -34,21 +34,33 @@
 
 
       <div class="checkboxen" id="others">
-        <label><input type="checkbox" id="majors" />all major scales</label>
-        <label><input type="checkbox" id="minors" />all minor scales</label>
-        <label><input type="checkbox" id="dominants" />all dominant scales</label>
+        <label><input type="checkbox" id="majors" /> all major scales</label>
+        <label><input type="checkbox" id="minors" /> all minor scales</label>
+        <label>
+          <input type="checkbox" id="dominants" /> all dominant scales
+        </label>
       <!--
-      <label><input type="checkbox" id="altered-dominant" />altered dominant</label>
-      <label><input type="checkbox" id="lydian-dominant" />Lydian dominant</label>
+      <label>
+        <input type="checkbox" id="altered-dominant" />altered dominant
+      </label>
+      <label>
+        <input type="checkbox" id="lydian-dominant" />Lydian dominant
+      </label>
       <label><input type="checkbox" id="chromatic" />chromatic</label>
       <label><input type="checkbox" id="octatonic" />octatonic</label>
       <label><input type="checkbox" id="hexatonic" />hexatonic</label>
       <label><input type="checkbox" id="pentatonic" />pentatonic</label>
       <label><input type="checkbox" id="whole-tone" />whole tone</label>
-      <label><input type="checkbox" id="contrary-motion" />contrary motion</label>
-      <label><input type="checkbox" id="rhythmic-patterns" />rhythmic patterns</label>
+      <label>
+        <input type="checkbox" id="contrary-motion" />contrary motion
+      </label>
+      <label>
+        <input type="checkbox" id="rhythmic-patterns" />rhythmic patterns
+      </label>
       <label><input type="checkbox" id="cross-rhythms" />cross rhythms</label>
-      <label><input type="checkbox" id="fingering-constraints" />fingering constraints</label>
+      <label>
+        <input type="checkbox" id="fingering-constraints" />fingering constraints
+      </label>
       <label><input type="checkbox" id="dan" />full-on dan</label>
       -->
       </div>
@@ -56,36 +68,64 @@
       <br />
 
       <div class="checkboxen" id="mains-and-modes">
-        <label><input type="checkbox" id="ionian" />ionian (major)</label>
-        <label><input type="checkbox" id="melodic-minor" />melodic minor</label>
-        <label><input type="checkbox" id="harmonic-minor" />harmonic minor</label>
-        <label><input type="checkbox" id="harmonic-major" />harmonic major</label>
-        <label><input type="checkbox" id="double-harmonic" />double harmonic</label>
-        <label><input type="checkbox" id="modes-ionian" />modes of ionian</label>
-        <label><input type="checkbox" id="memimos" />modes of melodic minor (memimos)</label>
-        <label><input type="checkbox" id="modes-harmonic-minor" />modes of harmonic minor</label>
-        <label><input type="checkbox" id="modes-harmonic-major" />modes of harmonic major</label>
-        <label><input type="checkbox" id="modes-double-harmonic" />modes of double harmonic</label>
+        <label>
+          <input type="checkbox" id="ionian" /> ionian (major)
+        </label>
+        <label>
+          <input type="checkbox" id="melodic-minor" /> melodic minor
+        </label>
+        <label>
+          <input type="checkbox" id="harmonic-minor" /> harmonic minor
+        </label>
+        <label>
+          <input type="checkbox" id="harmonic-major" /> harmonic major
+        </label>
+        <label>
+          <input type="checkbox" id="double-harmonic" /> double harmonic
+        </label>
+        <label>
+          <input type="checkbox" id="modes-ionian" /> modes of ionian
+        </label>
+        <label>
+          <input type="checkbox" id="memimos" />
+          modes of melodic minor (memimos)
+        </label>
+        <label>
+          <input type="checkbox" id="modes-harmonic-minor" />
+          modes of harmonic minor
+        </label>
+        <label>
+          <input type="checkbox" id="modes-harmonic-major" />
+          modes of harmonic major
+        </label>
+        <label>
+          <input type="checkbox" id="modes-double-harmonic" />
+          modes of double harmonic
+        </label>
       </div>
 
       <br />
 
       <div class="checkboxen" id="funky">
-        <label><input type="checkbox" id="blues" />blues</label>
+        <label><input type="checkbox" id="blues" /> blues</label>
       </div>
 
       <br />
 
       <div class="complexity-slider">
         <label>Key signature complexity </label>
-        <input type="range" id="max-sig-input" min="0" max="7" step="1" style="margin-bottom: 25px" />
+        <input type="range" id="max-sig-input"
+               min="0" max="7" step="1" style="margin-bottom: 25px" />
       </div>
 
       <br />
     </main>
 
     <footer>
-      dragon scales m4_syscmd(`git describe --always --dirty --tags') (<a href=https://gitlab.com/danso/dragon-scales>code</a>) by <a href=https://danso.ca>danso</a> and <a href=https://hboo.ca>hboo</a>
+      dragon scales m4_syscmd(`git describe --always --dirty --tags')
+      (<a href=https://gitlab.com/danso/dragon-scales>code</a>)
+      by <a href=https://danso.ca>danso</a>
+      and <a href=https://hboo.ca>hboo</a>
     </footer>
 
   </body>
