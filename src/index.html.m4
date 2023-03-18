@@ -30,7 +30,7 @@
         m4_undivert(`src/blobs/staff-treble')
       </div>
 
-      <br /> <br /> <br /> <br />
+      <br /> <br />
 
 
       <div class="checkboxen" id="others">
