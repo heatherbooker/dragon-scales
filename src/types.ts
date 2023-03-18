@@ -235,6 +235,7 @@ const enum CheckBoxen {
 
 interface Settings {
   checkboxen: string[];
+  sig_complexity: number;
 }
 
 function render_scale_type(scale: ScaleType): string {
