@@ -30,3 +30,8 @@ function get_checked_boxen(): Set<CheckBoxen> {
 
   return checked_boxen;
 };
+
+
+function get_back_button(): HTMLInputElement {
+  return document.querySelector('#back-button') as HTMLInputElement;
+}

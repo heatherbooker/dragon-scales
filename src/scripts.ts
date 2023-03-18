@@ -288,11 +288,12 @@ function main() {
   applySettings();
 
   const go_button: HTMLElement   = get_html_element('#go-button');
-  const back_button: HTMLElement = get_html_element('#back-button');
+  const back_button: HTMLElement = get_back_button();
   go_button.onclick   = next_scale;
   back_button.onclick = previous_scale;
 
-  new_random_scale();
+  next_scale();
+  get_back_button().disabled = true;
 }
 
 let scale_history: Scale[] = [];
@@ -327,25 +328,28 @@ function present(scale: Scale) {
   scale_description.innerHTML = render_scale(scale);
 };
 
-function new_random_scale(): void {
+function new_random_scale(): Scale | undefined {
   const enabled_scales = get_enabled_scales();
 
   if (enabled_scales.length === 0) {
-    const scale_description = get_html_element('#scale-description');
-    scale_description.innerHTML = 'check a box';
+    return undefined;
   } else {
-    const scale: Scale = choose_random_scale(enabled_scales);
-    present(scale);
-    scale_history.push(scale);
+    return choose_random_scale(enabled_scales);
   }
 }
 
 function next_scale(): void {
   let scale = scale_future.pop();
   if (scale === undefined) {
-    new_random_scale();
+    scale = new_random_scale();
+  }
+
+  if (scale === undefined) {
+    const scale_description = get_html_element('#scale-description');
+    scale_description.innerHTML = 'check a box';
   } else {
     present(scale);
+    get_back_button().disabled = false;
     scale_history.push(scale);
   }
 }
@@ -355,6 +359,10 @@ function previous_scale(): void {
   if (current === undefined) {
     console.log("no current scale; this is an invalid state");
     return;
+  }
+
+  if (scale_history.length < 2) {
+    get_back_button().disabled = true;
   }
 
   const scale = scale_history.at(-1);
