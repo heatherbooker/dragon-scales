@@ -54,7 +54,7 @@ Then check the console in the automagically opened browser window for any test f
 - add bass clef: for both hands
 - the way a scale is chosen is naive:
     get one at random, 
-    check whether the checkbox for it is true
+    check whether it matches the criteria,
     try again until we get lucky.
     there are easier ways!
 - cute fact bubble
