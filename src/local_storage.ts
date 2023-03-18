@@ -17,7 +17,9 @@ function add_checkbox_savers() {
 
 function loadSettings(): Settings {
   const settingsString = localStorage.getItem('ds-settings');
-  const default_settings = { checkboxen: ["harmonic-minor","majors"] };
+  const default_settings = { checkboxen: [
+    "ionian", "melodic-minor", "harmonic-minor", "harmonic-major",
+  ] };
   if (typeof settingsString === 'string') {
     try {
       return JSON.parse(settingsString);
