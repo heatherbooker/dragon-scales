@@ -64,7 +64,7 @@ div.twocol {
   white-space: nowrap;
 }
 
-div.checkboxen#others {
+div.checkboxen#subsets {
   column-count: 1;
   width: 50em;
   white-space: nowrap;

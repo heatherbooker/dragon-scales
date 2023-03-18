@@ -33,12 +33,6 @@
       <br /> <br />
 
 
-      <div class="checkboxen" id="others">
-        <label><input type="checkbox" id="majors" /> all major scales</label>
-        <label><input type="checkbox" id="minors" /> all minor scales</label>
-        <label>
-          <input type="checkbox" id="dominants" /> all dominant scales
-        </label>
       <!--
       <label>
         <input type="checkbox" id="altered-dominant" />altered dominant
@@ -47,7 +41,6 @@
         <input type="checkbox" id="lydian-dominant" />Lydian dominant
       </label>
       <label><input type="checkbox" id="chromatic" />chromatic</label>
-      <label><input type="checkbox" id="hexatonic" />hexatonic</label>
       <label><input type="checkbox" id="pentatonic" />pentatonic</label>
       <label>
         <input type="checkbox" id="contrary-motion" />contrary motion
@@ -61,10 +54,6 @@
       </label>
       <label><input type="checkbox" id="dan" />full-on dan</label>
       -->
-      </div>
-
-      <br />
-
       <div class="checkboxen twocol" id="mains-and-modes">
         <label>
           <input type="checkbox" id="ionian" /> ionian (major)
@@ -136,13 +125,18 @@
 
       <br />
 
-      <div class="checkboxen" id="funky">
+      <div class="checkboxen" id="subsets">
+        <label><input type="checkbox" id="majors" /> all major scales</label>
+        <label><input type="checkbox" id="minors" /> all minor scales</label>
+        <label>
+          <input type="checkbox" id="dominants" /> all dominant scales
+        </label>
         <label>
           <input type="checkbox" id="hexatonic" /> all hexatonic scales
         </label>
         <label>
           <input type="checkbox" id="octatonic" /> all octatonic scales
-          </label>
+        </label>
       </div>
 
       <br />
