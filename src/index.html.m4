@@ -50,7 +50,6 @@
       <label><input type="checkbox" id="octatonic" />octatonic</label>
       <label><input type="checkbox" id="hexatonic" />hexatonic</label>
       <label><input type="checkbox" id="pentatonic" />pentatonic</label>
-      <label><input type="checkbox" id="whole-tone" />whole tone</label>
       <label>
         <input type="checkbox" id="contrary-motion" />contrary motion
       </label>
@@ -108,6 +107,7 @@
 
       <div class="checkboxen" id="funky">
         <label><input type="checkbox" id="blues" /> blues</label>
+        <label><input type="checkbox" id="whole-tone" /> whole-tone</label>
       </div>
 
       <br />
