@@ -190,7 +190,7 @@ enum ScaleType {
   WholeTone,
   MajorHexatonic,
   Augmented,
-  Tritone,
+  Petrushka, // enharmonically the "tritone scale"
   TwoSemitoneTritone,
   NonatonicBlues,  // ionian with extra flat 3 and flat 7
   PentatonicMajor,
@@ -222,6 +222,7 @@ const enum CheckBoxen {
   "blues" = "blues",
   "whole-tone" = "whole-tone",
   "prometheus" = "prometheus",
+  "petrushka" = "petrushka",
 };
 
 interface Settings {
@@ -344,7 +345,7 @@ function render_scale_type(scale: ScaleType): string {
     case ScaleType.WholeTone: return "whole-tone";
     case ScaleType.MajorHexatonic: return "major hexatonic";
     case ScaleType.Augmented: return "augmented";
-    case ScaleType.Tritone: return "tritone";
+    case ScaleType.Petrushka: return "Petrushka";
     case ScaleType.TwoSemitoneTritone: return "2-semitone tritone";
     case ScaleType.PentatonicMajor: return "pentatonic major";
     case ScaleType.PentatonicMinor: return "pentatonic minor";

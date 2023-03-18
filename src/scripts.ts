@@ -194,6 +194,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "chromatic": [ScaleType.Chromatic],
   "blues": [ScaleType.Blues],
   "prometheus": [ScaleType.Prometheus],
+  "petrushka": [ScaleType.Petrushka],
   "whole-tone": [ScaleType.WholeTone],
 }
 
@@ -792,7 +793,20 @@ function scale_details(scale: Scale): ScaleDetails {
     }
     case ScaleType.MajorHexatonic:
     case ScaleType.Augmented:
-    case ScaleType.Tritone:
+      return not_yet_implemented_scale;
+    case ScaleType.Petrushka: {
+      const sig = scale_details({ tonic: scale.tonic,
+                                  mode: ScaleType.Simpsons }).key_sig;
+      const pat: RelativeNote[] = [
+        { position: 0, accidental: 0 },
+        { position: 1, accidental: -1 },
+        { position: 2, accidental: 0 },
+        { position: 3, accidental: 0 },
+        { position: 4, accidental: 0 },
+        { position: 6, accidental: 0 },
+      ];
+      return { key_sig: sig, pattern: pat };
+    }
     case ScaleType.TwoSemitoneTritone:
     case ScaleType.PentatonicMajor:
     case ScaleType.PentatonicMinor:
@@ -813,7 +827,7 @@ function scale_length(scale: Scale): number {
     case ScaleType.WholeTone:
     case ScaleType.MajorHexatonic:
     case ScaleType.Augmented:
-    case ScaleType.Tritone:
+    case ScaleType.Petrushka:
     case ScaleType.TwoSemitoneTritone:
       return 6;
 

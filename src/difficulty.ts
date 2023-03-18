@@ -118,7 +118,7 @@ const scale_types_difficulty: {[index in ScaleType]: number} = {
   [ScaleType.WholeTone]: 0.4,
   [ScaleType.MajorHexatonic]: 0.8,
   [ScaleType.Augmented]: 0.8,
-  [ScaleType.Tritone]: 0.8,
+  [ScaleType.Petrushka]: 0.8,
   [ScaleType.TwoSemitoneTritone]: 0.8,
   [ScaleType.PentatonicMajor]: 0.4,
   [ScaleType.PentatonicMinor]: 0.4,
