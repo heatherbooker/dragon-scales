@@ -2,10 +2,10 @@
 [ ] work without cookies
 [ ] traditional key sigs mode
 [x] stack with history
-[ ] change arrow buttons
+[x] change arrow buttons
 [ ] keyboard shortcuts (left, right, and also enter/space?)
 [x] don't repeat scales
-[ ] link to code
+[x] link to code
 [x] splash page when js is disabled
 [x] load the first one automatically
 [ ] many more scales to add
