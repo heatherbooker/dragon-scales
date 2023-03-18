@@ -186,6 +186,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.Petrushka,
     ScaleType.Augmented,
     ScaleType.MajorHexatonic,
+    ScaleType.TwoSemitoneTritone,
   ],
   "pentatonic": [
     ScaleType.PentatonicMajor,
@@ -205,6 +206,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "petrushka": [ScaleType.Petrushka],
   "augmented": [ScaleType.Augmented],
   "major-hexatonic": [ScaleType.MajorHexatonic],
+  "two-semitone-tritone": [ScaleType.TwoSemitoneTritone],
 }
 
 function get_random_array_value(array: any[]) {
@@ -833,7 +835,18 @@ function scale_details(scale: Scale): ScaleDetails {
       ];
       return { key_sig: sig, pattern: pat };
     }
-    case ScaleType.TwoSemitoneTritone:
+    case ScaleType.TwoSemitoneTritone: {
+      const sig = key_sig_of(scale.tonic, ScaleType.Ionian);
+      const pat = [
+        { position: 0, accidental: 0 },
+        { position: 0, accidental: +1 },
+        { position: 1, accidental: 0 },
+        { position: 3, accidental: +1 },
+        { position: 4, accidental: 0 },
+        { position: 5, accidental: -1 },
+      ];
+      return { key_sig: sig, pattern: pat };
+    }
     case ScaleType.PentatonicMajor:
     case ScaleType.PentatonicMinor:
     case ScaleType.NonatonicBlues:

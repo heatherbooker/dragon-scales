@@ -228,6 +228,7 @@ const enum CheckBoxen {
   "prometheus" = "prometheus",
   "petrushka" = "petrushka",
   "major-hexatonic" = "major-hexatonic",
+  "two-semitone-tritone" = "two-semitone-tritone",
 };
 
 interface Settings {

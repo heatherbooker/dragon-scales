@@ -114,6 +114,10 @@
         <label><input type="checkbox" id="major-blues" /> major blues</label>
         <label><input type="checkbox" id="petrushka" /> Petrushka</label>
         <label><input type="checkbox" id="augmented" /> augmented</label>
+        <label>
+          <input type="checkbox" id="two-semitone-tritone" />
+          2-semitone tritone
+        </label>
       </div>
 
       <br />
