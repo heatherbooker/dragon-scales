@@ -122,7 +122,8 @@
       <div class="complexity-slider">
         <label>Key signature complexity </label>
         <input type="range" id="max-sig-input"
-               min="0" max="7" step="1" style="margin-bottom: 25px" />
+               min="0" max="7" step="1" style="margin-bottom: 25px"
+               oninput="save_sig_complexity(this.value)" />
       </div>
 
       <br />

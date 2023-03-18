@@ -8,6 +8,16 @@ function get_html_element(str: string): HTMLElement {
   return document.querySelector(str) as HTMLElement;
 }
 
+function get_sig_complexity_slider(): HTMLInputElement {
+  return document.querySelector(
+    'input[id = "max-sig-input"]'
+    ) as HTMLInputElement;
+}
+
+function get_checkboxen(): NodeListOf<HTMLInputElement> {
+  return document.querySelectorAll('input[type = "checkbox"]');
+}
+
 function get_checked_boxen(): Set<CheckBoxen> {
   const checked_boxen = new Set<CheckBoxen>();
 

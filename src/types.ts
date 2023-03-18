@@ -233,11 +233,6 @@ const enum CheckBoxen {
   "two-semitone-tritone" = "two-semitone-tritone",
 };
 
-interface Settings {
-  checkboxen: string[];
-  sig_complexity: number;
-}
-
 function render_scale_type(scale: ScaleType): string {
   switch (scale) {
     case ScaleType.Ionian: return "Ionian";
