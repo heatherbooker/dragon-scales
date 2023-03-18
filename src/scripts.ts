@@ -106,8 +106,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
     ScaleType.PhrygianDominant,
     ScaleType.AlteredDominant,
     ScaleType.MelodicMinorMode5,
-    // FIXME
-//     ScaleType.OctatonicDominant,
+    ScaleType.OctatonicDominant,
   ],
 
   // modes of ionian
@@ -693,9 +692,39 @@ function scale_details(scale: Scale): ScaleDetails {
       return not_yet_implemented_scale;
 
     case ScaleType.Chromatic:
-    case ScaleType.OctatonicDominant:
-    case ScaleType.OctatonicDiminished:
       return not_yet_implemented_scale;
+    case ScaleType.OctatonicDominant: {
+      const sig = scale_details({ tonic: scale.tonic,
+                                  mode: ScaleType.Mixolydian }).key_sig;
+      const pat: RelativeNote[] = [
+        { position: 0, accidental: 0 },
+        { position: 1, accidental: -1 },
+        { position: 1, accidental: +1 },
+        { position: 2, accidental: 0 },
+        { position: 3, accidental: +1 },
+        { position: 4, accidental: 0 },
+        { position: 5, accidental: 0 },
+        { position: 6, accidental: 0 },
+      ];
+
+      return { key_sig: sig, pattern: pat };
+    }
+    case ScaleType.OctatonicDiminished: {
+      const sig = scale_details({ tonic: scale.tonic,
+                                  mode: ScaleType.Ionian }).key_sig;
+      const pat: RelativeNote[] = [
+        { position: 0, accidental: 0 },
+        { position: 1, accidental: 0 },
+        { position: 2, accidental: -1 },
+        { position: 3, accidental: 0 },
+        { position: 4, accidental: -1 },
+        { position: 4, accidental: +1 },
+        { position: 5, accidental: 0 },
+        { position: 6, accidental: 0 },
+      ];
+
+      return { key_sig: sig, pattern: pat };
+    }
     case ScaleType.AlteredDominant: {
       // C7alt has the key sig of F major
       const sig = key_sig_of(interval_up(scale.tonic, Interval.PerfectFourth),

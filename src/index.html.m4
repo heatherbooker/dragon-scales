@@ -47,7 +47,6 @@
         <input type="checkbox" id="lydian-dominant" />Lydian dominant
       </label>
       <label><input type="checkbox" id="chromatic" />chromatic</label>
-      <label><input type="checkbox" id="octatonic" />octatonic</label>
       <label><input type="checkbox" id="hexatonic" />hexatonic</label>
       <label><input type="checkbox" id="pentatonic" />pentatonic</label>
       <label>
@@ -109,6 +108,7 @@
         <label><input type="checkbox" id="blues" /> blues</label>
         <label><input type="checkbox" id="whole-tone" /> whole-tone</label>
         <label><input type="checkbox" id="prometheus" /> Prometheus</label>
+        <label><input type="checkbox" id="octatonic" /> octatonic</label>
       </div>
 
       <br />
