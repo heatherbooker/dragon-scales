@@ -195,6 +195,7 @@ const scaletype_subsets: {[index in CheckBoxen]: ScaleType[]} = {
   "blues": [ScaleType.Blues],
   "prometheus": [ScaleType.Prometheus],
   "petrushka": [ScaleType.Petrushka],
+  "augmented": [ScaleType.Augmented],
   "whole-tone": [ScaleType.WholeTone],
 }
 
@@ -792,8 +793,22 @@ function scale_details(scale: Scale): ScaleDetails {
       return { key_sig: sig, pattern: pat };
     }
     case ScaleType.MajorHexatonic:
-    case ScaleType.Augmented:
       return not_yet_implemented_scale;
+    case ScaleType.Augmented: {
+      // FIXME this should arguably have flat 3 instead of sharp 2
+      // but "cancel previous accidental" accidentals are not implemented
+      const sig = scale_details({ tonic: scale.tonic,
+                                  mode: ScaleType.Ionian }).key_sig;
+      const pat: RelativeNote[] = [
+        { position: 0, accidental: 0 },
+        { position: 1, accidental: +1 },
+        { position: 2, accidental: 0 },
+        { position: 4, accidental: 0 },
+        { position: 4, accidental: +1 },
+        { position: 6, accidental: 0 },
+      ];
+      return { key_sig: sig, pattern: pat };
+    }
     case ScaleType.Petrushka: {
       const sig = scale_details({ tonic: scale.tonic,
                                   mode: ScaleType.Simpsons }).key_sig;

@@ -215,6 +215,7 @@ const enum CheckBoxen {
   "funky" = "funky",
   "octatonic" = "octatonic",
   "hexatonic" = "hexatonic",
+  "augmented" = "augmented",
   "pentatonic" = "pentatonic",
   "altered-dominant" = "altered-dominant",
   "lydian-dominant" = "lydian-dominant",
