@@ -300,14 +300,19 @@ let scale_history: Scale[] = [];
 let scale_future : Scale[] = [];
 
 function recent(scale: Scale): boolean {
-  // if they select only 1 key sig, they get repetitions.
-  // FIXME should consider total scales chosen
-  if (get_key_sig_complexity() === 0) {
+  const enabled_scales = get_enabled_scales().length;
+  const sig_complexity = get_key_sig_complexity();
+
+  const history_length = ((sig_complexity === 0) || (enabled_scales === 0))
+    ? Math.max(sig_complexity,enabled_scales)
+    : enabled_scales * sig_complexity;
+
+  if (history_length < 2) {
     return false;
   }
 
   return scale_history
-    .slice(-2)
+    .slice(-(history_length-1))
     .map((s) => JSON.stringify(s))
     .includes(JSON.stringify(scale));
 }
