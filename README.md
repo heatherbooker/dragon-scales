@@ -4,7 +4,7 @@ HAVE FUM PLAY SCALES 🎵
 
 ## screenshot
 
-![screenshot](scrot-f370bc9.png)
+![screenshot](scrot-2e239e5.png)
 
 ## build dependencies
 
