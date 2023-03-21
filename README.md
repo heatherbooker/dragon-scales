@@ -23,7 +23,13 @@ make
 
 ## how to deploy
 
-TODO: write this section
+well if you're me then just run
+
+```
+make deploy
+```
+
+otherwise you are on your own!
 
 ## how to use
 
