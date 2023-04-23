@@ -20,8 +20,8 @@
 
     <main>
       <div class="header">
-        <button id="back-button">&#x1F870;</button>
-        <button id="go-button">&#x1F872;</button>
+        <button id="back-button"><-</button>
+        <button id="go-button">-></button>
 
         <h2 id="scale-description">JavaScript is disabled.</h2>
       </div>
